@@ -1,0 +1,9 @@
+# These files are written with LF and served as-is. Keep it that way on every
+# platform so a checkout never rewrites line endings under you.
+* text=auto eol=lf
+
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.zip binary

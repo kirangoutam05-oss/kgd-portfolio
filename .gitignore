@@ -1,0 +1,10 @@
+# Export bundles are derived from outputs/ — rebuild them rather than track them.
+*.zip
+
+# OS / editor noise
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*~

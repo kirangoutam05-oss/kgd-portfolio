@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiran Goutam Dhananjayan — Design</title>
+<meta name="description" content="Kiran Goutam Dhananjayan — creative designer in Bengaluru working across brand identity, packaging, and product interfaces.">
+<link rel="canonical" href="portfolio.html">
+
+<!-- Social previews. Replace the relative URLs below with absolute ones
+     (https://yourdomain.com/…) before deploying — most scrapers will not
+     resolve a relative og:image. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kiran Goutam Dhananjayan — Design">
+<meta property="og:description" content="Creative designer working across brand identity, packaging, and product interfaces.">
+<meta property="og:image" content="assets/portrait-kiran.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kiran Goutam Dhananjayan — Design">
+<meta name="twitter:description" content="Creative designer working across brand identity, packaging, and product interfaces.">
+<meta name="twitter:image" content="assets/portrait-kiran.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23131316'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23a8762a'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Archivo:wght@500;600;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ffffff;
+    --panel:#f4f3ef;
+    --ink:#131316;
+    --ink-dim:#63636a;
+    --accent:#a8762a;
+    --line: rgba(19,19,22,0.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    overflow-x:hidden;
+  }
+
+  .hero{
+    position:relative;
+    width:100%;
+    height:100svh;
+    min-height:640px;
+    background:var(--paper);
+    overflow:hidden;
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:absolute;
+    top:0; left:0; right:0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:28px clamp(20px, 4vw, 48px);
+    z-index:30;
+    opacity:0;
+    animation: fadeDown .7s ease forwards;
+    animation-delay:.15s;
+  }
+  .mark{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.14em;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .mark::before{
+    content:"";
+    width:6px; height:6px;
+    background:var(--accent);
+    display:inline-block;
+    border-radius:50%;
+  }
+  .menu-wrap{ position:relative; }
+  .burger{
+    width:38px; height:38px;
+    padding:0;
+    border:1px solid var(--line);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:var(--ink);
+    background:rgba(19,19,22,0.02);
+    transition:background .25s ease, border-color .25s ease;
+  }
+  .burger[hidden]{ display:none; }
+  .burger:hover{ background:rgba(19,19,22,0.06); border-color:rgba(19,19,22,0.3); }
+  .burger:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  .burger span{ display:block; width:14px; height:1px; background:currentColor; position:relative; }
+  .burger span::before, .burger span::after{
+    content:""; position:absolute; left:0; width:14px; height:1px; background:currentColor;
+    transition:transform .25s ease;
+  }
+  .burger span::before{ top:-4px; } .burger span::after{ top:4px; }
+  .burger[aria-expanded="true"] span{ background:transparent; }
+  .burger[aria-expanded="true"] span::before{ transform:translateY(4px) rotate(45deg); }
+  .burger[aria-expanded="true"] span::after{ transform:translateY(-4px) rotate(-45deg); }
+
+  .menu-panel{
+    position:absolute;
+    top:calc(100% + 10px);
+    right:0;
+    min-width:190px;
+    padding:8px;
+    background:rgba(255,255,255,0.94);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--line);
+    border-radius:8px;
+    box-shadow:0 18px 40px rgba(19,19,22,0.12);
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+  .menu-panel[hidden]{ display:none; }
+  .menu-panel a{
+    padding:9px 12px;
+    border-radius:5px;
+    color:var(--ink);
+    font:500 14px 'Inter', sans-serif;
+    letter-spacing:-.02em;
+    text-decoration:none;
+    transition:background .2s ease, color .2s ease;
+  }
+  .menu-panel a:hover{ background:rgba(19,19,22,0.05); color:var(--accent); }
+  .menu-panel a:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
+
+  /* ---------- photo (contained, parallax layer) ---------- */
+  .portrait{
+    position:absolute;
+    top:13%;
+    right:clamp(20px, 5vw, 64px);
+    width:min(36%, 440px);
+    height:68%;
+    max-height:600px;
+    z-index:5;
+    overflow:hidden;
+    border-radius:8px;
+    box-shadow: 0 30px 70px rgba(19,19,22,0.12);
+  }
+  .portrait img{
+    width:100%; height:100%;
+    object-fit:cover;
+    object-position:50% 16%;
+    display:block;
+    filter:saturate(0.92) contrast(1.02);
+    opacity:0;
+    animation: photoIn 1.1s cubic-bezier(.2,.7,.2,1) forwards;
+    animation-delay:.1s;
+    transform-origin:center center;
+    will-change: transform;
+  }
+
+  /* ---------- floating intro card (cursor-follow) ---------- */
+  /* Resting position lives in CSS so the card is placed correctly even when the
+     script never runs (reduced motion, JS disabled, or a script error). Once the
+     script takes over it adds .is-following and supplies the position itself. */
+  .card{
+    position:absolute;
+    left:clamp(16px, 7vw, 104px);
+    top:clamp(112px, 24vh, 232px);
+    width:min(320px, 82vw);
+    background:rgba(255,255,255,0.86);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--line);
+    border-radius:4px;
+    box-shadow: 0 18px 40px rgba(19,19,22,0.08);
+    padding:24px 24px 22px;
+    z-index:20;
+    opacity:0;
+    animation: cardIn .8s cubic-bezier(.2,.7,.2,1) forwards;
+    animation-delay:.6s;
+    transform: translate3d(0,0,0);
+    will-change: transform;
+  }
+  .card.is-following{ left:0; top:0; }
+  .card h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:21px;
+    margin-bottom:14px;
+    color:var(--ink);
+  }
+  .card p{
+    font-size:13.5px;
+    line-height:1.6;
+    color:var(--ink-dim);
+  }
+  .card p strong{
+    color:var(--ink);
+    font-weight:600;
+  }
+  .card .meta{
+    display:flex;
+    justify-content:space-between;
+    margin-top:18px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    color:var(--ink-dim);
+  }
+
+  /* ---------- giant name ---------- */
+  .nameblock{
+    position:absolute;
+    left:clamp(-6px, -1.6vw, 0px);
+    right:0;
+    bottom:clamp(18px, 3.4vw, 40px);
+    z-index:15;
+    pointer-events:none;
+  }
+  .nameblock .line{
+    font-family:'Archivo', sans-serif;
+    font-weight:500;
+    text-transform:uppercase;
+    color:var(--ink);
+    line-height:0.86;
+    letter-spacing:-0.01em;
+    white-space:nowrap;
+    font-size:clamp(52px, 12.2vw, 168px);
+    opacity:0;
+    transform:translateY(28px);
+    animation: lineUp .9s cubic-bezier(.16,.8,.24,1) forwards;
+  }
+  .nameblock .line:first-child{ padding-left:clamp(16px,3vw,48px); animation-delay:.32s; }
+  .nameblock .line:last-child{ padding-left:clamp(16px,3vw,48px); animation-delay:.46s; }
+
+  .txt{ position:relative; display:inline-block; }
+  .txt::before{
+    content: attr(data-text);
+    position:absolute; left:0; top:0;
+    white-space:nowrap;
+    pointer-events:none;
+    filter:url(#chromaticSplit);
+    -webkit-mask-image: radial-gradient(160px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 45%, transparent 80%);
+    mask-image: radial-gradient(160px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 45%, transparent 80%);
+  }
+
+  .role-tag{
+    position:absolute;
+    left:clamp(16px,3vw,48px);
+    bottom:calc(100% + 4px);
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.16em;
+    color:var(--ink-dim);
+    text-transform:uppercase;
+    opacity:0;
+    animation: fadeDown .6s ease forwards;
+    animation-delay:.85s;
+  }
+
+  @keyframes fadeDown{ from{opacity:0; transform:translateY(-8px);} to{opacity:1; transform:translateY(0);} }
+  @keyframes photoIn{ from{opacity:0;} to{opacity:1;} }
+  @keyframes cardIn{ from{opacity:0;} to{opacity:1;} }
+  @keyframes lineUp{ to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- projects ---------- */
+  .projects{
+    --projects-margin:max(24px, calc((100vw - 1160px)/2));
+    background:#fff;
+    border-top:1px solid var(--line);
+    overflow:hidden;
+    padding:clamp(56px, 9vw, 116px) 0 clamp(68px, 9vw, 112px);
+  }
+  .projects-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    padding:0 var(--projects-margin) clamp(8px, 1.2vw, 14px);
+  }
+  .projects h2{
+    font-family:'Inter', sans-serif;
+    font-weight:500;
+    font-size:clamp(20px, 1.85vw, 28px);
+    letter-spacing:-.055em;
+    line-height:1;
+    text-transform:none;
+  }
+  .projects-link{
+    flex:0 0 auto;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:0 0 5px;
+    border-bottom:1px solid currentColor;
+    color:var(--ink);
+    background:transparent;
+    font:600 14px 'Inter', sans-serif;
+    text-decoration:none;
+    transition:color .25s ease, gap .25s ease;
+  }
+  .projects-link::after{ content:'↗'; font-size:16px; line-height:1; }
+  .projects-link:hover{ color:var(--accent); gap:11px; }
+  .projects-link:focus-visible, .rail-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
+  .projects-actions{ display:flex; align-items:center; gap:18px; flex:0 0 auto; }
+
+  /* WCAG 2.2.2 — the rail starts moving on its own and runs for more than five
+     seconds, so it needs a control that stops it. Hidden until the script
+     enables it, since it does nothing without JS. */
+  .rail-toggle{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:0 0 5px;
+    border:0;
+    border-bottom:1px solid currentColor;
+    background:transparent;
+    color:var(--ink-dim);
+    font:600 14px 'Inter', sans-serif;
+    cursor:pointer;
+    transition:color .25s ease;
+  }
+  .rail-toggle[hidden]{ display:none; }
+  .rail-toggle:hover{ color:var(--accent); }
+  .rail-toggle::before{
+    content:''; width:9px; height:11px;
+    background:linear-gradient(to right, currentColor 0 3px, transparent 3px 6px, currentColor 6px 9px);
+  }
+  .rail-toggle[aria-pressed="true"]::before{
+    background:currentColor;
+    clip-path:polygon(0 0, 100% 50%, 0 100%);
+  }
+  .project-window{ overflow:hidden; }
+  .project-rail{
+    display:flex;
+    gap:14px;
+    width:max-content;
+    padding:clamp(8px, 1.2vw, 14px) var(--projects-margin);
+    will-change:transform;
+  }
+  .project-card{
+    position:relative;
+    width:clamp(300px, 37vw, 540px);
+    aspect-ratio:1.34;
+    overflow:hidden;
+    border-radius:10px;
+    background:#d4d4d6;
+    box-shadow:0 18px 26px rgba(19,19,22,.17);
+    isolation:isolate;
+  }
+  .project-card::after{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 48%, rgba(0,0,0,.52));
+    z-index:1;
+  }
+  .project-card h3{
+    position:absolute; left:25px; bottom:22px; z-index:2;
+    color:#fff; font:700 clamp(26px, 2.4vw, 38px)/.9 'Space Grotesk', sans-serif;
+    letter-spacing:-.055em;
+  }
+  .project-art{ position:absolute; inset:0; transition:transform .6s cubic-bezier(.2,.7,.2,1); }
+  .project-card:hover .project-art{ transform:scale(1.06); }
+  .project-card:focus-visible{ outline:3px solid var(--accent); outline-offset:3px; }
+  .project-card.jumbofarms{display:block; color:inherit; text-decoration:none; background:#dca33d;}
+  .jumbofarms .project-art{background:linear-gradient(145deg,#e4bb62,#855018);}
+  /* These three were loaded from drive.google.com, which requires the files to
+     stay publicly shared, rate-limits, and leaks every visitor's IP to Google.
+     They now point at local files — export the three images into outputs/assets/jumbofarms/
+     under exactly these names (jumbofarms.html uses the same files). Until then the solid colours below show through. */
+  .jumbofarms .pack{position:absolute; left:28%; top:11%; width:44%; height:75%; border-radius:4px 4px 10px 10px; background:#f9e6b0 url('assets/jumbofarms/coriander-seeds-10kg-mango.jpg') center/cover no-repeat; box-shadow:0 16px 23px rgba(62,35,10,.35); transform:rotate(-5deg);}
+  .jumbofarms .pack::after{content:'';position:absolute;inset:12% -23% -5% 46%;border-radius:4px 4px 10px 10px;background:#f5d783 url('assets/jumbofarms/jeera-seeds-5kg-supreme.jpg') center/cover no-repeat;box-shadow:0 12px 20px rgba(62,35,10,.25);transform:rotate(9deg);z-index:-1;}
+  .mustard .project-art{background:linear-gradient(145deg,#e8be2f,#7a4213);}
+  .mustard .bottle{position:absolute;left:35%;top:13%;width:30%;height:68%;border-radius:18px 18px 26px 26px;background:#f4d34a url('assets/jumbofarms/mustard-oil-1l.jpg') center/cover no-repeat;box-shadow:0 18px 25px rgba(68,34,10,.28);}
+  .mustard .bottle::before{content:'';position:absolute;left:21%;right:21%;top:-11%;height:13%;border-radius:5px 5px 2px 2px;background:#58300d;}
+  .jodhpur{display:block;color:inherit;text-decoration:none;background:#f3c500;}
+  .jodhpur .project-art{background:linear-gradient(145deg,#f7ca00,#ed9e00);}
+  .jodhpur .project-art::before{content:'JODHPUR';position:absolute;left:10%;top:24%;font:900 clamp(42px,5vw,74px)/.8 'Archivo',sans-serif;letter-spacing:-.08em;color:#17181c;transform:rotate(-7deg);}
+  .jodhpur .project-art::after{content:'';position:absolute;width:54%;height:54%;right:-6%;bottom:-12%;border-radius:50%;background:repeating-conic-gradient(#17181c 0 9deg,#f7ca00 9deg 18deg);opacity:.88;}
+  /* ---------- services ---------- */
+  .services{
+    --services-margin:max(24px, calc((100vw - 1160px)/2));
+    padding:clamp(90px, 11vw, 156px) var(--services-margin);
+    background:#fff;
+  }
+  .services-intro{
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    gap:clamp(28px, 8vw, 150px);
+    align-items:start;
+    margin-bottom:clamp(46px, 6vw, 76px);
+  }
+  .services-kicker{
+    color:#18181b;
+    font:500 clamp(20px, 1.85vw, 28px)/1 'Inter', sans-serif;
+    letter-spacing:-.055em;
+  }
+  .services-title{
+    max-width:760px;
+    margin:0;
+    color:#18181b;
+    font:500 clamp(31px, 3.35vw, 52px)/1.08 'Inter', sans-serif;
+    letter-spacing:-.065em;
+  }
+  /* Default to the final colour so the copy is readable with no JS; the script
+     adds .js-reveal to opt into the greyed-out starting state. */
+  .reveal-word{ transition:color .44s ease; transition-delay:var(--delay, 0ms); }
+  .services.js-reveal .reveal-word{ color:#9b9ca3; }
+  .services.js-reveal.is-in-view .reveal-word{ color:#18181b; }
+  .service-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
+  .service-card{
+    min-height:340px;
+    padding:14px;
+    border:1px solid #ececef;
+    border-radius:18px;
+    background:#fbfbfb;
+    display:flex;
+    flex-direction:column;
+  }
+  .service-card.is-featured{ background:#6d27ed; color:#fff; border-color:#6d27ed; }
+  .service-card-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:3px 3px 14px; font:500 17px 'Inter', sans-serif; letter-spacing:-.05em; }
+  .service-icon{ display:grid; place-items:center; width:29px; height:29px; border-radius:9px; background:#f0edff; color:#6d27ed; font-size:15px; }
+  .service-card:not(.is-featured) .service-icon{ background:#e9fff1; color:#16a360; }
+  .service-card:first-child .service-icon{ background:#fff8d8; color:#d29e00; }
+  .service-body{ flex:1; display:flex; flex-direction:column; justify-content:space-between; gap:22px; padding:21px 12px 10px; border-radius:13px; background:#fff; color:#767780; }
+  .is-featured .service-body{ background:rgba(255,255,255,.1); color:rgba(255,255,255,.86); }
+  .service-body p{ font:400 15px/1.38 'Inter', sans-serif; letter-spacing:-.04em; }
+  .service-swatches{ display:grid; grid-template-columns:repeat(3, 1fr); gap:7px; }
+  .service-swatches span{ display:block; aspect-ratio:1.15; border-radius:9px; background:linear-gradient(145deg,#cfd3d4,#49505a); }
+  .service-swatches span:nth-child(2){ background:repeating-linear-gradient(135deg,#f5f5f3 0 6px,#202124 6px 11px); }
+  .service-swatches span:nth-child(3){ background:linear-gradient(145deg,#ff7d55,#9c1d29); }
+  .is-featured .service-swatches span:first-child{ background:linear-gradient(145deg,#f5aa54,#352161); }
+  .is-featured .service-swatches span:nth-child(2){ background:linear-gradient(145deg,#103d50,#d4dce8); }
+  .is-featured .service-swatches span:nth-child(3){ background:linear-gradient(145deg,#ffce38,#6345dc); }
+  .service-card:last-child .service-swatches span:first-child{ background:linear-gradient(145deg,#ef8b47,#f6e5bf); }
+  .service-card:last-child .service-swatches span:nth-child(2){ background:linear-gradient(145deg,#d47857,#241e29); }
+  .service-card:last-child .service-swatches span:nth-child(3){ background:linear-gradient(145deg,#154864,#ed4e52); }
+  @media (max-width: 720px){
+    .projects-head{ align-items:flex-start; flex-direction:column; padding-bottom:12px; }
+    .projects h2{ font-size:clamp(20px,6vw,26px); }
+    .project-rail{ gap:12px; padding-left:20px; }
+    .project-card{ width:78vw; border-radius:8px; }
+    .services{ padding-top:76px; padding-bottom:76px; }
+    .services-intro{ grid-template-columns:1fr; gap:18px; margin-bottom:32px; }
+    .services-kicker{ font-size:clamp(20px,6vw,26px); }
+    .services-title{ font-size:clamp(29px,8.4vw,42px); }
+    .service-grid{ grid-template-columns:1fr; }
+    .service-card{ min-height:280px; }
+    .projects-actions{ gap:14px; }
+    .portrait{ width:min(70%, 320px); height:42%; top:9%; right:20px; }
+    .card{ width:auto; max-width:calc(100vw - 32px); left:16px; right:16px; top:54%; }
+    .card.is-following{ left:0; right:auto; top:0; }
+    /* 15vw overflowed: "DHANANJAYAN" is 11 uppercase characters at nowrap, which
+       needs roughly 6.8em — over 100vw once the left padding is counted. */
+    .nameblock .line{ font-size:clamp(38px, 12.4vw, 80px); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .topbar, .portrait img, .card, .nameblock .line, .role-tag{
+      animation:none !important; opacity:1 !important; transform:none !important;
+    }
+    .txt::before{ display:none !important; }
+    .project-rail{ transform:none !important; }
+    .project-window{ overflow-x:auto; }
+    .rail-toggle{ display:none !important; }
+    .reveal-word{ color:#18181b !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="chromaticSplit" x="-40%" y="-60%" width="180%" height="220%" color-interpolation-filters="sRGB">
+      <feColorMatrix in="SourceGraphic" type="matrix"
+        values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="redCh"/>
+      <feOffset in="redCh" dx="-5" dy="-2" result="redOff"/>
+
+      <feColorMatrix in="SourceGraphic" type="matrix"
+        values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="greenCh"/>
+
+      <feColorMatrix in="SourceGraphic" type="matrix"
+        values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blueCh"/>
+      <feOffset in="blueCh" dx="5" dy="2" result="blueOff"/>
+
+      <feBlend in="redOff" in2="greenCh" mode="screen" result="rg"/>
+      <feBlend in="rg" in2="blueOff" mode="screen"/>
+    </filter>
+  </defs>
+</svg>
+
+<section class="hero" id="hero">
+  <div class="topbar">
+    <div class="mark">kgd.</div>
+    <nav class="menu-wrap" aria-label="Main">
+      <button type="button" class="burger" id="menu-toggle"
+              aria-label="Open menu" aria-expanded="false" aria-controls="menu-panel" hidden>
+        <span></span>
+      </button>
+      <div class="menu-panel" id="menu-panel" hidden>
+        <a href="index.html">Home</a>
+        <a href="projects.html">All projects</a>
+        <a href="jumbofarms.html">Jumbofarms</a>
+        <a href="jodhpur-khana.html">Jodhpur Khana</a>
+      </div>
+    </nav>
+  </div>
+
+  <div class="portrait" id="portrait">
+    <img src="assets/portrait-kiran.jpg" width="1537" height="1023" alt="Kiran Goutam Dhananjayan" decoding="async" fetchpriority="high">
+  </div>
+
+  <div class="card" id="card">
+    <h2>Hey, I'm Kiran</h2>
+    <p>I design <strong>digital experiences</strong> — as a <strong>Creative Designer</strong>, I shape brand identity, packaging, and product interfaces across static and motion work.</p>
+    <div class="meta">
+      <span>BASED — BLR, IN</span>
+      <span>EST. 2026</span>
+    </div>
+  </div>
+
+  <div class="nameblock">
+    <div class="role-tag">Creative Designer</div>
+    <div class="line"><span class="txt" data-text="KIRAN">KIRAN</span></div>
+    <div class="line"><span class="txt" data-text="DHANANJAYAN">DHANANJAYAN</span></div>
+  </div>
+</section>
+
+<section class="projects" aria-labelledby="projects-title">
+  <div class="projects-head">
+    <h2 id="projects-title">Featured Projects</h2>
+    <div class="projects-actions">
+      <button type="button" class="rail-toggle" id="rail-toggle" aria-pressed="false" aria-controls="project-rail" hidden>
+        <span class="rail-toggle-label">Pause</span>
+      </button>
+      <a class="projects-link" href="projects.html">View projects</a>
+    </div>
+  </div>
+  <div class="project-window">
+    <div class="project-rail" id="project-rail">
+    <a class="project-card jumbofarms" href="jumbofarms.html" aria-label="View Jumbofarms packaging case study">
+      <div class="project-art"><div class="pack"></div></div>
+      <h3>Jumbofarms</h3>
+    </a>
+    <a class="project-card jodhpur" href="jodhpur-khana.html" aria-label="View Jodhpur Khana case study">
+      <div class="project-art"></div>
+      <h3>Jodhpur Khana</h3>
+    </a>
+    <article class="project-card mustard">
+      <div class="project-art"><div class="bottle"></div></div>
+      <h3>Mustard Oil</h3>
+    </article>
+    <a class="project-card jumbofarms" href="jumbofarms.html" aria-hidden="true" tabindex="-1">
+      <div class="project-art"><div class="pack"></div></div>
+      <h3>Jumbofarms</h3>
+    </a>
+    <a class="project-card jodhpur" href="jodhpur-khana.html" aria-hidden="true" tabindex="-1">
+      <div class="project-art"></div>
+      <h3>Jodhpur Khana</h3>
+    </a>
+    <article class="project-card mustard" aria-hidden="true">
+      <div class="project-art"><div class="bottle"></div></div>
+      <h3>Mustard Oil</h3>
+    </article>
+    </div>
+  </div>
+</section>
+
+<section class="services" aria-labelledby="services-title">
+  <div class="services-intro">
+    <p class="services-kicker">Services</p>
+    <h2 class="services-title" id="services-title"><span class="reveal-word">Designing</span> <span class="reveal-word">systems</span> <span class="reveal-word">and</span> <span class="reveal-word">digital</span> <span class="reveal-word">experiences</span> <span class="reveal-word">that</span> <span class="reveal-word">give</span> <span class="reveal-word">brands</span> <span class="reveal-word">a</span> <span class="reveal-word">distinct,</span> <span class="reveal-word">coherent</span> <span class="reveal-word">presence.</span> <span class="reveal-word">I</span> <span class="reveal-word">turn</span> <span class="reveal-word">ideas</span> <span class="reveal-word">into</span> <span class="reveal-word">identities,</span> <span class="reveal-word">packaging,</span> <span class="reveal-word">and</span> <span class="reveal-word">interfaces</span> <span class="reveal-word">with</span> <span class="reveal-word">equal</span> <span class="reveal-word">care</span> <span class="reveal-word">for</span> <span class="reveal-word">strategy</span> <span class="reveal-word">and</span> <span class="reveal-word">execution.</span></h2>
+  </div>
+  <div class="service-grid">
+    <article class="service-card">
+      <div class="service-card-head"><span>Brand Identity</span><span class="service-icon">✦</span></div>
+      <div class="service-body">
+        <p>Distinct visual identities and flexible brand systems—from art direction and design language to packaging that works on shelf and screen.</p>
+        <div class="service-swatches" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+    </article>
+    <article class="service-card is-featured">
+      <div class="service-card-head"><span>Digital Experiences</span><span class="service-icon">↗</span></div>
+      <div class="service-body">
+        <p>User-centred interfaces and expressive digital design for products, platforms, and campaign moments—built to feel intuitive and memorable.</p>
+        <div class="service-swatches" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+    </article>
+    <article class="service-card">
+      <div class="service-card-head"><span>Motion &amp; Visual Design</span><span class="service-icon">◫</span></div>
+      <div class="service-body">
+        <p>Static-to-motion visual systems that bring stories to life, creating consistency and impact across social, campaigns, and product touchpoints.</p>
+        <div class="service-swatches" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ------------------------------------------------------------------
+     Menu. Set up regardless of motion preference — it is navigation, not
+     decoration. The button ships hidden so it never appears as a dead
+     control when scripting is unavailable.
+     ------------------------------------------------------------------ */
+  var menuBtn = document.getElementById('menu-toggle');
+  var menuPanel = document.getElementById('menu-panel');
+  if (menuBtn && menuPanel){
+    menuBtn.hidden = false;
+
+    var setMenu = function(open){
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      menuPanel.hidden = !open;
+    };
+
+    menuBtn.addEventListener('click', function(){
+      setMenu(menuBtn.getAttribute('aria-expanded') !== 'true');
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (e.key !== 'Escape') return;
+      if (menuBtn.getAttribute('aria-expanded') !== 'true') return;
+      setMenu(false);
+      menuBtn.focus();
+    });
+
+    document.addEventListener('click', function(e){
+      if (menuBtn.getAttribute('aria-expanded') !== 'true') return;
+      if (menuBtn.contains(e.target) || menuPanel.contains(e.target)) return;
+      setMenu(false);
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Services word reveal. The greyed-out starting state is opt-in via
+     .js-reveal, so without this script the copy renders at full contrast.
+     ------------------------------------------------------------------ */
+  var servicesSection = document.querySelector('.services');
+  if (servicesSection && !reduceMotion){
+    var words = servicesSection.querySelectorAll('.reveal-word');
+    for (var w = 0; w < words.length; w++){
+      words[w].style.setProperty('--delay', (w * 45) + 'ms');
+    }
+    servicesSection.classList.add('js-reveal');
+
+    if ('IntersectionObserver' in window){
+      var servicesObserver = new IntersectionObserver(function(entries){
+        for (var e = 0; e < entries.length; e++){
+          if (!entries[e].isIntersecting) continue;
+          servicesSection.classList.add('is-in-view');
+          servicesObserver.unobserve(servicesSection);
+        }
+      }, { threshold: 0.32 });
+      servicesObserver.observe(servicesSection);
+    } else {
+      servicesSection.classList.add('is-in-view');
+    }
+  }
+
+  if (reduceMotion) return;
+
+  /* ------------------------------------------------------------------
+     Hero: cursor-tracked card, portrait parallax, chromatic name glitch.
+     ------------------------------------------------------------------ */
+  var hero = document.getElementById('hero');
+  var portrait = document.getElementById('portrait');
+  var portraitImg = portrait ? portrait.querySelector('img') : null;
+  var card = document.getElementById('card');
+  var topbar = document.querySelector('.topbar');
+  var nameEls = Array.prototype.slice.call(document.querySelectorAll('.txt'));
+
+  // Everything below is measured once per layout change rather than per
+  // pointer move — reading a rect inside mousemove forces a synchronous
+  // layout on every event.
+  var heroRect = { left:0, top:0, width:0, height:0 };
+  var portraitLeft = 0;   // portrait's left edge, relative to the hero
+  var topbarBottom = 16;  // topbar's bottom edge, relative to the hero
+  var cardW = 320, cardH = 220;
+  var nameOffsets = [];   // each .txt's top-left, relative to the hero
+  var restX = 0, restY = 0;
+
+  function cardBounds(){
+    var pad = 16, gap = 24;
+    return {
+      minX: pad,
+      maxX: Math.max(pad, Math.min(heroRect.width - cardW - pad, portraitLeft - cardW - gap)),
+      minY: Math.max(pad, topbarBottom + pad + 12),
+      maxY: Math.max(pad, heroRect.height - cardH - pad)
+    };
+  }
+
+  function clampCard(x, y){
+    var b = cardBounds();
+    return {
+      x: Math.min(Math.max(x, b.minX), b.maxX),
+      y: Math.min(Math.max(y, b.minY), b.maxY)
+    };
+  }
+
+  function refreshMetrics(){
+    if (!hero) return;
+    heroRect = hero.getBoundingClientRect();
+    if (card){
+      var cr = card.getBoundingClientRect();
+      cardW = cr.width; cardH = cr.height;
+    }
+    if (portrait) portraitLeft = portrait.getBoundingClientRect().left - heroRect.left;
+    if (topbar) topbarBottom = topbar.getBoundingClientRect().bottom - heroRect.top;
+
+    nameOffsets = nameEls.map(function(el){
+      var r = el.getBoundingClientRect();
+      return { x: r.left - heroRect.left, y: r.top - heroRect.top };
+    });
+
+    var rest = clampCard(heroRect.width * 0.34, heroRect.height * 0.34);
+    restX = rest.x;
+    restY = rest.y;
+  }
+
+  // Scrolling only moves the hero's origin; every cached offset above is
+  // hero-relative, so one rect read is enough.
+  function refreshHeroOrigin(){
+    if (hero) heroRect = hero.getBoundingClientRect();
+  }
+
+  if (card) card.classList.add('is-following');
+  refreshMetrics();
+
+  var targetCardX = restX, targetCardY = restY;
+  var curCardX = restX, curCardY = restY;
+  var targetPX = 0, targetPY = 0, curPX = 0, curPY = 0;
+
+  // per-name-element smoothed glitch-mask position, in that element's local space
+  var nameState = nameEls.map(function(){
+    return { tx:-999, ty:-999, cx:-999, cy:-999, lastX:null, lastY:null };
+  });
+
+  function resetCardPosition(){
+    refreshMetrics();
+    targetCardX = curCardX = restX;
+    targetCardY = curCardY = restY;
+    requestTick();
+  }
+
+  window.addEventListener('load', resetCardPosition);
+  window.addEventListener('resize', resetCardPosition);
+  window.addEventListener('scroll', refreshHeroOrigin, { passive:true });
+
+  if (hero){
+    hero.addEventListener('mousemove', function(e){
+      if (!heroRect.width || !heroRect.height) refreshMetrics();
+
+      var mx = e.clientX - heroRect.left;
+      var my = e.clientY - heroRect.top;
+
+      // card follows the cursor with a small offset, clamped to the hero and
+      // kept clear of the photo so it never collides with it on the right
+      var pos = clampCard(mx + 26, my - cardH / 2);
+      targetCardX = pos.x;
+      targetCardY = pos.y;
+
+      // photo drifts slightly opposite to the cursor (subtle parallax)
+      targetPX = ((mx / heroRect.width) - 0.5) * -14;
+      targetPY = ((my / heroRect.height) - 0.5) * -10;
+
+      for (var i = 0; i < nameState.length; i++){
+        var o = nameOffsets[i];
+        if (!o) continue;
+        nameState[i].tx = mx - o.x;
+        nameState[i].ty = my - o.y;
+      }
+
+      requestTick();
+    });
+
+    // on leaving the hero the card/photo reset — the glitch target is left
+    // where it was, so it eases to a stop near the last cursor position
+    // instead of jumping away
+    hero.addEventListener('mouseleave', function(){
+      targetCardX = restX;
+      targetCardY = restY;
+      targetPX = 0;
+      targetPY = 0;
+      requestTick();
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Project rail.
+     ------------------------------------------------------------------ */
+  var projectRail = document.querySelector('.project-rail');
+  var projectWindow = document.querySelector('.project-window');
+  var projectsSection = document.querySelector('.projects');
+  var railToggle = document.getElementById('rail-toggle');
+
+  var BASE_SPEED = -0.32;
+  var loopDistance = 0, railOffset = 0;
+  var railSpeed = BASE_SPEED, railTargetSpeed = BASE_SPEED;
+  var lastPointerX = 0, lastPointerAt = 0;
+  var railPaused = false;   // explicit pause button
+  var railFocused = false;  // keyboard focus is inside the rail
+
+  function railRunning(){ return !railPaused && !railFocused; }
+
+  function sizeProjectLoop(){
+    if (!projectRail || projectRail.children.length < 4) return;
+    loopDistance = projectRail.children[3].offsetLeft - projectRail.children[0].offsetLeft;
+    // keep the offset in range if the loop width changed under us
+    if (loopDistance > 0) railOffset = railOffset % loopDistance;
+  }
+
+  function advanceRail(){
+    railOffset += railSpeed;
+    if (railOffset <= -loopDistance) railOffset += loopDistance;
+    if (railOffset >= 0) railOffset -= loopDistance;
+    projectRail.style.transform = 'translate3d(' + railOffset.toFixed(2) + 'px,0,0)';
+  }
+
+  if (projectWindow && projectRail){
+    projectWindow.addEventListener('pointerenter', function(e){
+      lastPointerX = e.clientX;
+    });
+    projectWindow.addEventListener('pointerleave', function(){
+      railTargetSpeed = BASE_SPEED;
+    });
+    projectWindow.addEventListener('pointermove', function(e){
+      var dx = e.clientX - lastPointerX;
+      lastPointerX = e.clientX;
+      lastPointerAt = performance.now();
+      if (Math.abs(dx) > 0.2) railTargetSpeed = Math.max(-0.72, Math.min(0.72, dx * 0.055));
+    });
+
+    // a card that has keyboard focus must stop moving, or it cannot be used
+    projectRail.addEventListener('focusin', function(){ railFocused = true; });
+    projectRail.addEventListener('focusout', function(){ railFocused = false; requestTick(); });
+  }
+
+  if (railToggle){
+    railToggle.hidden = false;
+    var railToggleLabel = railToggle.querySelector('.rail-toggle-label');
+    railToggle.addEventListener('click', function(){
+      railPaused = !railPaused;
+      railToggle.setAttribute('aria-pressed', railPaused ? 'true' : 'false');
+      if (railToggleLabel) railToggleLabel.textContent = railPaused ? 'Play' : 'Pause';
+      requestTick();
+    });
+  }
+
+  window.addEventListener('load', sizeProjectLoop);
+  window.addEventListener('resize', sizeProjectLoop);
+  sizeProjectLoop();
+
+  /* ------------------------------------------------------------------
+     Frame loop. It stops entirely once nothing is moving and restarts on
+     the next interaction, rather than running for the life of the page.
+     ------------------------------------------------------------------ */
+  var heroVisible = true, projectsVisible = true;
+  if ('IntersectionObserver' in window){
+    var visibility = new IntersectionObserver(function(entries){
+      for (var i = 0; i < entries.length; i++){
+        if (entries[i].target === hero) heroVisible = entries[i].isIntersecting;
+        else if (entries[i].target === projectsSection) projectsVisible = entries[i].isIntersecting;
+      }
+      requestTick();
+    }, { rootMargin: '140px' });
+    if (hero) visibility.observe(hero);
+    if (projectsSection) visibility.observe(projectsSection);
+  }
+
+  var running = false;
+  function requestTick(){
+    if (running) return;
+    running = true;
+    requestAnimationFrame(tick);
+  }
+
+  function settled(a, b){ return Math.abs(a - b) < 0.05; }
+
+  function tick(){
+    var busy = false;
+
+    if (heroVisible){
+      curCardX += (targetCardX - curCardX) * 0.12;
+      curCardY += (targetCardY - curCardY) * 0.12;
+      curPX += (targetPX - curPX) * 0.08;
+      curPY += (targetPY - curPY) * 0.08;
+
+      if (card) card.style.transform = 'translate3d(' + curCardX.toFixed(2) + 'px,' + curCardY.toFixed(2) + 'px,0)';
+      if (portraitImg) portraitImg.style.transform = 'scale(1.12) translate3d(' + curPX.toFixed(2) + 'px,' + curPY.toFixed(2) + 'px,0)';
+
+      if (!settled(curCardX, targetCardX) || !settled(curCardY, targetCardY) ||
+          !settled(curPX, targetPX) || !settled(curPY, targetPY)) busy = true;
+
+      for (var i = 0; i < nameState.length; i++){
+        var s = nameState[i];
+        s.cx += (s.tx - s.cx) * 0.1;
+        s.cy += (s.ty - s.cy) * 0.1;
+
+        // Writing --mx/--my re-runs the SVG filter underneath the mask, which
+        // is by far the most expensive part of this loop. Quantise to half a
+        // pixel and skip the write when nothing visibly moved.
+        var nx = Math.round(s.cx * 2) / 2;
+        var ny = Math.round(s.cy * 2) / 2;
+        if (nx !== s.lastX || ny !== s.lastY){
+          nameEls[i].style.setProperty('--mx', nx + 'px');
+          nameEls[i].style.setProperty('--my', ny + 'px');
+          s.lastX = nx; s.lastY = ny;
+          busy = true;
+        }
+      }
+    }
+
+    if (projectsVisible && projectRail && loopDistance > 0){
+      if (railRunning()){
+        if (performance.now() - lastPointerAt > 240) railTargetSpeed = BASE_SPEED;
+        railSpeed += (railTargetSpeed - railSpeed) * 0.045;
+        advanceRail();
+        busy = true;
+      } else if (!settled(railSpeed, 0)){
+        railSpeed += (0 - railSpeed) * 0.12;  // ease to a stop rather than snap
+        advanceRail();
+        busy = true;
+      }
+    }
+
+    if (busy) requestAnimationFrame(tick);
+    else running = false;
+  }
+
+  requestTick();
+})();
+</script>
+
+</body>
+</html>
