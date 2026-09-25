@@ -367,21 +367,11 @@
   .project-art{ position:absolute; inset:0; transition:transform .6s cubic-bezier(.2,.7,.2,1); }
   .project-card:hover .project-art{ transform:scale(1.06); }
   .project-card:focus-visible{ outline:3px solid var(--accent); outline-offset:3px; }
-  .project-card.jumbofarms{display:block; color:inherit; text-decoration:none; background:#dca33d;}
-  .jumbofarms .project-art{background:linear-gradient(145deg,#e4bb62,#855018);}
-  /* These three were loaded from drive.google.com, which requires the files to
-     stay publicly shared, rate-limits, and leaks every visitor's IP to Google.
-     They now point at local files — export the three images into outputs/assets/jumbofarms/
-     under exactly these names (jumbofarms.html uses the same files). Until then the solid colours below show through. */
-  .jumbofarms .pack{position:absolute; left:28%; top:11%; width:44%; height:75%; border-radius:4px 4px 10px 10px; background:#f9e6b0 url('assets/jumbofarms/coriander-seeds-10kg-mango.jpg') center/cover no-repeat; box-shadow:0 16px 23px rgba(62,35,10,.35); transform:rotate(-5deg);}
-  .jumbofarms .pack::after{content:'';position:absolute;inset:12% -23% -5% 46%;border-radius:4px 4px 10px 10px;background:#f5d783 url('assets/jumbofarms/jeera-seeds-5kg-supreme.jpg') center/cover no-repeat;box-shadow:0 12px 20px rgba(62,35,10,.25);transform:rotate(9deg);z-index:-1;}
-  .mustard .project-art{background:linear-gradient(145deg,#e8be2f,#7a4213);}
-  .mustard .bottle{position:absolute;left:35%;top:13%;width:30%;height:68%;border-radius:18px 18px 26px 26px;background:#f4d34a url('assets/jumbofarms/mustard-oil-1l.jpg') center/cover no-repeat;box-shadow:0 18px 25px rgba(68,34,10,.28);}
-  .mustard .bottle::before{content:'';position:absolute;left:21%;right:21%;top:-11%;height:13%;border-radius:5px 5px 2px 2px;background:#58300d;}
-  .jodhpur{display:block;color:inherit;text-decoration:none;background:#f3c500;}
-  .jodhpur .project-art{background:linear-gradient(145deg,#f7ca00,#ed9e00);}
-  .jodhpur .project-art::before{content:'JODHPUR';position:absolute;left:10%;top:24%;font:900 clamp(42px,5vw,74px)/.8 'Archivo',sans-serif;letter-spacing:-.08em;color:#17181c;transform:rotate(-7deg);}
-  .jodhpur .project-art::after{content:'';position:absolute;width:54%;height:54%;right:-6%;bottom:-12%;border-radius:50%;background:repeating-conic-gradient(#17181c 0 9deg,#f7ca00 9deg 18deg);opacity:.88;}
+  /* Card art is the real work now, so the CSS-drawn packs are gone. */
+  .project-card.trippy{display:block; color:inherit; text-decoration:none; background:#0c2b33;}
+  .trippy .project-art{background:#0c2b33 url('assets/trippy-goat/cover.jpg') center/cover no-repeat;}
+  .project-card.jumbofarms{display:block; color:inherit; text-decoration:none; background:#c1272d;}
+  .jumbofarms .project-art{background:#c1272d url('assets/jumbofarms/posm-nameboard.jpg') center/cover no-repeat;}
   /* ---------- services ---------- */
   .services{
     --services-margin:max(24px, calc((100vw - 1160px)/2));
@@ -506,7 +496,6 @@
         <a href="index.html">Home</a>
         <a href="projects.html">All projects</a>
         <a href="jumbofarms.html">Jumbofarms</a>
-        <a href="jodhpur-khana.html">Jodhpur Khana</a>
       </div>
     </nav>
   </div>
@@ -543,30 +532,22 @@
   </div>
   <div class="project-window">
     <div class="project-rail" id="project-rail">
-    <a class="project-card jumbofarms" href="jumbofarms.html" aria-label="View Jumbofarms packaging case study">
-      <div class="project-art"><div class="pack"></div></div>
+    <a class="project-card trippy" href="trippy-goat.html" aria-label="View Trippy Goat identity and menu case study">
+      <div class="project-art"></div>
+      <h3>Trippy Goat</h3>
+    </a>
+    <a class="project-card jumbofarms" href="jumbofarms.html" aria-label="View Jumbofarms Mustard Oil POSM case study">
+      <div class="project-art"></div>
       <h3>Jumbofarms</h3>
     </a>
-    <a class="project-card jodhpur" href="jodhpur-khana.html" aria-label="View Jodhpur Khana case study">
+    <a class="project-card trippy" href="trippy-goat.html" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
-      <h3>Jodhpur Khana</h3>
+      <h3>Trippy Goat</h3>
     </a>
-    <article class="project-card mustard">
-      <div class="project-art"><div class="bottle"></div></div>
-      <h3>Mustard Oil</h3>
-    </article>
     <a class="project-card jumbofarms" href="jumbofarms.html" aria-hidden="true" tabindex="-1">
-      <div class="project-art"><div class="pack"></div></div>
+      <div class="project-art"></div>
       <h3>Jumbofarms</h3>
     </a>
-    <a class="project-card jodhpur" href="jodhpur-khana.html" aria-hidden="true" tabindex="-1">
-      <div class="project-art"></div>
-      <h3>Jodhpur Khana</h3>
-    </a>
-    <article class="project-card mustard" aria-hidden="true">
-      <div class="project-art"><div class="bottle"></div></div>
-      <h3>Mustard Oil</h3>
-    </article>
     </div>
   </div>
 </section>
@@ -811,8 +792,10 @@
   function railRunning(){ return !railPaused && !railFocused; }
 
   function sizeProjectLoop(){
-    if (!projectRail || projectRail.children.length < 4) return;
-    loopDistance = projectRail.children[3].offsetLeft - projectRail.children[0].offsetLeft;
+    if (!projectRail || projectRail.children.length < 2) return;
+    // the rail holds each card twice; the duplicate set starts at the halfway point
+    var half = projectRail.children.length >> 1;
+    loopDistance = projectRail.children[half].offsetLeft - projectRail.children[0].offsetLeft;
     // keep the offset in range if the loop width changed under us
     if (loopDistance > 0) railOffset = railOffset % loopDistance;
   }
