@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Jodhpur Khana — a street food discovery concept connecting tourists to Jodhpur's local vendors, through an app and a network of physical pop-up stalls. Case study by Kiran Goutam Dhananjayan.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jodhpur Khana — Kiran Goutam Dhananjayan">
+<meta property="og:description" content="Identity, app and spatial design for a street food discovery concept in Jodhpur.">
+<meta property="og:image" content="assets/jodhpur-khana/page-01.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2317181c'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23f3e400'/%3E%3C/svg%3E">
+<title>Jodhpur Khana — Kiran Goutam Dhananjayan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#fff;--panel:#f6f5ef;--ink:#17181c;--muted:#64656c;--line:rgba(23,24,28,.14);--accent:#b8a400;--deep:#17181c;--yellow:#f3e400}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif}
+.progress{position:fixed;inset:0 0 auto;height:3px;background:var(--yellow);transform:scaleX(0);transform-origin:left;z-index:10}
+.wrap{width:min(100% - 40px,1100px);margin:auto}
+.top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.mark,.eyebrow,.label,.meta{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+.mark:before{content:'';display:inline-block;width:7px;height:7px;margin-right:8px;border-radius:50%;background:var(--accent)}
+.back{font-size:13px;text-decoration:none;border-bottom:1px solid;padding-bottom:4px;color:inherit}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.hero{background:var(--yellow);color:var(--deep);padding:clamp(56px,9vw,110px) 0 46px}
+.hero .eyebrow{color:rgba(23,24,28,.66)}
+.hero h1{margin:18px 0 22px;font:900 clamp(46px,9.5vw,124px)/.84 Archivo,sans-serif;letter-spacing:-.075em;text-transform:uppercase;max-width:940px}
+.hero p{max-width:660px;margin:0;font-size:clamp(16px,1.9vw,20px);line-height:1.5;color:rgba(23,24,28,.82)}
+.hero p strong{color:var(--deep);font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.tag{font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(23,24,28,.34);color:rgba(23,24,28,.78)}
+.meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid rgba(23,24,28,.26)}
+.hero .meta{color:rgba(23,24,28,.62)}
+.hero .meta b{display:block;margin-top:7px;color:var(--deep);font:600 14px Inter,sans-serif;letter-spacing:-.02em;text-transform:none}
+.section{padding:clamp(54px,7vw,88px) 0;border-bottom:1px solid var(--line)}
+.section:last-of-type{border:0}
+.label{color:var(--accent);display:block;margin-bottom:18px}
+.lede{max-width:780px;margin:0;font-size:clamp(23px,3vw,40px);line-height:1.1;letter-spacing:-.06em}
+.copy{max-width:720px;margin:22px 0 0;color:var(--muted);font-size:16px;line-height:1.72}
+.copy strong{color:var(--ink);font-weight:600}
+.parts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px;padding:0;list-style:none}
+.parts li{border:1px solid var(--line);border-radius:8px;padding:18px;background:var(--panel)}
+.parts b{display:block;font:700 19px/.98 Archivo,sans-serif;letter-spacing:-.045em}
+.parts span{display:block;margin-top:8px;color:var(--muted);font-size:13px;line-height:1.45}
+.spread{display:flex;flex-direction:column;gap:20px;margin-top:34px}
+.page{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.page img{display:block;width:100%;height:auto}
+.page figcaption{padding:12px 16px;color:var(--muted);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.07em;text-transform:uppercase}
+.footer{padding:34px 0 46px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.09em}
+.footer a{color:inherit;text-decoration:none;border-bottom:1px solid}
+@media(max-width:700px){
+  .wrap{width:min(100% - 32px,1100px)}
+  .meta-row,.parts{grid-template-columns:1fr}
+  .footer{flex-direction:column;gap:18px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.progress{transition:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<header class="wrap top">
+  <span class="mark">kgd.</span>
+  <a class="back" href="portfolio.html#projects-title">&larr; Back to selected work</a>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">UX research &amp; spatial design / selected work</span>
+    <h1>Jodhpur<br>Khana</h1>
+    <p><strong>Jodhpur Khana</strong> is an initiative to attract tourists to new, authentic cuisine and local dishes of Jodhpur — designed to direct customers to a mobile application that helps them locate these specialities, while providing relevant functionality for local sellers.</p>
+    <div class="tags">
+      <span class="tag">UX Research</span><span class="tag">UI Design</span>
+      <span class="tag">3D Design</span><span class="tag">Design Research</span><span class="tag">Experiential Design</span>
+    </div>
+    <div class="meta-row">
+      <div class="meta">Place<b>Jodhpur, Rajasthan</b></div>
+      <div class="meta">For<b>Tourists and street vendors</b></div>
+      <div class="meta">Output<b>Identity, app, pop-up stall</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Overview</span>
+    <h2 class="lede">The vulnerable group here isn't the tourist.</h2>
+    <p class="copy">A visitor to Jodhpur can find a restaurant easily enough. What they cannot find is the vendor on a particular street corner who makes one dish better than anyone else — and that vendor has no channel beyond the corner itself.</p>
+    <p class="copy">So the project centres the <strong>informal street vendor</strong> rather than the tourist: the app gives them discoverability and a way to be paid fairly, and the physical stalls give the initiative a presence on the street that an app alone cannot have.</p>
+    <ul class="parts">
+      <li><b>Identity</b><span>A yellow-and-black mark with a chef's hat joining the two words, set in Helvetica Now Text Bold.</span></li>
+      <li><b>Application</b><span>Discovery, listings, maps and payments, for tourists and sellers alike.</span></li>
+      <li><b>Pop-up stall</b><span>A modular cart in 3D, carrying the signage and a QR standee back to the app.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">The case study</span>
+    <h2 class="lede">Five spreads, front to back.</h2>
+    <div class="spread">
+      <figure class="page"><img src="assets/jodhpur-khana/page-01.jpg" alt="Jodhpur Khana wordmark in yellow and black with colour and type specification" decoding="async" fetchpriority="high"><figcaption>01 — Identity, colour and type</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/jodhpur-khana/page-02.jpg" alt="Hand sketches and low-fidelity wireframes for the mobile application"><figcaption>02 — Sketches and wireframes</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/jodhpur-khana/page-03.jpg" alt="App screens for cuisine listings, maps and payments"><figcaption>03 — App: listings, maps, payments</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/jodhpur-khana/page-04.jpg" alt="3D render of the pop-up stall with a QR standee directing to the app"><figcaption>04 — Stall and QR standee</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/jodhpur-khana/page-05.jpg" alt="Further 3D renders of the modular stall from two angles"><figcaption>05 — Stall, alternate views</figcaption></figure>
+    </div>
+    <p class="copy">The standee is the hinge between the two halves: it carries the mark at street scale and a QR code that redirects to the app, so a tourist who walks past a stall ends up holding the directory.</p>
+  </div>
+</section>
+</main>
+
+<footer class="wrap footer">
+  <span>KGD. / Jodhpur Khana</span>
+  <a href="portfolio.html">Return to selected work &rarr;</a>
+</footer>
+
+<script>
+(function(){
+  var fill = document.getElementById('progress');
+  if (!fill) return;
+  var ticking = false;
+  function update(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    fill.style.transform = 'scaleX(' + (max > 0 ? window.pageYOffset / max : 0) + ')';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+</body>
+</html>

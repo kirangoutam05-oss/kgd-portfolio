@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Bell Home Security — naming, identity and a human-centred mobile app for home security and remote access. Case study by Kiran Goutam Dhananjayan.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bell Home Security — Kiran Goutam Dhananjayan">
+<meta property="og:description" content="Naming, identity and interface for a home security app built around shared access.">
+<meta property="og:image" content="assets/bell-home-security/page-01.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f3a40'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2316daec'/%3E%3C/svg%3E">
+<title>Bell Home Security — Kiran Goutam Dhananjayan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#fff;--panel:#f1f7f8;--ink:#131316;--muted:#64656c;--line:rgba(19,19,22,.14);--accent:#0f9fb0;--deep:#0f3a40;--bell:#16daec}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif}
+.progress{position:fixed;inset:0 0 auto;height:3px;background:var(--bell);transform:scaleX(0);transform-origin:left;z-index:10}
+.wrap{width:min(100% - 40px,1100px);margin:auto}
+.top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.mark,.eyebrow,.label,.meta{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+.mark:before{content:'';display:inline-block;width:7px;height:7px;margin-right:8px;border-radius:50%;background:var(--accent)}
+.back{font-size:13px;text-decoration:none;border-bottom:1px solid;padding-bottom:4px;color:inherit}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.hero{background:var(--bell);color:#06282d;padding:clamp(56px,9vw,110px) 0 46px}
+.hero .eyebrow{color:rgba(6,40,45,.66)}
+.hero h1{margin:18px 0 22px;font:900 clamp(46px,9.5vw,124px)/.84 Archivo,sans-serif;letter-spacing:-.075em;text-transform:uppercase;max-width:940px}
+.hero p{max-width:660px;margin:0;font-size:clamp(16px,1.9vw,20px);line-height:1.5;color:rgba(6,40,45,.84)}
+.hero p strong{color:#06282d;font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.tag{font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(6,40,45,.34);color:rgba(6,40,45,.8)}
+.meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid rgba(6,40,45,.26)}
+.hero .meta{color:rgba(6,40,45,.62)}
+.hero .meta b{display:block;margin-top:7px;color:#06282d;font:600 14px Inter,sans-serif;letter-spacing:-.02em;text-transform:none}
+.section{padding:clamp(54px,7vw,88px) 0;border-bottom:1px solid var(--line)}
+.section:last-of-type{border:0}
+.label{color:var(--accent);display:block;margin-bottom:18px}
+.lede{max-width:780px;margin:0;font-size:clamp(23px,3vw,40px);line-height:1.1;letter-spacing:-.06em}
+.copy{max-width:720px;margin:22px 0 0;color:var(--muted);font-size:16px;line-height:1.72}
+.copy strong{color:var(--ink);font-weight:600}
+.spec{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px;padding:0;list-style:none}
+.spec li{border:1px solid var(--line);border-radius:8px;padding:18px;background:var(--panel)}
+.spec b{display:block;font:700 18px/.98 Archivo,sans-serif;letter-spacing:-.045em}
+.spec span{display:block;margin-top:8px;color:var(--muted);font-size:13px;line-height:1.45}
+.swatches{display:flex;gap:8px;margin-top:12px}
+.sw{width:26px;height:26px;border-radius:5px;border:1px solid var(--line)}
+.spread{display:flex;flex-direction:column;gap:20px;margin-top:34px}
+.page{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.page img{display:block;width:100%;height:auto}
+.page figcaption{padding:12px 16px;color:var(--muted);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.07em;text-transform:uppercase}
+.footer{padding:34px 0 46px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.09em}
+.footer a{color:inherit;text-decoration:none;border-bottom:1px solid}
+@media(max-width:700px){
+  .wrap{width:min(100% - 32px,1100px)}
+  .meta-row,.spec{grid-template-columns:1fr}
+  .footer{flex-direction:column;gap:18px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.progress{transition:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<header class="wrap top">
+  <span class="mark">kgd.</span>
+  <a class="back" href="portfolio.html#projects-title">&larr; Back to selected work</a>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">UX research &amp; UI design / selected work</span>
+    <h1>Bell<br>Home Security</h1>
+    <p>Home security from <strong>Bell</strong> is designed to help you prevent break-ins and have remote access to your home at all times. The goal was to find a suitable name, with a logo, key features that could be added, and a user-friendly interface.</p>
+    <div class="tags">
+      <span class="tag">User Research</span><span class="tag">Userflow</span>
+      <span class="tag">Mindmapping</span><span class="tag">UI Design</span><span class="tag">UX Research</span>
+    </div>
+    <div class="meta-row">
+      <div class="meta">Type<b>Self-directed concept</b></div>
+      <div class="meta">Output<b>Name, identity, app UI</b></div>
+      <div class="meta">Focus<b>Human-centred functionality</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Overview</span>
+    <h2 class="lede">Start from what the app should do, not what it should look like.</h2>
+    <p class="copy">The exercise was explicitly framed as an enquiry: <strong>to understand the use of different functionalities that can be included in mobile apps to be more human-centred</strong>. So the process runs the other way round from most identity work — function analysis and name derivation are worked out on paper first, and the mark falls out of that rather than leading it.</p>
+    <p class="copy">The name lands on a single domestic object everybody already associates with the front door. The identity stays deliberately plain so the interface can carry the personality.</p>
+    <ul class="spec">
+      <li><b>Wordmark</b><span>Set in Y2K Neophyte, lowercase, no icon required.</span></li>
+      <li><b>Palette</b><span>One cyan against white and black — nothing else.</span>
+        <div class="swatches"><span class="sw" style="background:#16daec"></span><span class="sw" style="background:#ffffff"></span><span class="sw" style="background:#000000"></span></div>
+      </li>
+      <li><b>Core idea</b><span>Access you can grant and revoke, not just an alarm you can arm.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">The case study</span>
+    <h2 class="lede">Three spreads, front to back.</h2>
+    <div class="spread">
+      <figure class="page"><img src="assets/bell-home-security/page-01.jpg" alt="The Bell wordmark with font and colour specification" decoding="async" fetchpriority="high"><figcaption>01 — Logo, type and colour</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/bell-home-security/page-02.jpg" alt="Handwritten function analysis, name derivation mindmaps and app wireframes"><figcaption>02 — Function analysis, name derivation, wireframes</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/bell-home-security/page-03.jpg" alt="App screens including home, settings, shared keys, activity records and alerts"><figcaption>03 — Interface</figcaption></figure>
+    </div>
+    <p class="copy">The interface set covers the home screen, settings, users added for a key, the activity record, the side navigation, a pop-up alert style, the new-key page and key sharing — which is where the concept earns its name. A bell is something you let people ring.</p>
+  </div>
+</section>
+</main>
+
+<footer class="wrap footer">
+  <span>KGD. / Bell Home Security</span>
+  <a href="portfolio.html">Return to selected work &rarr;</a>
+</footer>
+
+<script>
+(function(){
+  var fill = document.getElementById('progress');
+  if (!fill) return;
+  var ticking = false;
+  function update(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    fill.style.transform = 'scaleX(' + (max > 0 ? window.pageYOffset / max : 0) + ')';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+</body>
+</html>
