@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Levon — UI/UX for the consumer website and contractor rewards app of one of India's largest kitchen accessories manufacturers. Case study by Kiran Goutam Dhananjayan.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Levon — Kiran Goutam Dhananjayan">
+<meta property="og:description" content="UI/UX, digital marketing and 3D for a stainless steel kitchen brand moving into e-commerce.">
+<meta property="og:image" content="assets/levon/page-01.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23365567'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23f2c744'/%3E%3C/svg%3E">
+<title>Levon — Kiran Goutam Dhananjayan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#fff;--panel:#f2f4f5;--ink:#131316;--muted:#64656c;--line:rgba(19,19,22,.14);--accent:#365567;--deep:#365567}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif}
+.progress{position:fixed;inset:0 0 auto;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;z-index:10}
+.wrap{width:min(100% - 40px,1100px);margin:auto}
+.top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.mark,.eyebrow,.label,.meta{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+.mark:before{content:'';display:inline-block;width:7px;height:7px;margin-right:8px;border-radius:50%;background:var(--accent)}
+.back{font-size:13px;text-decoration:none;border-bottom:1px solid;padding-bottom:4px;color:inherit}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.hero{background:var(--deep);color:#eef3f6;padding:clamp(56px,9vw,110px) 0 46px}
+.hero .eyebrow{color:#a9c2d0}
+.hero h1{margin:18px 0 22px;font:900 clamp(46px,9.5vw,124px)/.84 Archivo,sans-serif;letter-spacing:-.075em;text-transform:uppercase;max-width:940px}
+.hero p{max-width:660px;margin:0;font-size:clamp(16px,1.9vw,20px);line-height:1.5;color:#c9d7de}
+.hero p strong{color:#fff;font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.tag{font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(238,243,246,.3);color:#c9d7de}
+.meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid rgba(238,243,246,.24)}
+.hero .meta{color:rgba(238,243,246,.66)}
+.hero .meta b{display:block;margin-top:7px;color:#fff;font:600 14px Inter,sans-serif;letter-spacing:-.02em;text-transform:none}
+.section{padding:clamp(54px,7vw,88px) 0;border-bottom:1px solid var(--line)}
+.section:last-of-type{border:0}
+.label{color:var(--accent);display:block;margin-bottom:18px}
+.lede{max-width:780px;margin:0;font-size:clamp(23px,3vw,40px);line-height:1.1;letter-spacing:-.06em}
+.copy{max-width:720px;margin:22px 0 0;color:var(--muted);font-size:16px;line-height:1.72}
+.copy strong{color:var(--ink);font-weight:600}
+.phases{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:30px;padding:0;list-style:none}
+.phases li{border:1px solid var(--line);border-radius:8px;padding:16px;background:var(--panel)}
+.phases b{display:block;font:500 10px 'JetBrains Mono',monospace;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+.phases span{display:block;margin-top:8px;font-size:13px;line-height:1.45;color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px;padding:0;list-style:none}
+.facts li{border:1px solid var(--line);border-radius:8px;padding:18px;background:var(--panel)}
+.facts b{display:block;font:700 26px/.98 Archivo,sans-serif;letter-spacing:-.05em}
+.facts span{display:block;margin-top:8px;color:var(--muted);font-size:13px;line-height:1.45}
+.spread{display:flex;flex-direction:column;gap:20px;margin-top:34px}
+.page{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.page img{display:block;width:100%;height:auto}
+.page figcaption{padding:12px 16px;color:var(--muted);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.07em;text-transform:uppercase}
+.footer{padding:34px 0 46px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.09em}
+.footer a{color:inherit;text-decoration:none;border-bottom:1px solid}
+@media(max-width:900px){.phases{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){
+  .wrap{width:min(100% - 32px,1100px)}
+  .meta-row,.phases,.facts{grid-template-columns:1fr}
+  .footer{flex-direction:column;gap:18px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.progress{transition:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<header class="wrap top">
+  <span class="mark">kgd.</span>
+  <a class="back" href="portfolio.html#projects-title">&larr; Back to selected work</a>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">UI/UX &amp; digital design / selected work</span>
+    <h1>Levon</h1>
+    <p><strong>Levon</strong> is a stainless steel brand that manufactures kitchen organisers, racks, shelves, pantry and complete kitchen interiors. The project aims to establish an online presence and product marketing in order to increase e-commerce sales and market Levon Homes as a full kitchen furniture brand.</p>
+    <div class="tags">
+      <span class="tag">UI/UX Design</span><span class="tag">Digital Marketing</span>
+      <span class="tag">3D Design</span><span class="tag">Art Direction</span>
+    </div>
+    <div class="meta-row">
+      <div class="meta">Client<b>Levon Homes</b></div>
+      <div class="meta">Role<b>Design intern, 18 weeks</b></div>
+      <div class="meta">Output<b>Website and rewards app</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Overview</span>
+    <h2 class="lede">A manufacturer with 2,000 products and ten website orders a month.</h2>
+    <p class="copy">Levon began in 1985 as Lifetime Wire Products, a team of engineers making stainless steel goods built for hard Indian use, and was renamed in 2012. It now manufactures for groups including <strong>Godrej and Häfele</strong>, reaches more than 150 dealers, and carries over 2,000 products across five sub-brands.</p>
+    <p class="copy">The problem was the gap between that scale and its own channel. Retail and marketplace listings brought in around <strong>600 orders a day</strong>; the company's own website brought in about <strong>ten a month</strong>. It had been built in a hurry, served mostly as a contact form, and showed almost none of the range.</p>
+    <ul class="facts">
+      <li><b>1985</b><span>Founded as Lifetime Wire Products; renamed Levon in 2012.</span></li>
+      <li><b>2,000+</b><span>Products, from hooks and organisers to complete kitchen interiors.</span></li>
+      <li><b>600 / day</b><span>Orders through retail and marketplaces, against ten a month on their own site.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Approach</span>
+    <h2 class="lede">Five phases, research first.</h2>
+    <p class="copy">The work started with interviews with the owners and a competitor review, then moved through architecture, a style guide, and progressively higher fidelity. Type is Roboto Condensed over Roboto; the primary colour is <strong>#365567</strong>, the blue-grey carried through every wireframe here.</p>
+    <ul class="phases">
+      <li><b>Phase 1</b><span>Brand research, user scenarios, personas, information architecture.</span></li>
+      <li><b>Phase 2</b><span>UI style guide, colour scheme, font guide, log-in and icon styles.</span></li>
+      <li><b>Phase 3</b><span>Apex sketches, wireframes, low fidelity.</span></li>
+      <li><b>Phase 4</b><span>High fidelity, client and user feedback, feedback testing.</span></li>
+      <li><b>Phase 5</b><span>Prototyping, final onboarding, UI flow.</span></li>
+    </ul>
+    <p class="copy">A second project reworked the <strong>Lifetime Champion</strong> app into a Levon app for the same audience — contractors, labourers and carpenters, who redeem promo codes against points for goods. The company treats them as a marketing channel in their own right, since customers ask carpenters for advice.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">The work</span>
+    <h2 class="lede">Four spreads.</h2>
+    <div class="spread">
+      <figure class="page"><img src="assets/levon/page-01.jpg" alt="Levon project overview: e-commerce content, website design, 3D renders and brand image building" decoding="async" fetchpriority="high"><figcaption>01 — Scope and brief</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/levon/page-02.jpg" alt="Layout sketches, information architecture and the colour guide"><figcaption>02 — Sketches, architecture and colour</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/levon/page-03.jpg" alt="Annotated wireframes for home, about, login and contact pages"><figcaption>03 — Wireframes: home, about, log-in, contact</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/levon/page-04.jpg" alt="Annotated wireframes for the product and sub-category pages, with sketches"><figcaption>04 — Wireframes: product and sub-category</figcaption></figure>
+    </div>
+    <p class="copy">Constraints, recorded honestly in the project document: no front-end developer, limited resources from the organisation, and no in-house knowledge of the page builder the site had to be delivered in.</p>
+  </div>
+</section>
+</main>
+
+<footer class="wrap footer">
+  <span>KGD. / Levon</span>
+  <a href="portfolio.html">Return to selected work &rarr;</a>
+</footer>
+
+<script>
+(function(){
+  var fill = document.getElementById('progress');
+  if (!fill) return;
+  var ticking = false;
+  function update(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    fill.style.transform = 'scaleX(' + (max > 0 ? window.pageYOffset / max : 0) + ')';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+</body>
+</html>
