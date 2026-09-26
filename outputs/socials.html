@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Socials — a design kit for a networking-only event by the team behind The Mixer, plus the Single's Social identity exploration. Case study by Kiran Goutam Dhananjayan.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Socials — Kiran Goutam Dhananjayan">
+<meta property="og:description" content="A design kit for a networking-only event, and the identity work that followed.">
+<meta property="og:image" content="assets/socials/page-01.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%236c3fa4'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%234ec3e0'/%3E%3C/svg%3E">
+<title>Socials — Kiran Goutam Dhananjayan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#fff;--panel:#f4f2f6;--ink:#131316;--muted:#64656c;--line:rgba(19,19,22,.14);--accent:#8a4fd0;--deep:#4a2a78}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif}
+.progress{position:fixed;inset:0 0 auto;height:3px;background:linear-gradient(90deg,#4ec3e0,#8a4fd0);transform:scaleX(0);transform-origin:left;z-index:10}
+.wrap{width:min(100% - 40px,1100px);margin:auto}
+.top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.mark,.eyebrow,.label,.meta{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+.mark:before{content:'';display:inline-block;width:7px;height:7px;margin-right:8px;border-radius:50%;background:var(--accent)}
+.back{font-size:13px;text-decoration:none;border-bottom:1px solid;padding-bottom:4px;color:inherit}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.hero{background:linear-gradient(135deg,#4ec3e0 0%,#8a4fd0 55%,#4a2a78 100%);color:#fff;padding:clamp(56px,9vw,110px) 0 46px}
+.hero .eyebrow{color:rgba(255,255,255,.8)}
+.hero h1{margin:18px 0 22px;font:900 clamp(46px,9.5vw,124px)/.84 Archivo,sans-serif;letter-spacing:-.075em;text-transform:uppercase;max-width:940px}
+.hero p{max-width:660px;margin:0;font-size:clamp(16px,1.9vw,20px);line-height:1.5;color:rgba(255,255,255,.88)}
+.hero p strong{color:#fff;font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.tag{font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.4);color:rgba(255,255,255,.9)}
+.meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255,255,.3)}
+.hero .meta{color:rgba(255,255,255,.7)}
+.hero .meta b{display:block;margin-top:7px;color:#fff;font:600 14px Inter,sans-serif;letter-spacing:-.02em;text-transform:none}
+.section{padding:clamp(54px,7vw,88px) 0;border-bottom:1px solid var(--line)}
+.section:last-of-type{border:0}
+.label{color:var(--accent);display:block;margin-bottom:18px}
+.lede{max-width:780px;margin:0;font-size:clamp(23px,3vw,40px);line-height:1.1;letter-spacing:-.06em}
+.copy{max-width:720px;margin:22px 0 0;color:var(--muted);font-size:16px;line-height:1.72}
+.copy strong{color:var(--ink);font-weight:600}
+.spread{display:flex;flex-direction:column;gap:20px;margin-top:34px}
+.page{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.page img{display:block;width:100%;height:auto}
+.page figcaption{padding:12px 16px;color:var(--muted);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.07em;text-transform:uppercase}
+.footer{padding:34px 0 46px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.09em}
+.footer a{color:inherit;text-decoration:none;border-bottom:1px solid}
+@media(max-width:700px){
+  .wrap{width:min(100% - 32px,1100px)}
+  .meta-row{grid-template-columns:1fr}
+  .footer{flex-direction:column;gap:18px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.progress{transition:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<header class="wrap top">
+  <span class="mark">kgd.</span>
+  <a class="back" href="portfolio.html#projects-title">&larr; Back to selected work</a>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Event &amp; social design / selected work</span>
+    <h1>Socials</h1>
+    <p>“The Socials” is an event organised by the team known as <strong>the Mixer</strong>. They hosted a trial event to gauge demand for a networking-only gathering, which needed a design kit with a fresh, contrasting colour theme distinct from the existing Mixer identity.</p>
+    <div class="tags">
+      <span class="tag">Social Media Design</span><span class="tag">Motion Graphics</span><span class="tag">Brand Design</span>
+    </div>
+    <div class="meta-row">
+      <div class="meta">Client<b>the Mixer</b></div>
+      <div class="meta">Brief<b>Trial networking event</b></div>
+      <div class="meta">Scope<b>Design kit and identity</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Overview</span>
+    <h2 class="lede">Distinct from the Mixer, but recognisably from the same team.</h2>
+    <p class="copy">The Mixer's own identity is dark and gold. Socials had to read as a separate proposition — <strong>networking only</strong>, no other draw — so the kit moves to a cyan-to-violet gradient that shares none of the parent palette while keeping the same typographic discipline.</p>
+    <p class="copy">The campaign ran with LBB, and the assets carry an open invitation: <strong>come alone, with someone, or in a group</strong>. A second strand in the document explores <strong>The Single's Social</strong> — a related event identity taken through wordmark, colourways and an icon set.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">The case study</span>
+    <h2 class="lede">Eight pages, front to back.</h2>
+    <div class="spread">
+      <figure class="page"><img src="assets/socials/page-01.jpg" alt="Cover: Socials set on a cyan to violet gradient" decoding="async" fetchpriority="high"><figcaption>01 — Cover</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/socials/page-02.jpg" alt="Overview of the Socials brief"><figcaption>02 — Overview</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/socials/page-03.jpg" alt="Campaign assets: LBB listing and Instagram posts for the event"><figcaption>03 — Campaign assets</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/socials/page-04.jpg" alt="The Single's Social wordmark on white"><figcaption>04 — The Single's Social, wordmark</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/socials/page-05.jpg" alt="The Single's Social wordmark reversed on black"><figcaption>05 — Reversed</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/socials/page-06.jpg" alt="The wordmark on teal with a four-part icon set"><figcaption>06 — Colourway and icon set</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/socials/page-07.jpg" alt="Script wordmark variants for The Singles Socials"><figcaption>07 — Script variants</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/socials/page-08.jpg" alt="Three final wordmark lockups on cream"><figcaption>08 — Final lockups</figcaption></figure>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap footer">
+  <span>KGD. / Socials</span>
+  <a href="portfolio.html">Return to selected work &rarr;</a>
+</footer>
+
+<script>
+(function(){
+  var fill = document.getElementById('progress');
+  if (!fill) return;
+  var ticking = false;
+  function update(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    fill.style.transform = 'scaleX(' + (max > 0 ? window.pageYOffset / max : 0) + ')';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+</body>
+</html>
