@@ -132,6 +132,27 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   transform:translateY(-50%);
   height:24px;
 }
+  .motion{
+    margin:34px 0 0;
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    background:var(--panel);
+  }
+  .motion video{
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:16 / 9;
+    background:#0f0f12;
+  }
+  .motion figcaption{
+    padding:12px 16px;
+    color:var(--muted);
+    font:500 11px 'JetBrains Mono', monospace;
+    letter-spacing:.07em;
+    text-transform:uppercase;
+  }
 </style>
 </head>
 <body>
@@ -198,6 +219,25 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   </div>
 </section>
 
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">The mark in motion</span>
+    <h2 class="lede">The logo had to argue for the idea, not just sit still.</h2>
+    <p class="copy">Forum&rsquo;s whole proposition is that knowledge compounds when creatives meet &mdash; which is an argument about <em>movement</em>, and a static mark cannot make it. So the identity was built to resolve rather than simply appear.</p>
+    <figure class="motion">
+      <video
+        src="assets/forum-by-rego/logo-animation.mp4"
+        width="1920" height="1080"
+        autoplay muted loop playsinline controls preload="metadata"
+        aria-label="Forum by ReGo logo animation: an organic shape grows as knowledge accumulates, a domino effect of people follows, and the logo and tagline resolve.">
+      </video>
+      <figcaption>Logo animation &mdash; 15 seconds, looping</figcaption>
+    </figure>
+    <p class="copy">The sequence runs in three beats. An organic shape &mdash; the knowledge pool &mdash; keeps growing as new knowledge is added to it. A domino effect of people follows, which is organic networking made literal. Then the logo and the tagline resolve out of it.</p>
+    <p class="copy">Storyboarded first, across nine frames, because the beats had to be argued before they were animated. The order matters: knowledge grows, people connect <em>because</em> of it, and the brand is the result rather than the cause.</p>
+  </div>
+</section>
 
 <section class="section">
   <div class="wrap">
@@ -298,6 +338,22 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   sync();
 })();
 </script>
+<script>
+(function(){
+  /* The animation auto-plays because a logo resolve is the point of it,
+     but not for anyone who has asked the system for less movement. */
+  var v = document.querySelector('.motion video');
+  if (!v) return;
+  try {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      v.autoplay = false;
+      v.removeAttribute('autoplay');
+      v.pause();
+    }
+  } catch(e){}
+})();
+</script>
 </body>
+
 
 </html>
