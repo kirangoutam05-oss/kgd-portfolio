@@ -349,7 +349,10 @@
   .projects-link:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
   .projects-actions{ display:flex; align-items:center; gap:18px; flex:0 0 auto; }
 
-  .project-window{ overflow:hidden; }
+  /* The scroller is bounded by the same margins as the heading and the
+     View projects link, so tiles clip at that edge rather than bleeding
+     to the screen. */
+  .project-window{ overflow:hidden; margin:0 var(--projects-margin); }
   /* No side padding: any gutter here shows as dead space in the loop on
      wide screens, because the rail translates past it. */
   .project-rail{
@@ -361,7 +364,7 @@
   }
   .project-item{
     flex:0 0 auto;
-    width:clamp(300px, 37vw, 540px);
+    width:clamp(260px, 29vw, 430px);
     display:block;
     color:inherit;
     text-decoration:none;
@@ -457,8 +460,9 @@
   @media (max-width: 720px){
     .projects-head{ align-items:flex-start; flex-direction:column; padding-bottom:12px; }
     .projects h2{ font-size:clamp(20px,6vw,26px); }
-    .project-rail{ gap:12px; padding-left:20px; }
-    .project-card{ width:78vw; border-radius:8px; }
+    .project-rail{ gap:12px; }
+    .project-item{ width:74vw; }
+    .project-card{ border-radius:8px; }
     .services{ padding-top:76px; padding-bottom:76px; }
     .services-kicker{ font-size:clamp(20px,6vw,26px); }
     .services-title{ font-size:clamp(29px,8.4vw,42px); }
@@ -478,7 +482,7 @@
     .txt::before{ display:none !important; }
     .project-rail{ transform:none !important; }
     .project-window{ overflow-x:auto; }
-    .reveal-word{ color:#18181b !important; transition:none !important; }
+    .reveal-word{ color:var(--ink) !important; -webkit-text-fill-color:var(--ink) !important; transition:none !important; }
   }
   /* ---------- stacked selected work ----------
      Each project is a tinted panel with the artwork inset, then a row
@@ -526,7 +530,7 @@
     transition:transform .7s cubic-bezier(.2,.7,.2,1);
   }
   .stack-item:hover .stack-media img{ transform:scale(1.025); }
-  /* ARenaissance's source file is over the export limit, so its panel
+  /* LearnARcade's source file is over the export limit, so its panel
      carries the initials until the visuals can be added. */
   .stack-media.is-type{ place-items:center; }
   .stack-mark{
@@ -585,14 +589,13 @@
     gap:20px; flex-wrap:wrap;
     padding:30px max(24px, calc((100vw - 1160px)/2)) 42px;
     border-top:1px solid var(--line);
-    font:500 11px 'Geist Mono', monospace;
-    letter-spacing:.09em; color:var(--ink-dim);
+    font:400 13px 'Geist', sans-serif;
+    letter-spacing:0; color:var(--ink-dim);
   }
   .footer-nav{ display:flex; gap:22px; flex-wrap:wrap; }
   .footer-mail{
     color:var(--ink); text-decoration:none;
     border-bottom:1px solid var(--line); padding-bottom:4px;
-    letter-spacing:.04em;
     transition:color .2s ease, border-color .2s ease;
   }
   .footer-mail:hover{ color:var(--accent); border-color:var(--accent); }
@@ -802,11 +805,11 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     </div>
   </a>
 
-  <a class="stack-item" href="arenaissance.html" style="--tint:#e9e6fa;--tint-dark:#1a1830">
-    <div class="stack-media is-type"><span class="stack-mark" aria-hidden="true">AR</span></div>
+  <a class="stack-item" href="learnarcade.html" style="--tint:#dfe7f5;--tint-dark:#121a26">
+    <div class="stack-media"><img loading="lazy" src="assets/learnarcade/page-04.jpg" alt="LearnARcade application screens"></div>
     <div class="stack-row">
       <div class="stack-names">
-        <h3>ARenaissance</h3>
+        <h3>LearnARcade</h3>
         <p class="stack-kind">Design Management &amp; UX Research</p>
       </div>
       <span class="stack-cta"><span class="stack-arrow" aria-hidden="true">&#8599;</span>View Project</span>
