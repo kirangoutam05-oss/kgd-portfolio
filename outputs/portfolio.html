@@ -43,6 +43,9 @@
   }
 
   .hero{
+    /* Both hero figures derive from one width, so the photo and the
+       floating card always keep the same proportion to each other. */
+    --figure-w: min(33vw, 420px);
     position:relative;
     width:100%;
     height:100svh;
@@ -148,9 +151,8 @@
     position:absolute;
     top:13%;
     right:clamp(20px, 5vw, 64px);
-    width:min(36%, 440px);
-    height:68%;
-    max-height:600px;
+    width:var(--figure-w);
+    aspect-ratio:4 / 5;
     z-index:5;
     overflow:hidden;
     border-radius:8px;
@@ -159,7 +161,7 @@
   .portrait img{
     width:100%; height:100%;
     object-fit:cover;
-    object-position:50% 16%;
+    object-position:52% 18%;
     display:block;
     filter:saturate(0.92) contrast(1.02);
     opacity:0;
@@ -177,7 +179,9 @@
     position:absolute;
     left:clamp(16px, 7vw, 104px);
     top:clamp(112px, 24vh, 232px);
-    width:min(320px, 82vw);
+    width:calc(var(--figure-w) * 0.86);
+    min-width:262px;
+    max-width:82vw;
     background:rgba(255,255,255,0.86);
     backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);
@@ -449,7 +453,7 @@
     .service-grid{ grid-template-columns:1fr; }
     .service-card{ min-height:280px; }
     .projects-actions{ gap:14px; }
-    .portrait{ width:min(70%, 320px); height:42%; top:9%; right:20px; }
+    .portrait{ width:min(62%, 300px); aspect-ratio:4 / 5; top:9%; right:20px; }
     .card{ width:auto; max-width:calc(100vw - 32px); left:16px; right:16px; top:54%; }
     .card.is-following{ left:0; right:auto; top:0; }
     /* 15vw overflowed: "DHANANJAYAN" is 11 uppercase characters at nowrap, which
@@ -466,6 +470,60 @@
     .project-window{ overflow-x:auto; }
     .rail-toggle{ display:none !important; }
     .reveal-word{ color:#18181b !important; transition:none !important; }
+  }
+  /* ---------- contact ---------- */
+  .contact{
+    background:var(--ink);
+    color:var(--paper);
+    padding:clamp(74px, 10vw, 136px) max(24px, calc((100vw - 1160px)/2));
+  }
+  .contact-kicker{
+    font:500 11px 'JetBrains Mono', monospace;
+    letter-spacing:.14em; text-transform:uppercase;
+    color:#c8ab7c; margin-bottom:20px;
+    display:flex; align-items:center; gap:9px;
+  }
+  .contact-kicker:before{
+    content:''; width:7px; height:7px; border-radius:50%;
+    background:#7fc08a; flex:0 0 auto;
+  }
+  .contact-title{
+    font:900 clamp(38px, 6.4vw, 92px)/.88 Archivo, sans-serif;
+    letter-spacing:-.07em; text-transform:uppercase; max-width:14ch;
+  }
+  .contact-copy{
+    margin:24px 0 0; max-width:540px;
+    color:rgba(255,255,255,.66); font-size:clamp(15px,1.7vw,18px); line-height:1.6;
+  }
+  .contact-cta{
+    display:inline-block; margin-top:34px;
+    font:500 clamp(15px,1.8vw,19px) 'JetBrains Mono', monospace;
+    letter-spacing:-.01em; color:var(--paper); text-decoration:none;
+    border-bottom:1px solid rgba(255,255,255,.4); padding-bottom:7px;
+    transition:color .22s ease, border-color .22s ease;
+  }
+  .contact-cta:hover{ color:#e0b56a; border-color:#e0b56a; }
+  .contact-cta:focus-visible{ outline:2px solid #e0b56a; outline-offset:5px; }
+
+  /* ---------- footer ---------- */
+  .site-footer{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:20px; flex-wrap:wrap;
+    padding:30px max(24px, calc((100vw - 1160px)/2)) 42px;
+    border-top:1px solid var(--line);
+    font:500 11px 'JetBrains Mono', monospace;
+    letter-spacing:.09em; color:var(--ink-dim);
+  }
+  .footer-nav{ display:flex; gap:22px; flex-wrap:wrap; }
+  .footer-nav a{
+    color:inherit; text-decoration:none;
+    border-bottom:1px solid transparent; padding-bottom:3px;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .footer-nav a:hover{ color:var(--accent); border-color:var(--accent); }
+  .footer-nav a:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
+  @media (max-width: 760px){
+    .site-footer{ flex-direction:column; align-items:flex-start; gap:16px; }
   }
 </style>
 </head>
@@ -547,11 +605,11 @@
       <div class="project-art"></div>
       <h3>PES University</h3>
     </a>
-    <a class="project-card" href="jumbofarms.html" style="--bg:#c1272d;--art:url('assets/jumbofarms/posm-nameboard.jpg')" aria-label="View the Jumbofarms Mustard Oil POSM case study">
+    <a class="project-card" href="jumbofarms.html" style="--bg:#c1272d;--art:url('assets/jumbofarms/posm-poster.jpg')" aria-label="View the Jumbofarms Mustard Oil POSM case study">
       <div class="project-art"></div>
       <h3>Jumbofarms</h3>
     </a>
-    <a class="project-card" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-01.jpg')" aria-label="View the Forum by Rego case study">
+    <a class="project-card" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-10.jpg')" aria-label="View the Forum by Rego case study">
       <div class="project-art"></div>
       <h3>Forum by Rego</h3>
     </a>
@@ -559,7 +617,7 @@
       <div class="project-art"></div>
       <h3>Socials</h3>
     </a>
-    <a class="project-card" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-01.jpg')" aria-label="View the Tetrad Beverages case study">
+    <a class="project-card" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-03.jpg')" aria-label="View the Tetrad Beverages case study">
       <div class="project-art"></div>
       <h3>Tetrad Beverages</h3>
     </a>
@@ -567,15 +625,15 @@
       <div class="project-art"></div>
       <h3>Jodhpur Khana</h3>
     </a>
-    <a class="project-card" href="bell-home-security.html" style="--bg:#0f3a40;--art:url('assets/bell-home-security/page-01.jpg')" aria-label="View the Bell Home Security case study">
+    <a class="project-card" href="bell-home-security.html" style="--bg:#0f3a40;--art:url('assets/bell-home-security/page-03.jpg')" aria-label="View the Bell Home Security case study">
       <div class="project-art"></div>
       <h3>Bell Home Security</h3>
     </a>
-    <a class="project-card" href="logofolio.html" style="--bg:#2b2b2b;--art:url('assets/logofolio/page-01.jpg')" aria-label="View the Logofolio case study">
+    <a class="project-card" href="logofolio.html" style="--bg:#2b2b2b;--art:url('assets/logofolio/page-08.jpg')" aria-label="View the Logofolio case study">
       <div class="project-art"></div>
       <h3>Logofolio</h3>
     </a>
-    <a class="project-card" href="meraki.html" style="--bg:#2b2b2b;--art:url('assets/meraki/page-01.jpg')" aria-label="View the Meraki case study">
+    <a class="project-card" href="meraki.html" style="--bg:#2b2b2b;--art:url('assets/meraki/page-04.jpg')" aria-label="View the Meraki case study">
       <div class="project-art"></div>
       <h3>Meraki</h3>
     </a>
@@ -591,11 +649,11 @@
       <div class="project-art"></div>
       <h3>PES University</h3>
     </a>
-    <a class="project-card" href="jumbofarms.html" style="--bg:#c1272d;--art:url('assets/jumbofarms/posm-nameboard.jpg')" aria-hidden="true" tabindex="-1">
+    <a class="project-card" href="jumbofarms.html" style="--bg:#c1272d;--art:url('assets/jumbofarms/posm-poster.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
       <h3>Jumbofarms</h3>
     </a>
-    <a class="project-card" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-01.jpg')" aria-hidden="true" tabindex="-1">
+    <a class="project-card" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-10.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
       <h3>Forum by Rego</h3>
     </a>
@@ -603,7 +661,7 @@
       <div class="project-art"></div>
       <h3>Socials</h3>
     </a>
-    <a class="project-card" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-01.jpg')" aria-hidden="true" tabindex="-1">
+    <a class="project-card" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-03.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
       <h3>Tetrad Beverages</h3>
     </a>
@@ -611,15 +669,15 @@
       <div class="project-art"></div>
       <h3>Jodhpur Khana</h3>
     </a>
-    <a class="project-card" href="bell-home-security.html" style="--bg:#0f3a40;--art:url('assets/bell-home-security/page-01.jpg')" aria-hidden="true" tabindex="-1">
+    <a class="project-card" href="bell-home-security.html" style="--bg:#0f3a40;--art:url('assets/bell-home-security/page-03.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
       <h3>Bell Home Security</h3>
     </a>
-    <a class="project-card" href="logofolio.html" style="--bg:#2b2b2b;--art:url('assets/logofolio/page-01.jpg')" aria-hidden="true" tabindex="-1">
+    <a class="project-card" href="logofolio.html" style="--bg:#2b2b2b;--art:url('assets/logofolio/page-08.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
       <h3>Logofolio</h3>
     </a>
-    <a class="project-card" href="meraki.html" style="--bg:#2b2b2b;--art:url('assets/meraki/page-01.jpg')" aria-hidden="true" tabindex="-1">
+    <a class="project-card" href="meraki.html" style="--bg:#2b2b2b;--art:url('assets/meraki/page-04.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
       <h3>Meraki</h3>
     </a>
@@ -660,6 +718,24 @@
     </article>
   </div>
 </section>
+
+
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <p class="contact-kicker">Open to new work</p>
+  <h2 class="contact-title" id="contact-title">Let&rsquo;s make something worth looking at.</h2>
+  <p class="contact-copy">Branding, packaging, campaigns and product interfaces &mdash; from the first round of research through to what actually ships.</p>
+  <a class="contact-cta" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
+</section>
+
+<footer class="site-footer">
+  <span>Kiran Goutam D &mdash; Bengaluru, IN / 2026</span>
+  <nav class="footer-nav" aria-label="Footer">
+    <a href="#projects-title">Selected work</a>
+    <a href="#services-title">Services</a>
+    <a href="projects.html">All projects</a>
+    <a href="mailto:kirangoutamdhananjayan@gmail.com">Email</a>
+  </nav>
+</footer>
 
 <script>
 (function(){
@@ -956,7 +1032,7 @@
       curPY += (targetPY - curPY) * 0.08;
 
       if (card) card.style.transform = 'translate3d(' + curCardX.toFixed(2) + 'px,' + curCardY.toFixed(2) + 'px,0)';
-      if (portraitImg) portraitImg.style.transform = 'scale(1.12) translate3d(' + curPX.toFixed(2) + 'px,' + curPY.toFixed(2) + 'px,0)';
+      if (portraitImg) portraitImg.style.transform = 'scale(1.05) translate3d(' + curPX.toFixed(2) + 'px,' + curPY.toFixed(2) + 'px,0)';
 
       if (!settled(curCardX, targetCardX) || !settled(curCardY, targetCardY) ||
           !settled(curPX, targetPX) || !settled(curPY, targetPY)) busy = true;
