@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kiran Goutam Dhananjayan — Creative Designer</title>
-<meta name="description" content="Kiran Goutam Dhananjayan — creative designer in Bengaluru working across brand identity, packaging, and product interfaces.">
+<meta name="description" content="Kiran Goutam Dhananjayan — creative designer in Bengaluru, currently at Workfabric AI, working across brand identity, packaging, campaigns and product interfaces.">
 <link rel="canonical" href="https://kirangoutamdhananjayan.com/">
 
 <!-- Social previews. Absolute URLs: most scrapers will not resolve a
@@ -247,8 +247,12 @@
     transform:translateY(28px);
     animation: lineUp .9s cubic-bezier(.16,.8,.24,1) forwards;
   }
-  .nameblock .line:first-child{ padding-left:clamp(16px,3vw,48px); animation-delay:.32s; }
-  .nameblock .line:last-child{ padding-left:clamp(16px,3vw,48px); animation-delay:.46s; }
+  /* The padding belongs on every line. It used to hang off :first-child,
+     which the role-tag occupies, so the first name line was never indented
+     and got clipped against the left edge. */
+  .nameblock .line{ padding-left:clamp(16px,3vw,48px); }
+  .nameblock .line:nth-of-type(1){ animation-delay:.32s; }
+  .nameblock .line:nth-of-type(2){ animation-delay:.46s; }
 
   .txt{ position:relative; display:inline-block; }
   .txt::before{
@@ -581,10 +585,10 @@
 
   <div class="card" id="card">
     <h2>Hey, I'm Kiran</h2>
-    <p>I design <strong>digital experiences</strong> — as a <strong>Creative Designer</strong>, I shape brand identity, packaging, and product interfaces across static and motion work.</p>
+    <p>I design <strong>digital experiences</strong> — currently at <strong>Workfabric AI</strong> in Bengaluru, shaping brand identity, packaging and product interfaces across static and motion work.</p>
     <div class="meta">
       <span>BASED — BLR, IN</span>
-      <span>EST. 2026</span>
+      <span>WORKFABRIC AI</span>
     </div>
   </div>
 

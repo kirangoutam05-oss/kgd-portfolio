@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Font lab — landing page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;900&family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500&family=Geist:wght@400;500;600;900&family=Geist+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,900&family=Instrument+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#131316;--dim:#63636a;--line:rgba(19,19,22,.12);--accent:#a8762a;--paper:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f6f5f2;color:var(--ink);font-family:Inter,Arial,sans-serif;padding:40px clamp(16px,3vw,48px) 80px}
+.lab-head{max-width:1200px;margin:0 auto 34px}
+.lab-head h1{font:600 22px/1.2 Inter,sans-serif;letter-spacing:-.02em}
+.lab-head p{margin-top:8px;color:var(--dim);font-size:14px;max-width:70ch;line-height:1.55}
+
+.spec{max-width:1200px;margin:0 auto 20px;background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.spec-bar{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--line);background:#fafaf8}
+.spec-no{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.12em;color:var(--accent)}
+.spec-name{font:600 15px Inter,sans-serif;letter-spacing:-.01em}
+.spec-note{font:400 12.5px Inter,sans-serif;color:var(--dim)}
+.spec-body{padding:26px 22px 30px}
+
+/* the actual landing-page elements, re-rendered per candidate */
+.role{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+.name{font-weight:500;text-transform:uppercase;line-height:.86;letter-spacing:-.01em;white-space:nowrap;font-size:clamp(34px,7.4vw,96px)}
+.sub{display:flex;gap:34px;flex-wrap:wrap;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.card-demo{max-width:330px}
+.card-demo h2{font-size:21px;font-weight:700;letter-spacing:-.01em;margin-bottom:11px}
+.card-demo p{font-size:13.5px;line-height:1.6;color:var(--dim)}
+.card-demo .meta{display:flex;justify-content:space-between;gap:14px;margin-top:14px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.heads{flex:1;min-width:260px}
+.heads .h{font-weight:700;letter-spacing:-.045em;font-size:34px;line-height:1}
+.heads .tag{margin-top:14px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.heads .cta{margin-top:14px;font-size:13px;color:var(--ink);border-bottom:1px solid;display:inline-block;padding-bottom:3px}
+
+/* ---- candidates ---- */
+.f-current .name,.f-current .heads .h{font-family:Archivo,sans-serif;font-weight:900}
+.f-current .card-demo h2{font-family:'Space Grotesk',sans-serif}
+.f-current .card-demo p,.f-current .heads .cta{font-family:Inter,sans-serif}
+.f-current .role,.f-current .meta,.f-current .tag{font-family:'JetBrains Mono',monospace}
+
+.f-inter .name,.f-inter .heads .h,.f-inter .card-demo h2{font-family:Inter,sans-serif;font-weight:900}
+.f-inter .card-demo p,.f-inter .heads .cta{font-family:Inter,sans-serif}
+.f-inter .role,.f-inter .meta,.f-inter .tag{font-family:Inter,sans-serif;font-weight:500}
+
+.f-geist .name,.f-geist .heads .h,.f-geist .card-demo h2{font-family:Geist,sans-serif;font-weight:900}
+.f-geist .card-demo p,.f-geist .heads .cta{font-family:Geist,sans-serif}
+.f-geist .role,.f-geist .meta,.f-geist .tag{font-family:'Geist Mono',monospace}
+
+.f-dm .name,.f-dm .heads .h,.f-dm .card-demo h2{font-family:'DM Sans',sans-serif;font-weight:900}
+.f-dm .card-demo p,.f-dm .heads .cta{font-family:'DM Sans',sans-serif}
+.f-dm .role,.f-dm .meta,.f-dm .tag{font-family:'DM Sans',sans-serif;font-weight:500}
+
+.f-instr .name,.f-instr .heads .h,.f-instr .card-demo h2{font-family:'Instrument Sans',sans-serif;font-weight:700}
+.f-instr .card-demo p,.f-instr .heads .cta{font-family:'Instrument Sans',sans-serif}
+.f-instr .role,.f-instr .meta,.f-instr .tag{font-family:'Instrument Sans',sans-serif;font-weight:600}
+
+.f-manrope .name,.f-manrope .heads .h,.f-manrope .card-demo h2{font-family:Manrope,sans-serif;font-weight:800}
+.f-manrope .card-demo p,.f-manrope .heads .cta{font-family:Manrope,sans-serif}
+.f-manrope .role,.f-manrope .meta,.f-manrope .tag{font-family:Manrope,sans-serif;font-weight:600}
+</style>
+</head>
+<body>
+<div class="lab-head">
+  <h1>Font lab — the landing page, six ways</h1>
+  <p>Each block is the real hero: the role tag, the name at display size, the floating-card copy, and the “Featured Projects” heading with its label and link. Same sizes and spacing throughout, so the only variable is the typeface.</p>
+</div>
+
+<section class="spec f-current">
+  <div class="spec-bar"><span class="spec-no">01</span><span class="spec-name">Archivo + Space Grotesk + Inter + JetBrains Mono</span><span class="spec-note">What is on the site now — four families doing four jobs.</span></div>
+  <div class="spec-body">
+    <div class="role">Creative Designer</div>
+    <div class="name">Kiran<br>Dhananjayan</div>
+    <div class="sub">
+      <div class="card-demo"><h2>Hey, I&rsquo;m Kiran</h2><p>I design digital experiences — currently at Workfabric AI in Bengaluru, shaping brand identity, packaging and product interfaces.</p><div class="meta"><span>Based — BLR, IN</span><span>Workfabric AI</span></div></div>
+      <div class="heads"><div class="h">Featured Projects</div><div class="tag">Branding &amp; communication</div><div class="cta">View projects ↗</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="spec f-inter">
+  <div class="spec-bar"><span class="spec-no">02</span><span class="spec-name">Inter, alone</span><span class="spec-note">One family, weights 400–900. The most minimal option there is — neutral, and everywhere.</span></div>
+  <div class="spec-body">
+    <div class="role">Creative Designer</div>
+    <div class="name">Kiran<br>Dhananjayan</div>
+    <div class="sub">
+      <div class="card-demo"><h2>Hey, I&rsquo;m Kiran</h2><p>I design digital experiences — currently at Workfabric AI in Bengaluru, shaping brand identity, packaging and product interfaces.</p><div class="meta"><span>Based — BLR, IN</span><span>Workfabric AI</span></div></div>
+      <div class="heads"><div class="h">Featured Projects</div><div class="tag">Branding &amp; communication</div><div class="cta">View projects ↗</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="spec f-geist">
+  <div class="spec-bar"><span class="spec-no">03</span><span class="spec-name">Geist + Geist Mono</span><span class="spec-note">One family with a matching mono for the labels. Quiet, contemporary, slightly warmer than Inter.</span></div>
+  <div class="spec-body">
+    <div class="role">Creative Designer</div>
+    <div class="name">Kiran<br>Dhananjayan</div>
+    <div class="sub">
+      <div class="card-demo"><h2>Hey, I&rsquo;m Kiran</h2><p>I design digital experiences — currently at Workfabric AI in Bengaluru, shaping brand identity, packaging and product interfaces.</p><div class="meta"><span>Based — BLR, IN</span><span>Workfabric AI</span></div></div>
+      <div class="heads"><div class="h">Featured Projects</div><div class="tag">Branding &amp; communication</div><div class="cta">View projects ↗</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="spec f-dm">
+  <div class="spec-bar"><span class="spec-no">04</span><span class="spec-name">DM Sans, alone</span><span class="spec-note">Geometric and low-contrast. Softer and rounder than Inter — reads friendly rather than technical.</span></div>
+  <div class="spec-body">
+    <div class="role">Creative Designer</div>
+    <div class="name">Kiran<br>Dhananjayan</div>
+    <div class="sub">
+      <div class="card-demo"><h2>Hey, I&rsquo;m Kiran</h2><p>I design digital experiences — currently at Workfabric AI in Bengaluru, shaping brand identity, packaging and product interfaces.</p><div class="meta"><span>Based — BLR, IN</span><span>Workfabric AI</span></div></div>
+      <div class="heads"><div class="h">Featured Projects</div><div class="tag">Branding &amp; communication</div><div class="cta">View projects ↗</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="spec f-instr">
+  <div class="spec-bar"><span class="spec-no">05</span><span class="spec-name">Instrument Sans, alone</span><span class="spec-note">A touch of character in the letterforms without becoming a display face. Tops out at 700.</span></div>
+  <div class="spec-body">
+    <div class="role">Creative Designer</div>
+    <div class="name">Kiran<br>Dhananjayan</div>
+    <div class="sub">
+      <div class="card-demo"><h2>Hey, I&rsquo;m Kiran</h2><p>I design digital experiences — currently at Workfabric AI in Bengaluru, shaping brand identity, packaging and product interfaces.</p><div class="meta"><span>Based — BLR, IN</span><span>Workfabric AI</span></div></div>
+      <div class="heads"><div class="h">Featured Projects</div><div class="tag">Branding &amp; communication</div><div class="cta">View projects ↗</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="spec f-manrope">
+  <div class="spec-bar"><span class="spec-no">06</span><span class="spec-name">Manrope, alone</span><span class="spec-note">Semi-geometric, open counters, generous spacing. The calmest of the six at large sizes.</span></div>
+  <div class="spec-body">
+    <div class="role">Creative Designer</div>
+    <div class="name">Kiran<br>Dhananjayan</div>
+    <div class="sub">
+      <div class="card-demo"><h2>Hey, I&rsquo;m Kiran</h2><p>I design digital experiences — currently at Workfabric AI in Bengaluru, shaping brand identity, packaging and product interfaces.</p><div class="meta"><span>Based — BLR, IN</span><span>Workfabric AI</span></div></div>
+      <div class="heads"><div class="h">Featured Projects</div><div class="tag">Branding &amp; communication</div><div class="cta">View projects ↗</div></div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
