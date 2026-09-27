@@ -23,7 +23,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Archivo:wght@500;600;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#ffffff;
@@ -38,7 +38,7 @@
   body{
     background:var(--paper);
     color:var(--ink);
-    font-family:'Inter', sans-serif;
+    font-family:'Geist', sans-serif;
     overflow-x:hidden;
   }
 
@@ -68,7 +68,7 @@
     animation-delay:.15s;
   }
   a.mark, .topbar a.mark{
-    font-family:'JetBrains Mono', monospace;
+    font-family:'Geist Mono', monospace;
     font-size:13px;
     letter-spacing:0.06em;
     color:var(--ink);
@@ -138,7 +138,7 @@
     padding:9px 12px;
     border-radius:5px;
     color:var(--ink);
-    font:500 14px 'Inter', sans-serif;
+    font:500 14px 'Geist', sans-serif;
     letter-spacing:-.02em;
     text-decoration:none;
     transition:background .2s ease, color .2s ease;
@@ -198,7 +198,7 @@
   }
   .card.is-following{ left:0; top:0; }
   .card h2{
-    font-family:'Space Grotesk', sans-serif;
+    font-family:'Geist', sans-serif;
     font-weight:700;
     font-size:21px;
     margin-bottom:14px;
@@ -219,7 +219,7 @@
     margin-top:18px;
     padding-top:14px;
     border-top:1px solid var(--line);
-    font-family:'JetBrains Mono', monospace;
+    font-family:'Geist Mono', monospace;
     font-size:10.5px;
     letter-spacing:0.06em;
     color:var(--ink-dim);
@@ -235,7 +235,7 @@
     pointer-events:none;
   }
   .nameblock .line{
-    font-family:'Archivo', sans-serif;
+    font-family:'Geist', sans-serif;
     font-weight:500;
     text-transform:uppercase;
     color:var(--ink);
@@ -260,16 +260,24 @@
     position:absolute; left:0; top:0;
     white-space:nowrap;
     pointer-events:none;
-    filter:url(#chromaticSplit);
-    -webkit-mask-image: radial-gradient(160px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 45%, transparent 80%);
-    mask-image: radial-gradient(160px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 45%, transparent 80%);
+    /* The gradient is painted through the glyphs, then the whole layer is
+       masked to a soft circle that follows the cursor — so the colour only
+       exists where the pointer is. */
+    background-image:linear-gradient(96deg,
+      #a8762a 0%, #e06a34 26%, #d63f7c 54%, #7b45e8 78%, #2f8fd8 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    -webkit-text-fill-color:transparent;
+    -webkit-mask-image: radial-gradient(190px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 42%, transparent 78%);
+    mask-image: radial-gradient(190px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 42%, transparent 78%);
   }
 
   .role-tag{
     position:absolute;
     left:clamp(16px,3vw,48px);
     bottom:calc(100% + 4px);
-    font-family:'JetBrains Mono', monospace;
+    font-family:'Geist Mono', monospace;
     font-size:11.5px;
     letter-spacing:0.16em;
     color:var(--ink-dim);
@@ -300,7 +308,7 @@
     padding:0 var(--projects-margin) clamp(8px, 1.2vw, 14px);
   }
   .projects h2{
-    font-family:'Inter', sans-serif;
+    font-family:'Geist', sans-serif;
     font-weight:500;
     font-size:clamp(20px, 1.85vw, 28px);
     letter-spacing:-.055em;
@@ -316,7 +324,7 @@
     border-bottom:1px solid currentColor;
     color:var(--ink);
     background:transparent;
-    font:600 14px 'Inter', sans-serif;
+    font:600 14px 'Geist', sans-serif;
     text-decoration:none;
     transition:color .25s ease, gap .25s ease;
   }
@@ -337,7 +345,7 @@
     border-bottom:1px solid currentColor;
     background:transparent;
     color:var(--ink-dim);
-    font:600 14px 'Inter', sans-serif;
+    font:600 14px 'Geist', sans-serif;
     cursor:pointer;
     transition:color .25s ease;
   }
@@ -376,7 +384,7 @@
   }
   .project-card h3{
     position:absolute; left:25px; bottom:22px; z-index:2;
-    color:#fff; font:700 clamp(26px, 2.4vw, 38px)/.9 'Space Grotesk', sans-serif;
+    color:#fff; font:700 clamp(26px, 2.4vw, 38px)/.9 'Geist', sans-serif;
     letter-spacing:-.055em;
   }
   .project-art{ position:absolute; inset:0; transition:transform .6s cubic-bezier(.2,.7,.2,1); }
@@ -402,14 +410,14 @@
   }
   .services-kicker{
     color:#18181b;
-    font:500 clamp(20px, 1.85vw, 28px)/1 'Inter', sans-serif;
+    font:500 clamp(20px, 1.85vw, 28px)/1 'Geist', sans-serif;
     letter-spacing:-.055em;
   }
   .services-title{
     max-width:760px;
     margin:0;
     color:#18181b;
-    font:500 clamp(31px, 3.35vw, 52px)/1.08 'Inter', sans-serif;
+    font:500 clamp(31px, 3.35vw, 52px)/1.08 'Geist', sans-serif;
     letter-spacing:-.065em;
   }
   /* Default to the final colour so the copy is readable with no JS; the script
@@ -428,13 +436,13 @@
     flex-direction:column;
   }
   .service-card.is-featured{ background:#6d27ed; color:#fff; border-color:#6d27ed; }
-  .service-card-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:3px 3px 14px; font:500 17px 'Inter', sans-serif; letter-spacing:-.05em; }
+  .service-card-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:3px 3px 14px; font:500 17px 'Geist', sans-serif; letter-spacing:-.05em; }
   .service-icon{ display:grid; place-items:center; width:29px; height:29px; border-radius:9px; background:#f0edff; color:#6d27ed; font-size:15px; }
   .service-card:not(.is-featured) .service-icon{ background:#e9fff1; color:#16a360; }
   .service-card:first-child .service-icon{ background:#fff8d8; color:#d29e00; }
   .service-body{ flex:1; display:flex; flex-direction:column; justify-content:space-between; gap:22px; padding:21px 12px 10px; border-radius:13px; background:#fff; color:#767780; }
   .is-featured .service-body{ background:rgba(255,255,255,.1); color:rgba(255,255,255,.86); }
-  .service-body p{ font:400 15px/1.38 'Inter', sans-serif; letter-spacing:-.04em; }
+  .service-body p{ font:400 15px/1.38 'Geist', sans-serif; letter-spacing:-.04em; }
   .service-swatches{ display:grid; grid-template-columns:repeat(3, 1fr); gap:7px; }
   .service-swatches span{ display:block; aspect-ratio:1.15; border-radius:9px; background:linear-gradient(145deg,#cfd3d4,#49505a); }
   .service-swatches span:nth-child(2){ background:repeating-linear-gradient(135deg,#f5f5f3 0 6px,#202124 6px 11px); }
@@ -482,7 +490,7 @@
     padding:clamp(74px, 10vw, 136px) max(24px, calc((100vw - 1160px)/2));
   }
   .contact-kicker{
-    font:500 11px 'JetBrains Mono', monospace;
+    font:500 11px 'Geist Mono', monospace;
     letter-spacing:.14em; text-transform:uppercase;
     color:#c8ab7c; margin-bottom:20px;
     display:flex; align-items:center; gap:9px;
@@ -492,7 +500,7 @@
     background:#7fc08a; flex:0 0 auto;
   }
   .contact-title{
-    font:900 clamp(38px, 6.4vw, 92px)/.88 Archivo, sans-serif;
+    font:900 clamp(38px, 6.4vw, 92px)/.88 'Geist', sans-serif;
     letter-spacing:-.07em; text-transform:uppercase; max-width:14ch;
   }
   .contact-copy{
@@ -501,7 +509,7 @@
   }
   .contact-cta{
     display:inline-block; margin-top:34px;
-    font:500 clamp(15px,1.8vw,19px) 'JetBrains Mono', monospace;
+    font:500 clamp(15px,1.8vw,19px) 'Geist Mono', monospace;
     letter-spacing:-.01em; color:var(--paper); text-decoration:none;
     border-bottom:1px solid rgba(255,255,255,.4); padding-bottom:7px;
     transition:color .22s ease, border-color .22s ease;
@@ -511,7 +519,7 @@
 
   .contact-links{ display:flex; flex-wrap:wrap; gap:26px; list-style:none; margin:30px 0 0; padding:0; }
   .contact-links a{
-    font:500 11px 'JetBrains Mono', monospace; letter-spacing:.12em; text-transform:uppercase;
+    font:500 11px 'Geist Mono', monospace; letter-spacing:.12em; text-transform:uppercase;
     color:rgba(255,255,255,.72); text-decoration:none;
     border-bottom:1px solid rgba(255,255,255,.28); padding-bottom:5px;
     transition:color .2s ease, border-color .2s ease;
@@ -525,7 +533,7 @@
     gap:20px; flex-wrap:wrap;
     padding:30px max(24px, calc((100vw - 1160px)/2)) 42px;
     border-top:1px solid var(--line);
-    font:500 11px 'JetBrains Mono', monospace;
+    font:500 11px 'Geist Mono', monospace;
     letter-spacing:.09em; color:var(--ink-dim);
   }
   .footer-nav{ display:flex; gap:22px; flex-wrap:wrap; }
@@ -543,29 +551,10 @@
 </head>
 <body>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <filter id="chromaticSplit" x="-40%" y="-60%" width="180%" height="220%" color-interpolation-filters="sRGB">
-      <feColorMatrix in="SourceGraphic" type="matrix"
-        values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="redCh"/>
-      <feOffset in="redCh" dx="-5" dy="-2" result="redOff"/>
-
-      <feColorMatrix in="SourceGraphic" type="matrix"
-        values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="greenCh"/>
-
-      <feColorMatrix in="SourceGraphic" type="matrix"
-        values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blueCh"/>
-      <feOffset in="blueCh" dx="5" dy="2" result="blueOff"/>
-
-      <feBlend in="redOff" in2="greenCh" mode="screen" result="rg"/>
-      <feBlend in="rg" in2="blueOff" mode="screen"/>
-    </filter>
-  </defs>
-</svg>
 
 <section class="hero" id="hero">
   <div class="topbar">
-    <a class="mark" href="index.html" aria-current="page" aria-label="Kiran Goutam D â home">Kiran Goutam D</a>
+    <a class="mark" href="index.html" aria-current="page" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a>
     <nav class="menu-wrap" aria-label="Main">
       <button type="button" class="burger" id="menu-toggle"
               aria-label="Open menu" aria-expanded="false" aria-controls="menu-panel" hidden>
