@@ -19,7 +19,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,s
 .wrap{width:min(100% - 40px,1100px);margin:auto}
 .top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 .mark,.eyebrow,.label,.meta{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
-.mark:before{content:'';display:inline-block;width:7px;height:7px;margin-right:8px;border-radius:50%;background:var(--accent)}
+a.mark,.top a.mark,.topbar a.mark{display:inline-flex;align-items:center;gap:9px;text-decoration:none;border-bottom:0;padding-bottom:0;color:inherit;text-transform:none;letter-spacing:.06em;transition:color .2s ease}a.mark:hover{color:var(--accent)}a.mark:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.mark:before{content:'';display:inline-block;width:14px;height:14px;flex:0 0 auto;background:var(--accent);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3 2 12h3v9h5v-6h4v6h5v-9h3z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3 2 12h3v9h5v-6h4v6h5v-9h3z'/%3E%3C/svg%3E") center/contain no-repeat}
 .back{font-size:13px;text-decoration:none;border-bottom:1px solid;padding-bottom:4px;color:inherit}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .hero{background:var(--deep);color:#eeeef6;padding:clamp(56px,9vw,110px) 0 46px}
@@ -70,7 +70,7 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 <body>
 <div class="progress" id="progress"></div>
 <header class="wrap top">
-  <span class="mark">kgd.</span>
+  <a class="mark" href="index.html" aria-label="Kiran Goutam D â home">Kiran Goutam D</a>
   <a class="back" href="portfolio.html#projects-title">&larr; Back to selected work</a>
 </header>
 
@@ -154,7 +154,7 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 </main>
 
 <footer class="wrap footer">
-  <span>KGD. / ARenaissance</span>
+  <span>Kiran Goutam D / ARenaissance</span>
   <a href="portfolio.html">Return to selected work &rarr;</a>
 </footer>
 

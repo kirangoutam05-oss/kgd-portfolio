@@ -64,21 +64,28 @@
     animation: fadeDown .7s ease forwards;
     animation-delay:.15s;
   }
-  .mark{
+  a.mark, .topbar a.mark{
     font-family:'JetBrains Mono', monospace;
     font-size:13px;
-    letter-spacing:0.14em;
+    letter-spacing:0.06em;
     color:var(--ink);
-    display:flex;
+    display:inline-flex;
     align-items:center;
-    gap:8px;
+    gap:9px;
+    text-decoration:none;
+    border-bottom:0;
+    transition:color .2s ease;
   }
+  a.mark:hover{ color:var(--accent); }
+  a.mark:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
   .mark::before{
     content:"";
-    width:6px; height:6px;
+    width:14px; height:14px;
+    flex:0 0 auto;
     background:var(--accent);
     display:inline-block;
-    border-radius:50%;
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3 2 12h3v9h5v-6h4v6h5v-9h3z'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3 2 12h3v9h5v-6h4v6h5v-9h3z'/%3E%3C/svg%3E") center/contain no-repeat;
   }
   .menu-wrap{ position:relative; }
   .burger{
@@ -367,13 +374,11 @@
   .project-art{ position:absolute; inset:0; transition:transform .6s cubic-bezier(.2,.7,.2,1); }
   .project-card:hover .project-art{ transform:scale(1.06); }
   .project-card:focus-visible{ outline:3px solid var(--accent); outline-offset:3px; }
-  /* Card art is the real work now, so the CSS-drawn packs are gone. */
-  .project-card.trippy{display:block; color:inherit; text-decoration:none; background:#0c2b33;}
-  .trippy .project-art{background:#0c2b33 url('assets/trippy-goat/case-01.jpg') center/cover no-repeat;}
-  .project-card.pes{display:block; color:inherit; text-decoration:none; background:#1b2f6b;}
-  .pes .project-art{background:#1b2f6b url('assets/pes-university/page-01.jpg') center/cover no-repeat;}
-  .project-card.jumbofarms{display:block; color:inherit; text-decoration:none; background:#c1272d;}
-  .jumbofarms .project-art{background:#c1272d url('assets/jumbofarms/posm-nameboard.jpg') center/cover no-repeat;}
+  /* Card art is the real work now, so the CSS-drawn packs are gone. Each card
+     carries its own brand colour and artwork as custom properties, so adding
+     a project is a markup change only. */
+  .project-card{display:block; color:inherit; text-decoration:none; background:var(--bg,#0c2b33);}
+  .project-art{background:var(--bg,#0c2b33) var(--art) center/cover no-repeat;}
   /* ---------- services ---------- */
   .services{
     --services-margin:max(24px, calc((100vw - 1160px)/2));
@@ -488,16 +493,16 @@
 
 <section class="hero" id="hero">
   <div class="topbar">
-    <div class="mark">kgd.</div>
+    <a class="mark" href="index.html" aria-label="Kiran Goutam D â home">Kiran Goutam D</a>
     <nav class="menu-wrap" aria-label="Main">
       <button type="button" class="burger" id="menu-toggle"
               aria-label="Open menu" aria-expanded="false" aria-controls="menu-panel" hidden>
         <span></span>
       </button>
       <div class="menu-panel" id="menu-panel" hidden>
-        <a href="index.html">Home</a>
+        <a href="#projects-title">Selected work</a>
+        <a href="#services-title">Services</a>
         <a href="projects.html">All projects</a>
-        <a href="jumbofarms.html">Jumbofarms</a>
       </div>
     </nav>
   </div>
@@ -534,29 +539,93 @@
   </div>
   <div class="project-window">
     <div class="project-rail" id="project-rail">
-    <a class="project-card trippy" href="trippy-goat.html" aria-label="View the Trippy Goat and The Mixer case study">
+    <a class="project-card" href="trippy-goat.html" style="--bg:#0c2b33;--art:url('assets/trippy-goat/case-01.jpg')" aria-label="View the Trippy Goat and The Mixer case study">
       <div class="project-art"></div>
       <h3>Trippy Goat</h3>
     </a>
-    <a class="project-card pes" href="pes-university.html" aria-label="View the PES University BBA Sports Management case study">
+    <a class="project-card" href="pes-university.html" style="--bg:#1b2f6b;--art:url('assets/pes-university/page-01.jpg')" aria-label="View the PES University BBA Sports Management case study">
       <div class="project-art"></div>
       <h3>PES University</h3>
     </a>
-    <a class="project-card jumbofarms" href="jumbofarms.html" aria-label="View the Jumbofarms Mustard Oil POSM case study">
+    <a class="project-card" href="jumbofarms.html" style="--bg:#c1272d;--art:url('assets/jumbofarms/posm-nameboard.jpg')" aria-label="View the Jumbofarms Mustard Oil POSM case study">
       <div class="project-art"></div>
       <h3>Jumbofarms</h3>
     </a>
-    <a class="project-card trippy" href="trippy-goat.html" aria-hidden="true" tabindex="-1">
+    <a class="project-card" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-01.jpg')" aria-label="View the Forum by Rego case study">
+      <div class="project-art"></div>
+      <h3>Forum by Rego</h3>
+    </a>
+    <a class="project-card" href="socials.html" style="--bg:#6d3aa8;--art:url('assets/socials/page-01.jpg')" aria-label="View the social media design case study">
+      <div class="project-art"></div>
+      <h3>Socials</h3>
+    </a>
+    <a class="project-card" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-01.jpg')" aria-label="View the Tetrad Beverages case study">
+      <div class="project-art"></div>
+      <h3>Tetrad Beverages</h3>
+    </a>
+    <a class="project-card" href="jodhpur-khana.html" style="--bg:#17181c;--art:url('assets/jodhpur-khana/page-01.jpg')" aria-label="View the Jodhpur Khana case study">
+      <div class="project-art"></div>
+      <h3>Jodhpur Khana</h3>
+    </a>
+    <a class="project-card" href="bell-home-security.html" style="--bg:#0f3a40;--art:url('assets/bell-home-security/page-01.jpg')" aria-label="View the Bell Home Security case study">
+      <div class="project-art"></div>
+      <h3>Bell Home Security</h3>
+    </a>
+    <a class="project-card" href="logofolio.html" style="--bg:#2b2b2b;--art:url('assets/logofolio/page-01.jpg')" aria-label="View the Logofolio case study">
+      <div class="project-art"></div>
+      <h3>Logofolio</h3>
+    </a>
+    <a class="project-card" href="meraki.html" style="--bg:#2b2b2b;--art:url('assets/meraki/page-01.jpg')" aria-label="View the Meraki case study">
+      <div class="project-art"></div>
+      <h3>Meraki</h3>
+    </a>
+    <a class="project-card" href="levon.html" style="--bg:#365567;--art:url('assets/levon/page-01.jpg')" aria-label="View the Levon case study">
+      <div class="project-art"></div>
+      <h3>Levon</h3>
+    </a>
+    <a class="project-card" href="trippy-goat.html" style="--bg:#0c2b33;--art:url('assets/trippy-goat/case-01.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
       <h3>Trippy Goat</h3>
     </a>
-    <a class="project-card pes" href="pes-university.html" aria-hidden="true" tabindex="-1">
+    <a class="project-card" href="pes-university.html" style="--bg:#1b2f6b;--art:url('assets/pes-university/page-01.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
       <h3>PES University</h3>
     </a>
-    <a class="project-card jumbofarms" href="jumbofarms.html" aria-hidden="true" tabindex="-1">
+    <a class="project-card" href="jumbofarms.html" style="--bg:#c1272d;--art:url('assets/jumbofarms/posm-nameboard.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
       <h3>Jumbofarms</h3>
+    </a>
+    <a class="project-card" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-01.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-art"></div>
+      <h3>Forum by Rego</h3>
+    </a>
+    <a class="project-card" href="socials.html" style="--bg:#6d3aa8;--art:url('assets/socials/page-01.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-art"></div>
+      <h3>Socials</h3>
+    </a>
+    <a class="project-card" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-01.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-art"></div>
+      <h3>Tetrad Beverages</h3>
+    </a>
+    <a class="project-card" href="jodhpur-khana.html" style="--bg:#17181c;--art:url('assets/jodhpur-khana/page-01.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-art"></div>
+      <h3>Jodhpur Khana</h3>
+    </a>
+    <a class="project-card" href="bell-home-security.html" style="--bg:#0f3a40;--art:url('assets/bell-home-security/page-01.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-art"></div>
+      <h3>Bell Home Security</h3>
+    </a>
+    <a class="project-card" href="logofolio.html" style="--bg:#2b2b2b;--art:url('assets/logofolio/page-01.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-art"></div>
+      <h3>Logofolio</h3>
+    </a>
+    <a class="project-card" href="meraki.html" style="--bg:#2b2b2b;--art:url('assets/meraki/page-01.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-art"></div>
+      <h3>Meraki</h3>
+    </a>
+    <a class="project-card" href="levon.html" style="--bg:#365567;--art:url('assets/levon/page-01.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-art"></div>
+      <h3>Levon</h3>
     </a>
     </div>
   </div>
