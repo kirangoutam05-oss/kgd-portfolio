@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+(function(){
+  try{
+    var saved = localStorage.getItem('kgd-theme');
+    var t = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', t);
+  }catch(e){
+    document.documentElement.setAttribute('data-theme','light');
+  }
+})();
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kiran Goutam Dhananjayan — Creative Designer</title>
@@ -127,7 +139,7 @@
     right:0;
     min-width:190px;
     padding:8px;
-    background:rgba(255,255,255,0.94);
+    background:var(--glass);
     backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);
     border:1px solid var(--line);
@@ -186,7 +198,7 @@
     width:calc(var(--figure-w) * 0.68);
     min-width:262px;
     max-width:82vw;
-    background:rgba(255,255,255,0.86);
+    background:var(--glass-card);
     backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);
     border:1px solid var(--line);
@@ -299,7 +311,7 @@
   /* ---------- projects ---------- */
   .projects{
     --projects-margin:max(24px, calc((100vw - 1160px)/2));
-    background:#fff;
+    background:var(--surface);
     border-top:1px solid var(--line);
     overflow:hidden;
     padding:clamp(56px, 9vw, 116px) 0 clamp(68px, 9vw, 112px);
@@ -403,7 +415,7 @@
   .services{
     --services-margin:max(24px, calc((100vw - 1160px)/2));
     padding:clamp(90px, 11vw, 156px) var(--services-margin);
-    background:#fff;
+    background:var(--surface);
   }
   .services-intro{
     display:grid;
@@ -433,9 +445,9 @@
   .service-card{
     min-height:340px;
     padding:14px;
-    border:1px solid #ececef;
+    border:1px solid var(--hairline);
     border-radius:18px;
-    background:#fbfbfb;
+    background:var(--surface-2);
     display:flex;
     flex-direction:column;
   }
@@ -444,7 +456,7 @@
   .service-icon{ display:grid; place-items:center; width:29px; height:29px; border-radius:9px; background:#f0edff; color:#6d27ed; font-size:15px; }
   .service-card:not(.is-featured) .service-icon{ background:#e9fff1; color:#16a360; }
   .service-card:first-child .service-icon{ background:#fff8d8; color:#d29e00; }
-  .service-body{ flex:1; display:flex; flex-direction:column; justify-content:space-between; gap:22px; padding:21px 12px 10px; border-radius:13px; background:#fff; color:#767780; }
+  .service-body{ flex:1; display:flex; flex-direction:column; justify-content:space-between; gap:22px; padding:21px 12px 10px; border-radius:13px; background:var(--surface); color:var(--ink-dim); }
   .is-featured .service-body{ background:rgba(255,255,255,.1); color:rgba(255,255,255,.86); }
   .service-body p{ font:400 15px/1.38 'Geist', sans-serif; letter-spacing:-.04em; }
   .service-swatches{ display:grid; grid-template-columns:repeat(3, 1fr); gap:7px; }
@@ -482,49 +494,95 @@
     .rail-toggle{ display:none !important; }
     .reveal-word{ color:#18181b !important; transition:none !important; }
   }
-  /* ---------- contact ---------- */
-  .contact{
-    background:var(--ink);
-    color:var(--paper);
-    padding:clamp(74px, 10vw, 136px) max(24px, calc((100vw - 1160px)/2));
+  /* ---------- stacked selected work ----------
+     Each project is a tinted panel with the artwork inset, then a row
+     carrying the name, the discipline and the link. One per row. */
+  .stack{
+    --stack-margin:max(24px, calc((100vw - 1160px)/2));
+    padding:clamp(70px, 9vw, 120px) var(--stack-margin) clamp(60px, 7vw, 104px);
+    background:var(--paper);
+    border-top:1px solid var(--line);
   }
-  .contact-kicker{
-    font:500 11px 'Geist Mono', monospace;
-    letter-spacing:.14em; text-transform:uppercase;
-    color:#c8ab7c; margin-bottom:20px;
-    display:flex; align-items:center; gap:9px;
+  .stack-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:20px; flex-wrap:wrap; margin-bottom:clamp(26px, 3.2vw, 44px);
   }
-  .contact-kicker:before{
-    content:''; width:7px; height:7px; border-radius:50%;
-    background:#7fc08a; flex:0 0 auto;
+  .stack-title{
+    font-family:'Geist', sans-serif; font-weight:400;
+    font-size:clamp(20px, 1.85vw, 28px); letter-spacing:-.055em; line-height:1;
   }
-  .contact-title{
-    font:900 clamp(38px, 6.4vw, 92px)/.88 'Geist', sans-serif;
-    letter-spacing:-.07em; text-transform:uppercase; max-width:14ch;
+  .stack-all{
+    font-size:14px; color:var(--ink); text-decoration:none;
+    border-bottom:1px solid; padding-bottom:4px;
   }
-  .contact-copy{
-    margin:24px 0 0; max-width:540px;
-    color:rgba(255,255,255,.66); font-size:clamp(15px,1.7vw,18px); line-height:1.6;
-  }
-  .contact-cta{
-    display:inline-block; margin-top:34px;
-    font:500 clamp(15px,1.8vw,19px) 'Geist Mono', monospace;
-    letter-spacing:-.01em; color:var(--paper); text-decoration:none;
-    border-bottom:1px solid rgba(255,255,255,.4); padding-bottom:7px;
-    transition:color .22s ease, border-color .22s ease;
-  }
-  .contact-cta:hover{ color:#e0b56a; border-color:#e0b56a; }
-  .contact-cta:focus-visible{ outline:2px solid #e0b56a; outline-offset:5px; }
+  .stack-all:hover{ color:var(--accent); }
+  .stack-all:focus-visible, .stack-item:focus-visible{ outline:2px solid var(--accent); outline-offset:5px; }
 
-  .contact-links{ display:flex; flex-wrap:wrap; gap:26px; list-style:none; margin:30px 0 0; padding:0; }
-  .contact-links a{
-    font:500 11px 'Geist Mono', monospace; letter-spacing:.12em; text-transform:uppercase;
-    color:rgba(255,255,255,.72); text-decoration:none;
-    border-bottom:1px solid rgba(255,255,255,.28); padding-bottom:5px;
-    transition:color .2s ease, border-color .2s ease;
+  .stack-item{
+    display:block; color:inherit; text-decoration:none;
+    margin-bottom:clamp(34px, 4vw, 62px);
   }
-  .contact-links a:hover{ color:#e0b56a; border-color:#e0b56a; }
-  .contact-links a:focus-visible{ outline:2px solid #e0b56a; outline-offset:4px; }
+  .stack-item:last-of-type{ margin-bottom:0; }
+
+  .stack-media{
+    display:grid; place-items:center;
+    background:var(--tint, var(--panel));
+    border-radius:20px;
+    padding:clamp(22px, 3.4vw, 60px);
+    aspect-ratio:16 / 9;
+    overflow:hidden;
+  }
+  .stack-media img{
+    width:100%; height:100%;
+    object-fit:cover; display:block;
+    border-radius:10px;
+    box-shadow:0 22px 48px rgba(12,12,16,.26);
+    transition:transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .stack-item:hover .stack-media img{ transform:scale(1.025); }
+
+  .stack-row{
+    display:flex; align-items:flex-start; justify-content:space-between;
+    gap:22px; flex-wrap:wrap; padding:18px 4px 0;
+  }
+  .stack-names h3{
+    margin:0;
+    font-family:'Geist', sans-serif; font-weight:500;
+    font-size:clamp(21px, 2vw, 30px); line-height:1.08; letter-spacing:-.04em;
+  }
+  .stack-kind{
+    margin:7px 0 0;
+    color:var(--ink-dim); font-size:14.5px; line-height:1.4;
+  }
+  .stack-cta{
+    display:inline-flex; align-items:center; gap:9px;
+    font-size:15px; color:var(--ink);
+    transition:color .2s ease;
+  }
+  .stack-arrow{
+    display:inline-grid; place-items:center;
+    width:26px; height:26px; border-radius:50%;
+    border:1px solid var(--line);
+    font-size:12px; line-height:1;
+    transition:border-color .2s ease, background .2s ease, color .2s ease, transform .3s ease;
+  }
+  .stack-item:hover .stack-cta{ color:var(--accent); }
+  .stack-item:hover .stack-arrow{
+    border-color:var(--accent); background:var(--accent);
+    color:var(--paper); transform:translate(2px,-2px);
+  }
+
+  :root[data-theme="dark"] .stack-media{ background:var(--tint-dark, var(--panel)); }
+
+  @media (max-width: 720px){
+    .stack-media{ aspect-ratio:4 / 3; border-radius:15px; }
+    .stack-row{ flex-direction:column; gap:12px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .stack-media img, .stack-arrow{ transition:none !important; }
+    .stack-item:hover .stack-media img{ transform:none !important; }
+    .stack-item:hover .stack-arrow{ transform:none !important; }
+  }
 
   /* ---------- footer ---------- */
   .site-footer{
@@ -546,6 +604,56 @@
   @media (max-width: 760px){
     .site-footer{ flex-direction:column; align-items:flex-start; gap:16px; }
   }
+/* ---------- theme ----------
+   Tokens flip on :root[data-theme]. The attribute is set before first
+   paint by the inline script in <head>, from a stored choice or the OS
+   preference, so there is no flash of the wrong theme. */
+:root{
+  color-scheme:light;
+  --invert-bg:#131316;
+  --invert-fg:#ffffff;
+  --glass:rgba(255,255,255,.94);
+  --glass-card:rgba(255,255,255,.86);
+  --surface:#ffffff;
+  --surface-2:#fbfbfb;
+  --hairline:#ececef;
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0e0e11;
+  --panel:#17171c;
+  --soft:#16161b;
+  --ink:#f3f2ef;
+  --muted:#9d9da7;
+  --ink-dim:#9d9da7;
+  --line:rgba(255,255,255,.15);
+  --invert-bg:#1b1b22;
+  --invert-fg:#f3f2ef;
+  --glass:rgba(14,14,17,.92);
+  --glass-card:rgba(23,23,28,.88);
+  --surface:#0e0e11;
+  --surface-2:#141419;
+  --hairline:rgba(255,255,255,.12);
+}
+:root[data-theme="dark"] img{ opacity:.94; }
+
+.theme-toggle{
+  width:34px; height:34px; flex:0 0 auto;
+  /* The headers use space-between; this keeps the toggle grouped with
+     whatever sits on the right rather than stranded in the middle. */
+  margin-left:auto; margin-right:18px;
+  display:inline-grid; place-items:center;
+  padding:0; cursor:pointer;
+  border:1px solid var(--line); border-radius:50%;
+  background:transparent; color:var(--ink);
+  transition:border-color .2s ease, color .2s ease;
+}
+.theme-toggle:hover{ border-color:var(--accent); color:var(--accent); }
+.theme-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+.theme-toggle svg{ width:16px; height:16px; display:block; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; }
+.theme-toggle .moon{ display:none; }
+:root[data-theme="dark"] .theme-toggle .sun{ display:none; }
+:root[data-theme="dark"] .theme-toggle .moon{ display:block; }
 </style>
 </head>
 <body>
@@ -554,7 +662,11 @@
 <section class="hero" id="hero">
   <div class="topbar">
     <a class="mark" href="index.html" aria-current="page" data-text="Kiran Goutam D" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a>
-    <nav class="menu-wrap" aria-label="Main">
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">
+  <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg>
+  <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
+</button>
+<nav class="menu-wrap" aria-label="Main">
       <button type="button" class="burger" id="menu-toggle"
               aria-label="Open menu" aria-expanded="false" aria-controls="menu-panel" hidden>
         <span></span>
@@ -682,14 +794,45 @@
 </section>
 
 
-<section class="contact" id="contact" aria-labelledby="contact-title">
-  <p class="contact-kicker">Open to new work</p>
-  <h2 class="contact-title" id="contact-title">Let&rsquo;s make something worth looking at.</h2>
-  <p class="contact-copy">Branding, packaging, campaigns and product interfaces &mdash; from the first round of research through to what actually ships.</p>
-  <a class="contact-cta" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
-  <ul class="contact-links">
-    <li><a href="https://www.linkedin.com/in/kiran-goutam-dhananjayan/" target="_blank" rel="noopener">LinkedIn &nearr;</a></li>
-  </ul>
+<section class="stack" id="stack" aria-labelledby="stack-title">
+  <div class="stack-head">
+    <h2 class="stack-title" id="stack-title">Selected work</h2>
+    <a class="stack-all" href="projects.html">All projects &#8599;</a>
+  </div>
+
+  <a class="stack-item" href="trippy-goat.html" style="--tint:#efe7db;--tint-dark:#241d17">
+    <div class="stack-media"><img loading="lazy" src="assets/trippy-goat/case-01.jpg" alt="Trippy Goat brand mark on a coffee setting"></div>
+    <div class="stack-row">
+      <div class="stack-names">
+        <h3>Trippy Goat &amp; The Mixer</h3>
+        <p class="stack-kind">Branding &amp; Communication</p>
+      </div>
+      <span class="stack-cta"><span class="stack-arrow" aria-hidden="true">&#8599;</span>View Project</span>
+    </div>
+  </a>
+
+  <a class="stack-item" href="pes-university.html" style="--tint:#e3e8f4;--tint-dark:#161b2b">
+    <div class="stack-media"><img loading="lazy" src="assets/pes-university/page-01.jpg" alt="PES University sports campaign photography"></div>
+    <div class="stack-row">
+      <div class="stack-names">
+        <h3>PES University</h3>
+        <p class="stack-kind">Campaign &amp; Digital</p>
+      </div>
+      <span class="stack-cta"><span class="stack-arrow" aria-hidden="true">&#8599;</span>View Project</span>
+    </div>
+  </a>
+
+  <a class="stack-item" href="jumbofarms.html" style="--tint:#f6e2d0;--tint-dark:#2a1c14">
+    <div class="stack-media"><img loading="lazy" src="assets/jumbofarms/posm-poster.jpg" alt="Jumbofarms mustard oil poster set in a mustard field"></div>
+    <div class="stack-row">
+      <div class="stack-names">
+        <h3>Jumbofarms Mustard Oil</h3>
+        <p class="stack-kind">Packaging &amp; Retail</p>
+      </div>
+      <span class="stack-cta"><span class="stack-arrow" aria-hidden="true">&#8599;</span>View Project</span>
+    </div>
+  </a>
+
 </section>
 
 <footer class="site-footer">
@@ -1060,5 +1203,25 @@
 })();
 </script>
 
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  var root = document.documentElement;
+  function sync(){
+    var dark = root.getAttribute('data-theme') === 'dark';
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  }
+  btn.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('kgd-theme', next); }catch(e){}
+    sync();
+  });
+  sync();
+})();
+</script>
 </body>
+
 </html>

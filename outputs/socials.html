@@ -1,6 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>
+(function(){
+  try{
+    var saved = localStorage.getItem('kgd-theme');
+    var t = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', t);
+  }catch(e){
+    document.documentElement.setAttribute('data-theme','light');
+  }
+})();
+</script>
+
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Socials — a design kit for a networking-only event by the team behind The Mixer, plus the Single's Social identity exploration. Case study by Kiran Goutam Dhananjayan.">
 <meta property="og:type" content="article">
@@ -53,13 +65,67 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
   .footer{flex-direction:column;gap:18px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.progress{transition:none}}
+/* ---------- theme ----------
+   Tokens flip on :root[data-theme]. The attribute is set before first
+   paint by the inline script in <head>, from a stored choice or the OS
+   preference, so there is no flash of the wrong theme. */
+:root{
+  color-scheme:light;
+  --invert-bg:#131316;
+  --invert-fg:#ffffff;
+  --glass:rgba(255,255,255,.94);
+  --glass-card:rgba(255,255,255,.86);
+  --surface:#ffffff;
+  --surface-2:#fbfbfb;
+  --hairline:#ececef;
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0e0e11;
+  --panel:#17171c;
+  --soft:#16161b;
+  --ink:#f3f2ef;
+  --muted:#9d9da7;
+  --ink-dim:#9d9da7;
+  --line:rgba(255,255,255,.15);
+  --invert-bg:#1b1b22;
+  --invert-fg:#f3f2ef;
+  --glass:rgba(14,14,17,.92);
+  --glass-card:rgba(23,23,28,.88);
+  --surface:#0e0e11;
+  --surface-2:#141419;
+  --hairline:rgba(255,255,255,.12);
+}
+:root[data-theme="dark"] img{ opacity:.94; }
+
+.theme-toggle{
+  width:34px; height:34px; flex:0 0 auto;
+  /* The headers use space-between; this keeps the toggle grouped with
+     whatever sits on the right rather than stranded in the middle. */
+  margin-left:auto; margin-right:18px;
+  display:inline-grid; place-items:center;
+  padding:0; cursor:pointer;
+  border:1px solid var(--line); border-radius:50%;
+  background:transparent; color:var(--ink);
+  transition:border-color .2s ease, color .2s ease;
+}
+.theme-toggle:hover{ border-color:var(--accent); color:var(--accent); }
+.theme-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+.theme-toggle svg{ width:16px; height:16px; display:block; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; }
+.theme-toggle .moon{ display:none; }
+:root[data-theme="dark"] .theme-toggle .sun{ display:none; }
+:root[data-theme="dark"] .theme-toggle .moon{ display:block; }
 </style>
 </head>
 <body>
 <div class="progress" id="progress"></div>
 <header class="wrap top">
   <a class="mark" href="index.html" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a>
-  <a class="back" href="index.html#projects-title">&larr; Back to selected work</a>
+  <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">
+  <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg>
+  <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
+</button>
+<a class="back" href="index.html#projects-title">&larr; Back to selected work</a>
 </header>
 
 <main>
@@ -130,5 +196,25 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
   update();
 })();
 </script>
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  var root = document.documentElement;
+  function sync(){
+    var dark = root.getAttribute('data-theme') === 'dark';
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  }
+  btn.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('kgd-theme', next); }catch(e){}
+    sync();
+  });
+  sync();
+})();
+</script>
 </body>
+
 </html>
