@@ -45,7 +45,7 @@
   .hero{
     /* Both hero figures derive from one width, so the photo and the
        floating card always keep the same proportion to each other. */
-    --figure-w: min(33vw, 420px);
+    --figure-w: min(39vw, 530px);
     position:relative;
     width:100%;
     height:100svh;
@@ -68,27 +68,31 @@
     animation-delay:.15s;
   }
   a.mark, .topbar a.mark{
-    font-family:'Geist Mono', monospace;
-    font-size:13px;
-    letter-spacing:0.06em;
+    font-family:'Geist', sans-serif;
+    font-weight:500;
+    font-size:15px;
+    letter-spacing:-0.012em;
     color:var(--ink);
-    display:inline-flex;
-    align-items:center;
-    gap:9px;
+    position:relative;
+    display:inline-block;
     text-decoration:none;
     border-bottom:0;
-    transition:color .2s ease;
   }
-  a.mark:hover{ color:var(--accent); }
   a.mark:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
-  .mark::before{
-    content:"";
-    width:14px; height:14px;
-    flex:0 0 auto;
-    background:var(--accent);
-    display:inline-block;
-    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3 2 12h3v9h5v-6h4v6h5v-9h3z'/%3E%3C/svg%3E") center/contain no-repeat;
-    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3 2 12h3v9h5v-6h4v6h5v-9h3z'/%3E%3C/svg%3E") center/contain no-repeat;
+  /* The same reveal as the big name, at a radius that suits a wordmark. */
+  a.mark::after{
+    content:attr(data-text);
+    position:absolute; left:0; top:0;
+    white-space:nowrap;
+    pointer-events:none;
+    background-image:linear-gradient(96deg,
+      #a8762a 0%, #e06a34 26%, #d63f7c 54%, #7b45e8 78%, #2f8fd8 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    -webkit-text-fill-color:transparent;
+    -webkit-mask-image: radial-gradient(62px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 38%, transparent 76%);
+    mask-image: radial-gradient(62px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 38%, transparent 76%);
   }
   .menu-wrap{ position:relative; }
   .burger{
@@ -179,7 +183,7 @@
     position:absolute;
     left:clamp(16px, 7vw, 104px);
     top:clamp(112px, 24vh, 232px);
-    width:calc(var(--figure-w) * 0.86);
+    width:calc(var(--figure-w) * 0.68);
     min-width:262px;
     max-width:82vw;
     background:rgba(255,255,255,0.86);
@@ -309,7 +313,7 @@
   }
   .projects h2{
     font-family:'Geist', sans-serif;
-    font-weight:500;
+    font-weight:400;
     font-size:clamp(20px, 1.85vw, 28px);
     letter-spacing:-.055em;
     line-height:1;
@@ -444,15 +448,10 @@
   .is-featured .service-body{ background:rgba(255,255,255,.1); color:rgba(255,255,255,.86); }
   .service-body p{ font:400 15px/1.38 'Geist', sans-serif; letter-spacing:-.04em; }
   .service-swatches{ display:grid; grid-template-columns:repeat(3, 1fr); gap:7px; }
-  .service-swatches span{ display:block; aspect-ratio:1.15; border-radius:9px; background:linear-gradient(145deg,#cfd3d4,#49505a); }
-  .service-swatches span:nth-child(2){ background:repeating-linear-gradient(135deg,#f5f5f3 0 6px,#202124 6px 11px); }
-  .service-swatches span:nth-child(3){ background:linear-gradient(145deg,#ff7d55,#9c1d29); }
-  .is-featured .service-swatches span:first-child{ background:linear-gradient(145deg,#f5aa54,#352161); }
-  .is-featured .service-swatches span:nth-child(2){ background:linear-gradient(145deg,#103d50,#d4dce8); }
-  .is-featured .service-swatches span:nth-child(3){ background:linear-gradient(145deg,#ffce38,#6345dc); }
-  .service-card:last-child .service-swatches span:first-child{ background:linear-gradient(145deg,#ef8b47,#f6e5bf); }
-  .service-card:last-child .service-swatches span:nth-child(2){ background:linear-gradient(145deg,#d47857,#241e29); }
-  .service-card:last-child .service-swatches span:nth-child(3){ background:linear-gradient(145deg,#154864,#ed4e52); }
+  .service-swatches span{
+    display:block; aspect-ratio:1.15; border-radius:9px;
+    background:var(--art) center/cover no-repeat, #e6e4df;
+  }
   @media (max-width: 720px){
     .projects-head{ align-items:flex-start; flex-direction:column; padding-bottom:12px; }
     .projects h2{ font-size:clamp(20px,6vw,26px); }
@@ -554,7 +553,7 @@
 
 <section class="hero" id="hero">
   <div class="topbar">
-    <a class="mark" href="index.html" aria-current="page" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a>
+    <a class="mark" href="index.html" aria-current="page" data-text="Kiran Goutam D" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a>
     <nav class="menu-wrap" aria-label="Main">
       <button type="button" class="burger" id="menu-toggle"
               aria-label="Open menu" aria-expanded="false" aria-controls="menu-panel" hidden>
@@ -616,33 +615,13 @@
       <div class="project-art"></div>
       <h3>Forum by Rego</h3>
     </a>
-    <a class="project-card" href="socials.html" style="--bg:#6d3aa8;--art:url('assets/socials/page-01.jpg')" aria-label="View the social media design case study">
-      <div class="project-art"></div>
-      <h3>Socials</h3>
-    </a>
     <a class="project-card" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-03.jpg')" aria-label="View the Tetrad Beverages case study">
       <div class="project-art"></div>
       <h3>Tetrad Beverages</h3>
     </a>
-    <a class="project-card" href="jodhpur-khana.html" style="--bg:#17181c;--art:url('assets/jodhpur-khana/page-01.jpg')" aria-label="View the Jodhpur Khana case study">
+    <a class="project-card" href="socials.html" style="--bg:#6d3aa8;--art:url('assets/socials/page-01.jpg')" aria-label="View the social media design case study">
       <div class="project-art"></div>
-      <h3>Jodhpur Khana</h3>
-    </a>
-    <a class="project-card" href="bell-home-security.html" style="--bg:#0f3a40;--art:url('assets/bell-home-security/page-03.jpg')" aria-label="View the Bell Home Security case study">
-      <div class="project-art"></div>
-      <h3>Bell Home Security</h3>
-    </a>
-    <a class="project-card" href="logofolio.html" style="--bg:#2b2b2b;--art:url('assets/logofolio/page-08.jpg')" aria-label="View the Logofolio case study">
-      <div class="project-art"></div>
-      <h3>Logofolio</h3>
-    </a>
-    <a class="project-card" href="meraki.html" style="--bg:#2b2b2b;--art:url('assets/meraki/page-04.jpg')" aria-label="View the Meraki case study">
-      <div class="project-art"></div>
-      <h3>Meraki</h3>
-    </a>
-    <a class="project-card" href="levon.html" style="--bg:#365567;--art:url('assets/levon/page-01.jpg')" aria-label="View the Levon case study">
-      <div class="project-art"></div>
-      <h3>Levon</h3>
+      <h3>Socials</h3>
     </a>
     <a class="project-card" href="trippy-goat.html" style="--bg:#0c2b33;--art:url('assets/trippy-goat/case-01.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
@@ -660,33 +639,13 @@
       <div class="project-art"></div>
       <h3>Forum by Rego</h3>
     </a>
-    <a class="project-card" href="socials.html" style="--bg:#6d3aa8;--art:url('assets/socials/page-01.jpg')" aria-hidden="true" tabindex="-1">
-      <div class="project-art"></div>
-      <h3>Socials</h3>
-    </a>
     <a class="project-card" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-03.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
       <h3>Tetrad Beverages</h3>
     </a>
-    <a class="project-card" href="jodhpur-khana.html" style="--bg:#17181c;--art:url('assets/jodhpur-khana/page-01.jpg')" aria-hidden="true" tabindex="-1">
+    <a class="project-card" href="socials.html" style="--bg:#6d3aa8;--art:url('assets/socials/page-01.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-art"></div>
-      <h3>Jodhpur Khana</h3>
-    </a>
-    <a class="project-card" href="bell-home-security.html" style="--bg:#0f3a40;--art:url('assets/bell-home-security/page-03.jpg')" aria-hidden="true" tabindex="-1">
-      <div class="project-art"></div>
-      <h3>Bell Home Security</h3>
-    </a>
-    <a class="project-card" href="logofolio.html" style="--bg:#2b2b2b;--art:url('assets/logofolio/page-08.jpg')" aria-hidden="true" tabindex="-1">
-      <div class="project-art"></div>
-      <h3>Logofolio</h3>
-    </a>
-    <a class="project-card" href="meraki.html" style="--bg:#2b2b2b;--art:url('assets/meraki/page-04.jpg')" aria-hidden="true" tabindex="-1">
-      <div class="project-art"></div>
-      <h3>Meraki</h3>
-    </a>
-    <a class="project-card" href="levon.html" style="--bg:#365567;--art:url('assets/levon/page-01.jpg')" aria-hidden="true" tabindex="-1">
-      <div class="project-art"></div>
-      <h3>Levon</h3>
+      <h3>Socials</h3>
     </a>
     </div>
   </div>
@@ -702,21 +661,21 @@
       <div class="service-card-head"><span>Brand Identity</span><span class="service-icon">✦</span></div>
       <div class="service-body">
         <p>Distinct visual identities and flexible brand systems—from art direction and design language to packaging that works on shelf and screen.</p>
-        <div class="service-swatches" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="service-swatches" aria-hidden="true"><span style="--art:url('assets/trippy-goat/case-01.jpg')"></span><span style="--art:url('assets/meraki/page-04.jpg')"></span><span style="--art:url('assets/logofolio/page-09.jpg')"></span></div>
       </div>
     </article>
     <article class="service-card is-featured">
       <div class="service-card-head"><span>Digital Experiences</span><span class="service-icon">↗</span></div>
       <div class="service-body">
         <p>User-centred interfaces and expressive digital design for products, platforms, and campaign moments—built to feel intuitive and memorable.</p>
-        <div class="service-swatches" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="service-swatches" aria-hidden="true"><span style="--art:url('assets/bell-home-security/page-03.jpg')"></span><span style="--art:url('assets/pes-university/page-13.jpg')"></span><span style="--art:url('assets/levon/page-03.jpg')"></span></div>
       </div>
     </article>
     <article class="service-card">
       <div class="service-card-head"><span>Motion &amp; Visual Design</span><span class="service-icon">◫</span></div>
       <div class="service-body">
         <p>Static-to-motion visual systems that bring stories to life, creating consistency and impact across social, campaigns, and product touchpoints.</p>
-        <div class="service-swatches" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="service-swatches" aria-hidden="true"><span style="--art:url('assets/forum-by-rego/page-10.jpg')"></span><span style="--art:url('assets/socials/page-03.jpg')"></span><span style="--art:url('assets/tetrad-beverages/page-04.jpg')"></span></div>
       </div>
     </article>
   </div>
@@ -937,6 +896,23 @@
   }
 
   /* ------------------------------------------------------------------
+     Wordmark reveal. Same gradient-under-a-moving-mask idea as the name,
+     scoped to the header so it costs nothing until the pointer is there.
+     ------------------------------------------------------------------ */
+  var markEl = document.querySelector('a.mark');
+  if (markEl && !reduceMotion){
+    markEl.addEventListener('pointermove', function(e){
+      var r = markEl.getBoundingClientRect();
+      markEl.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      markEl.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+    markEl.addEventListener('pointerleave', function(){
+      markEl.style.setProperty('--mx', '-999px');
+      markEl.style.setProperty('--my', '-999px');
+    });
+  }
+
+  /* ------------------------------------------------------------------
      Project rail.
      ------------------------------------------------------------------ */
   var projectRail = document.querySelector('.project-rail');
@@ -980,7 +956,7 @@
       var dx = e.clientX - lastPointerX;
       lastPointerX = e.clientX;
       lastPointerAt = performance.now();
-      if (Math.abs(dx) > 0.2) railTargetSpeed = Math.max(-0.72, Math.min(0.72, dx * 0.055));
+      if (Math.abs(dx) > 0.2) railTargetSpeed = Math.max(-3.2, Math.min(3.2, dx * 0.16));
     });
 
     // a card that has keyboard focus must stop moving, or it cannot be used
@@ -1066,7 +1042,7 @@
     if (projectsVisible && projectRail && loopDistance > 0){
       if (railRunning()){
         if (performance.now() - lastPointerAt > 240) railTargetSpeed = BASE_SPEED;
-        railSpeed += (railTargetSpeed - railSpeed) * 0.045;
+        railSpeed += (railTargetSpeed - railSpeed) * 0.14;
         advanceRail();
         busy = true;
       } else if (!settled(railSpeed, 0)){
