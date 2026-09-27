@@ -236,7 +236,7 @@
     padding-top:14px;
     border-top:1px solid var(--line);
     font-family:'Geist Mono', monospace;
-    font-size:10.5px;
+    font-size:11px;
     letter-spacing:0.06em;
     color:var(--ink-dim);
   }
@@ -654,6 +654,17 @@
 .theme-toggle .moon{ display:none; }
 :root[data-theme="dark"] .theme-toggle .sun{ display:none; }
 :root[data-theme="dark"] .theme-toggle .moon{ display:block; }
+/* ---------- target size ----------
+   WCAG 2.5.8 asks for a 24x24 CSS px target. These links are small by
+   design, so the hit area is an invisible pseudo-element: the pointer
+   target grows, the layout does not move. */
+a.mark,a.back,.nav-links a,.top-nav a,.top a,.footer a,.site-footer a,.footer-nav a,.stack-all,.projects-link{ position:relative; }
+a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::before,.footer a::before,.site-footer a::before,.footer-nav a::before,.stack-all::before,.projects-link::before{
+  content:'';
+  position:absolute; left:0; right:0; top:50%;
+  transform:translateY(-50%);
+  height:24px;
+}
 </style>
 </head>
 <body>

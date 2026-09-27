@@ -43,7 +43,7 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .hero p{max-width:660px;margin:0;font-size:clamp(16px,1.9vw,20px);line-height:1.5;color:#ddd5c6}
 .hero p strong{color:#f4f1ea;font-weight:600}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
-.tag{font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(244,241,234,.3);color:#ddd5c6}
+.tag{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(244,241,234,.3);color:#ddd5c6}
 .meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid rgba(244,241,234,.24)}
 .hero .meta{color:rgba(244,241,234,.66)}
 .hero .meta b{display:block;margin-top:7px;color:#f4f1ea;font:600 14px Inter,sans-serif;letter-spacing:-.02em;text-transform:none}
@@ -55,7 +55,7 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .copy strong{color:var(--ink);font-weight:600}
 .contents{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:30px;padding:0;list-style:none}
 .contents li{border:1px solid var(--line);border-radius:8px;padding:14px 16px;background:var(--panel);font:500 13.5px Inter,sans-serif;letter-spacing:-.02em}
-.contents span{display:block;font:500 10px 'JetBrains Mono',monospace;letter-spacing:.1em;color:var(--accent);margin-bottom:6px}
+.contents span{display:block;font:500 11px 'JetBrains Mono',monospace;letter-spacing:.1em;color:var(--accent);margin-bottom:6px}
 .spread{display:flex;flex-direction:column;gap:20px;margin-top:34px}
 .page{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
 .page img{display:block;width:100%;height:auto}
@@ -119,6 +119,17 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .theme-toggle .moon{ display:none; }
 :root[data-theme="dark"] .theme-toggle .sun{ display:none; }
 :root[data-theme="dark"] .theme-toggle .moon{ display:block; }
+/* ---------- target size ----------
+   WCAG 2.5.8 asks for a 24x24 CSS px target. These links are small by
+   design, so the hit area is an invisible pseudo-element: the pointer
+   target grows, the layout does not move. */
+a.mark,a.back,.nav-links a,.top-nav a,.top a,.footer a,.site-footer a,.footer-nav a,.stack-all,.projects-link{ position:relative; }
+a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::before,.footer a::before,.site-footer a::before,.footer-nav a::before,.stack-all::before,.projects-link::before{
+  content:'';
+  position:absolute; left:0; right:0; top:50%;
+  transform:translateY(-50%);
+  height:24px;
+}
 </style>
 </head>
 <body>

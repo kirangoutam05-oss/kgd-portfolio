@@ -43,7 +43,7 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .hero p{max-width:660px;margin:0;font-size:clamp(16px,1.9vw,20px);line-height:1.5;color:rgba(6,40,45,.84)}
 .hero p strong{color:#06282d;font-weight:600}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
-.tag{font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(6,40,45,.34);color:rgba(6,40,45,.8)}
+.tag{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(6,40,45,.34);color:rgba(6,40,45,.8)}
 .meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid rgba(6,40,45,.26)}
 .hero .meta{color:rgba(6,40,45,.62)}
 .hero .meta b{display:block;margin-top:7px;color:#06282d;font:600 14px Inter,sans-serif;letter-spacing:-.02em;text-transform:none}
@@ -121,6 +121,17 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .theme-toggle .moon{ display:none; }
 :root[data-theme="dark"] .theme-toggle .sun{ display:none; }
 :root[data-theme="dark"] .theme-toggle .moon{ display:block; }
+/* ---------- target size ----------
+   WCAG 2.5.8 asks for a 24x24 CSS px target. These links are small by
+   design, so the hit area is an invisible pseudo-element: the pointer
+   target grows, the layout does not move. */
+a.mark,a.back,.nav-links a,.top-nav a,.top a,.footer a,.site-footer a,.footer-nav a,.stack-all,.projects-link{ position:relative; }
+a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::before,.footer a::before,.site-footer a::before,.footer-nav a::before,.stack-all::before,.projects-link::before{
+  content:'';
+  position:absolute; left:0; right:0; top:50%;
+  transform:translateY(-50%);
+  height:24px;
+}
 </style>
 </head>
 <body>
