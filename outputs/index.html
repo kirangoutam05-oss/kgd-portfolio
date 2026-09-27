@@ -346,66 +346,52 @@
   }
   .projects-link::after{ content:'↗'; font-size:16px; line-height:1; }
   .projects-link:hover{ color:var(--accent); gap:11px; }
-  .projects-link:focus-visible, .rail-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
+  .projects-link:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
   .projects-actions{ display:flex; align-items:center; gap:18px; flex:0 0 auto; }
 
-  /* WCAG 2.2.2 — the rail starts moving on its own and runs for more than five
-     seconds, so it needs a control that stops it. Hidden until the script
-     enables it, since it does nothing without JS. */
-  .rail-toggle{
-    display:inline-flex;
-    align-items:center;
-    gap:7px;
-    padding:0 0 5px;
-    border:0;
-    border-bottom:1px solid currentColor;
-    background:transparent;
-    color:var(--ink-dim);
-    font:600 14px 'Geist', sans-serif;
-    cursor:pointer;
-    transition:color .25s ease;
-  }
-  .rail-toggle[hidden]{ display:none; }
-  .rail-toggle:hover{ color:var(--accent); }
-  .rail-toggle::before{
-    content:''; width:9px; height:11px;
-    background:linear-gradient(to right, currentColor 0 3px, transparent 3px 6px, currentColor 6px 9px);
-  }
-  .rail-toggle[aria-pressed="true"]::before{
-    background:currentColor;
-    clip-path:polygon(0 0, 100% 50%, 0 100%);
-  }
   .project-window{ overflow:hidden; }
+  /* No side padding: any gutter here shows as dead space in the loop on
+     wide screens, because the rail translates past it. */
   .project-rail{
     display:flex;
     gap:14px;
     width:max-content;
-    padding:clamp(8px, 1.2vw, 14px) var(--projects-margin);
+    padding:clamp(8px, 1.2vw, 14px) 0;
     will-change:transform;
+  }
+  .project-item{
+    flex:0 0 auto;
+    width:clamp(300px, 37vw, 540px);
+    display:block;
+    color:inherit;
+    text-decoration:none;
   }
   .project-card{
     position:relative;
-    width:clamp(300px, 37vw, 540px);
+    width:100%;
     aspect-ratio:1.34;
     overflow:hidden;
     border-radius:10px;
-    background:#d4d4d6;
+    background:var(--bg, #d4d4d6);
     box-shadow:0 18px 26px rgba(19,19,22,.17);
     isolation:isolate;
   }
-  .project-card::after{
-    content:''; position:absolute; inset:0;
-    background:linear-gradient(180deg, transparent 48%, rgba(0,0,0,.52));
-    z-index:1;
+  .project-caption{ padding:15px 3px 0; }
+  .project-caption h3{
+    margin:0;
+    font:500 clamp(18px, 1.5vw, 23px)/1.12 'Geist', sans-serif;
+    letter-spacing:-.04em;
+    color:var(--ink);
   }
-  .project-card h3{
-    position:absolute; left:25px; bottom:22px; z-index:2;
-    color:#fff; font:700 clamp(26px, 2.4vw, 38px)/.9 'Geist', sans-serif;
-    letter-spacing:-.055em;
+  .project-caption p{
+    margin:6px 0 0;
+    color:var(--ink-dim);
+    font-size:13.5px;
+    line-height:1.45;
   }
   .project-art{ position:absolute; inset:0; transition:transform .6s cubic-bezier(.2,.7,.2,1); }
-  .project-card:hover .project-art{ transform:scale(1.06); }
-  .project-card:focus-visible{ outline:3px solid var(--accent); outline-offset:3px; }
+  .project-item:hover .project-art{ transform:scale(1.06); }
+  .project-item:focus-visible{ outline:3px solid var(--accent); outline-offset:4px; }
   /* Card art is the real work now, so the CSS-drawn packs are gone. Each card
      carries its own brand colour and artwork as custom properties, so adding
      a project is a markup change only. */
@@ -417,53 +403,40 @@
     padding:clamp(90px, 11vw, 156px) var(--services-margin);
     background:var(--surface);
   }
+  /* One column at the page margins, so the statement runs the full
+     measure like every other section rather than starting a third in. */
   .services-intro{
-    display:grid;
-    grid-template-columns:1fr 2fr;
-    gap:clamp(28px, 8vw, 150px);
-    align-items:start;
-    margin-bottom:clamp(46px, 6vw, 76px);
+    display:block;
+    margin-bottom:0;
   }
   .services-kicker{
-    color:#18181b;
+    margin-bottom:clamp(18px, 2vw, 30px);
+    color:var(--ink);
     font:500 clamp(20px, 1.85vw, 28px)/1 'Geist', sans-serif;
     letter-spacing:-.055em;
   }
   .services-title{
-    max-width:760px;
     margin:0;
-    color:#18181b;
+    color:var(--ink);
     font:500 clamp(31px, 3.35vw, 52px)/1.08 'Geist', sans-serif;
     letter-spacing:-.065em;
+    /* The gradient is painted behind the whole heading and clipped to its
+       glyphs. A word reveals by turning its own fill transparent, which
+       lets that one gradient show through in place - so the ramp runs
+       across the sentence rather than restarting on every word. */
+    background-image:linear-gradient(96deg,
+      #a8762a 0%, #e06a34 24%, #d63f7c 50%, #7b45e8 74%, #2f8fd8 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
   }
   /* Default to the final colour so the copy is readable with no JS; the script
      adds .js-reveal to opt into the greyed-out starting state. */
-  .reveal-word{ transition:color .44s ease; transition-delay:var(--delay, 0ms); }
-  .services.js-reveal .reveal-word{ color:#9b9ca3; }
-  .services.js-reveal.is-in-view .reveal-word{ color:#18181b; }
-  .service-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
-  .service-card{
-    min-height:340px;
-    padding:14px;
-    border:1px solid var(--hairline);
-    border-radius:18px;
-    background:var(--surface-2);
-    display:flex;
-    flex-direction:column;
+  .reveal-word{
+    transition:color .5s ease, -webkit-text-fill-color .5s ease;
+    transition-delay:var(--delay, 0ms);
   }
-  .service-card.is-featured{ background:#6d27ed; color:#fff; border-color:#6d27ed; }
-  .service-card-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:3px 3px 14px; font:500 17px 'Geist', sans-serif; letter-spacing:-.05em; }
-  .service-icon{ display:grid; place-items:center; width:29px; height:29px; border-radius:9px; background:#f0edff; color:#6d27ed; font-size:15px; }
-  .service-card:not(.is-featured) .service-icon{ background:#e9fff1; color:#16a360; }
-  .service-card:first-child .service-icon{ background:#fff8d8; color:#d29e00; }
-  .service-body{ flex:1; display:flex; flex-direction:column; justify-content:space-between; gap:22px; padding:21px 12px 10px; border-radius:13px; background:var(--surface); color:var(--ink-dim); }
-  .is-featured .service-body{ background:rgba(255,255,255,.1); color:rgba(255,255,255,.86); }
-  .service-body p{ font:400 15px/1.38 'Geist', sans-serif; letter-spacing:-.04em; }
-  .service-swatches{ display:grid; grid-template-columns:repeat(3, 1fr); gap:7px; }
-  .service-swatches span{
-    display:block; aspect-ratio:1.15; border-radius:9px;
-    background:var(--art) center/cover no-repeat, #e6e4df;
-  }
+  .services.js-reveal .reveal-word{ color:var(--ink-dim); -webkit-text-fill-color:var(--ink-dim); }
+  .services.js-reveal.is-in-view .reveal-word{ color:transparent; -webkit-text-fill-color:transparent; }
   /* The hero is a fixed 100svh with the photo anchored to the top and the
      name to the bottom, so a short viewport squeezes them into each other.
      At 1440x800 the name was crossing the photo by 289px. Both shrink as
@@ -487,11 +460,8 @@
     .project-rail{ gap:12px; padding-left:20px; }
     .project-card{ width:78vw; border-radius:8px; }
     .services{ padding-top:76px; padding-bottom:76px; }
-    .services-intro{ grid-template-columns:1fr; gap:18px; margin-bottom:32px; }
     .services-kicker{ font-size:clamp(20px,6vw,26px); }
     .services-title{ font-size:clamp(29px,8.4vw,42px); }
-    .service-grid{ grid-template-columns:1fr; }
-    .service-card{ min-height:280px; }
     .projects-actions{ gap:14px; }
     .portrait{ width:min(62%, 300px); aspect-ratio:4 / 5; top:9%; right:20px; }
     .card{ width:auto; max-width:calc(100vw - 32px); left:16px; right:16px; top:54%; }
@@ -508,7 +478,6 @@
     .txt::before{ display:none !important; }
     .project-rail{ transform:none !important; }
     .project-window{ overflow-x:auto; }
-    .rail-toggle{ display:none !important; }
     .reveal-word{ color:#18181b !important; transition:none !important; }
   }
   /* ---------- stacked selected work ----------
@@ -557,6 +526,15 @@
     transition:transform .7s cubic-bezier(.2,.7,.2,1);
   }
   .stack-item:hover .stack-media img{ transform:scale(1.025); }
+  /* ARenaissance's source file is over the export limit, so its panel
+     carries the initials until the visuals can be added. */
+  .stack-media.is-type{ place-items:center; }
+  .stack-mark{
+    font:500 clamp(58px, 9vw, 150px)/1 'Geist', sans-serif;
+    letter-spacing:-.07em;
+    color:var(--ink);
+    opacity:.26;
+  }
 
   .stack-row{
     display:flex; align-items:flex-start; justify-content:space-between;
@@ -611,6 +589,14 @@
     letter-spacing:.09em; color:var(--ink-dim);
   }
   .footer-nav{ display:flex; gap:22px; flex-wrap:wrap; }
+  .footer-mail{
+    color:var(--ink); text-decoration:none;
+    border-bottom:1px solid var(--line); padding-bottom:4px;
+    letter-spacing:.04em;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .footer-mail:hover{ color:var(--accent); border-color:var(--accent); }
+  .footer-mail:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
   .footer-nav a{
     color:inherit; text-decoration:none;
     border-bottom:1px solid transparent; padding-bottom:3px;
@@ -731,53 +717,50 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   <div class="projects-head">
     <h2 id="projects-title">Featured Projects</h2>
     <div class="projects-actions">
-      <button type="button" class="rail-toggle" id="rail-toggle" aria-pressed="false" aria-controls="project-rail" hidden>
-        <span class="rail-toggle-label">Pause</span>
-      </button>
       <a class="projects-link" href="projects.html">View projects</a>
     </div>
   </div>
   <div class="project-window">
     <div class="project-rail" id="project-rail">
-    <a class="project-card" href="trippy-goat.html" style="--bg:#0c2b33;--art:url('assets/trippy-goat/case-01.jpg')" aria-label="View the Trippy Goat and The Mixer case study">
-      <div class="project-art"></div>
-      <h3>Trippy Goat</h3>
+    <a class="project-item" href="trippy-goat.html" style="--bg:#0c2b33;--art:url('assets/trippy-goat/case-01.jpg')" aria-label="View the Trippy Goat and The Mixer case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Trippy Goat</h3><p>Branding &amp; Communication</p></div>
     </a>
-    <a class="project-card" href="pes-university.html" style="--bg:#1b2f6b;--art:url('assets/pes-university/page-01.jpg')" aria-label="View the PES University BBA Sports Management case study">
-      <div class="project-art"></div>
-      <h3>PES University</h3>
+    <a class="project-item" href="pes-university.html" style="--bg:#1b2f6b;--art:url('assets/pes-university/page-01.jpg')" aria-label="View the PES University BBA Sports Management case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>PES University</h3><p>Campaign &amp; Digital</p></div>
     </a>
-    <a class="project-card" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-10.jpg')" aria-label="View the Forum by Rego case study">
-      <div class="project-art"></div>
-      <h3>Forum by Rego</h3>
+    <a class="project-item" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-10.jpg')" aria-label="View the Forum by Rego case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Forum by Rego</h3><p>Branding &amp; Motion Graphics</p></div>
     </a>
-    <a class="project-card" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-03.jpg')" aria-label="View the Tetrad Beverages case study">
-      <div class="project-art"></div>
-      <h3>Tetrad Beverages</h3>
+    <a class="project-item" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-03.jpg')" aria-label="View the Tetrad Beverages case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Tetrad Beverages</h3><p>Social &amp; Web Design</p></div>
     </a>
-    <a class="project-card" href="socials.html" style="--bg:#6d3aa8;--art:url('assets/socials/page-01.jpg')" aria-label="View the social media design case study">
-      <div class="project-art"></div>
-      <h3>Socials</h3>
+    <a class="project-item" href="socials.html" style="--bg:#6d3aa8;--art:url('assets/socials/page-01.jpg')" aria-label="View the social media design case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Socials</h3><p>Social Media Design</p></div>
     </a>
-    <a class="project-card" href="trippy-goat.html" style="--bg:#0c2b33;--art:url('assets/trippy-goat/case-01.jpg')" aria-hidden="true" tabindex="-1">
-      <div class="project-art"></div>
-      <h3>Trippy Goat</h3>
+    <a class="project-item" href="trippy-goat.html" style="--bg:#0c2b33;--art:url('assets/trippy-goat/case-01.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Trippy Goat</h3><p>Branding &amp; Communication</p></div>
     </a>
-    <a class="project-card" href="pes-university.html" style="--bg:#1b2f6b;--art:url('assets/pes-university/page-01.jpg')" aria-hidden="true" tabindex="-1">
-      <div class="project-art"></div>
-      <h3>PES University</h3>
+    <a class="project-item" href="pes-university.html" style="--bg:#1b2f6b;--art:url('assets/pes-university/page-01.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>PES University</h3><p>Campaign &amp; Digital</p></div>
     </a>
-    <a class="project-card" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-10.jpg')" aria-hidden="true" tabindex="-1">
-      <div class="project-art"></div>
-      <h3>Forum by Rego</h3>
+    <a class="project-item" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-10.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Forum by Rego</h3><p>Branding &amp; Motion Graphics</p></div>
     </a>
-    <a class="project-card" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-03.jpg')" aria-hidden="true" tabindex="-1">
-      <div class="project-art"></div>
-      <h3>Tetrad Beverages</h3>
+    <a class="project-item" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-03.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Tetrad Beverages</h3><p>Social &amp; Web Design</p></div>
     </a>
-    <a class="project-card" href="socials.html" style="--bg:#6d3aa8;--art:url('assets/socials/page-01.jpg')" aria-hidden="true" tabindex="-1">
-      <div class="project-art"></div>
-      <h3>Socials</h3>
+    <a class="project-item" href="socials.html" style="--bg:#6d3aa8;--art:url('assets/socials/page-01.jpg')" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Socials</h3><p>Social Media Design</p></div>
     </a>
     </div>
   </div>
@@ -787,29 +770,6 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   <div class="services-intro">
     <p class="services-kicker">Services</p>
     <h2 class="services-title" id="services-title"><span class="reveal-word">Designing</span> <span class="reveal-word">systems</span> <span class="reveal-word">and</span> <span class="reveal-word">digital</span> <span class="reveal-word">experiences</span> <span class="reveal-word">that</span> <span class="reveal-word">give</span> <span class="reveal-word">brands</span> <span class="reveal-word">a</span> <span class="reveal-word">distinct,</span> <span class="reveal-word">coherent</span> <span class="reveal-word">presence.</span> <span class="reveal-word">I</span> <span class="reveal-word">turn</span> <span class="reveal-word">ideas</span> <span class="reveal-word">into</span> <span class="reveal-word">identities,</span> <span class="reveal-word">packaging,</span> <span class="reveal-word">and</span> <span class="reveal-word">interfaces</span> <span class="reveal-word">with</span> <span class="reveal-word">equal</span> <span class="reveal-word">care</span> <span class="reveal-word">for</span> <span class="reveal-word">strategy</span> <span class="reveal-word">and</span> <span class="reveal-word">execution.</span></h2>
-  </div>
-  <div class="service-grid">
-    <article class="service-card">
-      <div class="service-card-head"><span>Brand Identity</span><span class="service-icon">✦</span></div>
-      <div class="service-body">
-        <p>Distinct visual identities and flexible brand systems—from art direction and design language to packaging that works on shelf and screen.</p>
-        <div class="service-swatches" aria-hidden="true"><span style="--art:url('assets/trippy-goat/case-01.jpg')"></span><span style="--art:url('assets/meraki/page-04.jpg')"></span><span style="--art:url('assets/logofolio/page-09.jpg')"></span></div>
-      </div>
-    </article>
-    <article class="service-card is-featured">
-      <div class="service-card-head"><span>Digital Experiences</span><span class="service-icon">↗</span></div>
-      <div class="service-body">
-        <p>User-centred interfaces and expressive digital design for products, platforms, and campaign moments—built to feel intuitive and memorable.</p>
-        <div class="service-swatches" aria-hidden="true"><span style="--art:url('assets/bell-home-security/page-03.jpg')"></span><span style="--art:url('assets/pes-university/page-13.jpg')"></span><span style="--art:url('assets/levon/page-03.jpg')"></span></div>
-      </div>
-    </article>
-    <article class="service-card">
-      <div class="service-card-head"><span>Motion &amp; Visual Design</span><span class="service-icon">◫</span></div>
-      <div class="service-body">
-        <p>Static-to-motion visual systems that bring stories to life, creating consistency and impact across social, campaigns, and product touchpoints.</p>
-        <div class="service-swatches" aria-hidden="true"><span style="--art:url('assets/forum-by-rego/page-10.jpg')"></span><span style="--art:url('assets/socials/page-03.jpg')"></span><span style="--art:url('assets/tetrad-beverages/page-04.jpg')"></span></div>
-      </div>
-    </article>
   </div>
 </section>
 
@@ -831,17 +791,6 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     </div>
   </a>
 
-  <a class="stack-item" href="pes-university.html" style="--tint:#e3e8f4;--tint-dark:#161b2b">
-    <div class="stack-media"><img loading="lazy" src="assets/pes-university/page-01.jpg" alt="PES University sports campaign photography"></div>
-    <div class="stack-row">
-      <div class="stack-names">
-        <h3>PES University</h3>
-        <p class="stack-kind">Campaign &amp; Digital</p>
-      </div>
-      <span class="stack-cta"><span class="stack-arrow" aria-hidden="true">&#8599;</span>View Project</span>
-    </div>
-  </a>
-
   <a class="stack-item" href="forum-by-rego.html" style="--tint:#f6e7dd;--tint-dark:#2a1a12">
     <div class="stack-media"><img loading="lazy" src="assets/forum-by-rego/page-10.jpg" alt="Forum by Rego brand applications"></div>
     <div class="stack-row">
@@ -853,15 +802,25 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     </div>
   </a>
 
+  <a class="stack-item" href="arenaissance.html" style="--tint:#e9e6fa;--tint-dark:#1a1830">
+    <div class="stack-media is-type"><span class="stack-mark" aria-hidden="true">AR</span></div>
+    <div class="stack-row">
+      <div class="stack-names">
+        <h3>ARenaissance</h3>
+        <p class="stack-kind">Design Management &amp; UX Research</p>
+      </div>
+      <span class="stack-cta"><span class="stack-arrow" aria-hidden="true">&#8599;</span>View Project</span>
+    </div>
+  </a>
+
 </section>
 
 <footer class="site-footer">
-  <span>Kiran Goutam D &mdash; Bengaluru, IN / 2026</span>
+  <a class="footer-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
   <nav class="footer-nav" aria-label="Footer">
     <a href="#projects-title">Selected work</a>
     <a href="#services-title">Services</a>
     <a href="projects.html">All projects</a>
-    <a href="mailto:kirangoutamdhananjayan@gmail.com">Email</a>
     <a href="https://www.linkedin.com/in/kiran-goutam-dhananjayan/" target="_blank" rel="noopener">LinkedIn</a>
   </nav>
 </footer>
@@ -1081,7 +1040,6 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   var projectRail = document.querySelector('.project-rail');
   var projectWindow = document.querySelector('.project-window');
   var projectsSection = document.querySelector('.projects');
-  var railToggle = document.getElementById('rail-toggle');
 
   var BASE_SPEED = -0.32;
   var loopDistance = 0, railOffset = 0;
@@ -1125,17 +1083,6 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     // a card that has keyboard focus must stop moving, or it cannot be used
     projectRail.addEventListener('focusin', function(){ railFocused = true; });
     projectRail.addEventListener('focusout', function(){ railFocused = false; requestTick(); });
-  }
-
-  if (railToggle){
-    railToggle.hidden = false;
-    var railToggleLabel = railToggle.querySelector('.rail-toggle-label');
-    railToggle.addEventListener('click', function(){
-      railPaused = !railPaused;
-      railToggle.setAttribute('aria-pressed', railPaused ? 'true' : 'false');
-      if (railToggleLabel) railToggleLabel.textContent = railPaused ? 'Play' : 'Pause';
-      requestTick();
-    });
   }
 
   window.addEventListener('load', sizeProjectLoop);
