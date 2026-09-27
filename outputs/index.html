@@ -530,6 +530,21 @@
     transition:transform .7s cubic-bezier(.2,.7,.2,1);
   }
   .stack-item:hover .stack-media img{ transform:scale(1.025); }
+  /* The Forum panel plays its logo animation in place of a still, so the
+     video has to inherit exactly what the images get. */
+  .stack-media video{
+    width:100%; height:100%;
+    object-fit:cover; display:block;
+    border-radius:10px;
+    box-shadow:0 22px 48px rgba(12,12,16,.26);
+    background:#0f0f12;
+    transition:transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .stack-item:hover .stack-media video{ transform:scale(1.025); }
+  @media (prefers-reduced-motion: reduce){
+    .stack-media video{ transition:none !important; }
+    .stack-item:hover .stack-media video{ transform:none !important; }
+  }
   /* LearnARcade's source file is over the export limit, so its panel
      carries the initials until the visuals can be added. */
   .stack-media.is-type{ place-items:center; }
@@ -795,7 +810,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   </a>
 
   <a class="stack-item" href="forum-by-rego.html" style="--tint:#f6e7dd;--tint-dark:#2a1a12">
-    <div class="stack-media"><img loading="lazy" src="assets/forum-by-rego/page-10.jpg" alt="Forum by Rego brand applications"></div>
+    <div class="stack-media"><video class="stack-video" src="assets/forum-by-rego/logo-animation.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Forum by Rego logo animation"></video></div>
     <div class="stack-row">
       <div class="stack-names">
         <h3>Forum by Rego</h3>
@@ -1192,6 +1207,27 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   sync();
 })();
 </script>
+<script>
+(function(){
+  var v = document.querySelector('.stack-video');
+  if (!v) return;
+  try {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      v.removeAttribute('autoplay');
+      v.pause();
+      return;
+    }
+  } catch(e){}
+  /* Only run it while it is on screen; a looping video in a panel nobody
+     is looking at is just battery. */
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      entries[0].isIntersecting ? v.play().catch(function(){}) : v.pause();
+    }, { threshold: 0.15 }).observe(v);
+  }
+})();
+</script>
 </body>
+
 
 </html>
