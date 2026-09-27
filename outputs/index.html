@@ -464,6 +464,23 @@
     display:block; aspect-ratio:1.15; border-radius:9px;
     background:var(--art) center/cover no-repeat, #e6e4df;
   }
+  /* The hero is a fixed 100svh with the photo anchored to the top and the
+     name to the bottom, so a short viewport squeezes them into each other.
+     At 1440x800 the name was crossing the photo by 289px. Both shrink as
+     height runs out, rather than colliding. */
+  @media (max-height: 880px){
+    .hero{ --figure-w: min(24vw, 320px); }
+    .portrait{ top:7%; }
+    .card{ width:min(330px, 82vw); }
+    .nameblock .line{ font-size:clamp(46px, 9.2vw, 120px); }
+  }
+  @media (max-height: 700px){
+    .hero{ --figure-w: min(20vw, 250px); }
+    .portrait{ top:6%; }
+    .card{ width:min(300px, 84vw); }
+    .nameblock .line{ font-size:clamp(38px, 7.6vw, 92px); }
+  }
+
   @media (max-width: 720px){
     .projects-head{ align-items:flex-start; flex-direction:column; padding-bottom:12px; }
     .projects h2{ font-size:clamp(20px,6vw,26px); }
