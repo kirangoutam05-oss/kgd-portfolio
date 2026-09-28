@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>
+(function(){
+  try{
+    var saved = localStorage.getItem('kgd-theme');
+    var t = saved || 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  }catch(e){
+    document.documentElement.setAttribute('data-theme','light');
+  }
+})();
+</script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Workfabric AI — the marketing site for ContextFabric, an enterprise context layer. A case study about designing for a product with no interface. By Kiran Goutam Dhananjayan.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kirangoutamdhananjayan.com/workfabric-ai.html">
+<meta property="og:title" content="Workfabric AI — Kiran Goutam Dhananjayan">
+<meta property="og:description" content="The marketing site for ContextFabric: how you show an enterprise context layer that has no interface of its own.">
+<meta property="og:image" content="https://kirangoutamdhananjayan.com/assets/workfabric-ai/cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d2440'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%232a3783'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://kirangoutamdhananjayan.com/workfabric-ai.html">
+<title>Workfabric AI — Kiran Goutam Dhananjayan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#fff;--panel:#f3f4f9;--ink:#131316;--muted:#62646f;--line:rgba(19,19,22,.14);--accent:#2a3783;--deep:#1d2440}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif}
+.progress{position:fixed;inset:0 0 auto;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;z-index:10}
+.wrap{width:min(100% - 40px,1100px);margin:auto}
+.top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.mark,.eyebrow,.label,.meta{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+a.mark,.top a.mark,.topbar a.mark{display:inline-block;font-family:Inter,'Geist',Arial,sans-serif;font-size:14px;font-weight:500;text-decoration:none;border-bottom:0;padding-bottom:0;color:inherit;text-transform:none;letter-spacing:-.012em;transition:color .2s ease}a.mark:hover{color:var(--accent)}a.mark:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.back{font-size:13px;text-decoration:none;border-bottom:1px solid;padding-bottom:4px;color:inherit}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.hero{background:var(--deep);color:#eef0fa;padding:clamp(56px,9vw,110px) 0 46px}
+.hero .eyebrow{color:#9aa6e2}
+.hero h1{margin:18px 0 22px;font:900 clamp(46px,9.5vw,124px)/.84 Archivo,sans-serif;letter-spacing:-.075em;text-transform:uppercase;max-width:940px}
+.hero p{max-width:680px;margin:0;font-size:clamp(16px,1.9vw,20px);line-height:1.5;color:#c6cbe4}
+.hero p strong{color:#fff;font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.tag{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(238,240,250,.3);color:#c6cbe4}
+.meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid rgba(243,238,238,.24)}
+.hero .meta{color:rgba(238,240,250,.66)}
+.hero .meta b{display:block;margin-top:7px;color:#fff;font:600 14px Inter,sans-serif;letter-spacing:-.02em;text-transform:none}
+.section{padding:clamp(54px,7vw,88px) 0;border-bottom:1px solid var(--line)}
+.section:last-of-type{border:0}
+.label{color:var(--accent);display:block;margin-bottom:18px}
+.lede{max-width:780px;margin:0;font-size:clamp(23px,3vw,40px);line-height:1.1;letter-spacing:-.06em}
+.copy{max-width:720px;margin:22px 0 0;color:var(--muted);font-size:16px;line-height:1.72}
+.copy strong{color:var(--ink);font-weight:600}
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px;padding:0;list-style:none}
+.themes li{border:1px solid var(--line);border-radius:8px;padding:18px;background:var(--panel)}
+.themes b{display:block;font:700 19px/.98 Archivo,sans-serif;letter-spacing:-.045em;text-transform:uppercase}
+.themes span{display:block;margin-top:8px;color:var(--muted);font-size:13px;line-height:1.45}
+.spread{display:flex;flex-direction:column;gap:20px;margin-top:34px}
+.page{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.page img{display:block;width:100%;height:auto}
+.page figcaption{padding:12px 16px;color:var(--muted);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.07em;text-transform:uppercase}
+.footer{padding:34px 0 46px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.09em}
+.footer a{color:inherit;text-decoration:none;border-bottom:1px solid}
+@media(max-width:700px){
+  .wrap{width:min(100% - 32px,1100px)}
+  .meta-row,.themes{grid-template-columns:1fr}
+  .footer{flex-direction:column;gap:18px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.progress{transition:none}}
+/* ---------- theme ----------
+   Tokens flip on :root[data-theme]. The attribute is set before first
+   paint by the inline script in <head>, from a stored choice or the OS
+   preference, so there is no flash of the wrong theme. */
+:root{
+  color-scheme:light;
+  --invert-bg:#131316;
+  --invert-fg:#ffffff;
+  --glass:rgba(255,255,255,.94);
+  --glass-card:rgba(255,255,255,.86);
+  --surface:#ffffff;
+  --surface-2:#fbfbfb;
+  --hairline:#ececef;
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0e0e11;
+  --panel:#17171c;
+  --soft:#16161b;
+  --ink:#f3f2ef;
+  --muted:#9d9da7;
+  --ink-dim:#9d9da7;
+  --line:rgba(255,255,255,.15);
+  --invert-bg:#1b1b22;
+  --invert-fg:#f3f2ef;
+  --glass:rgba(14,14,17,.92);
+  --glass-card:rgba(23,23,28,.88);
+  --surface:#0e0e11;
+  --surface-2:#141419;
+  --hairline:rgba(255,255,255,.12);
+}
+:root[data-theme="dark"] img{ opacity:.94; }
+
+.theme-toggle{
+  width:34px; height:34px; flex:0 0 auto;
+  /* The headers use space-between; this keeps the toggle grouped with
+     whatever sits on the right rather than stranded in the middle. */
+  margin-left:auto; margin-right:18px;
+  display:inline-grid; place-items:center;
+  padding:0; cursor:pointer;
+  border:1px solid var(--line); border-radius:50%;
+  background:transparent; color:var(--ink);
+  transition:border-color .2s ease, color .2s ease;
+}
+.theme-toggle:hover{ border-color:var(--accent); color:var(--accent); }
+.theme-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+.theme-toggle svg{ width:16px; height:16px; display:block; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; }
+.theme-toggle .moon{ display:none; }
+:root[data-theme="dark"] .theme-toggle .sun{ display:none; }
+:root[data-theme="dark"] .theme-toggle .moon{ display:block; }
+/* ---------- target size ----------
+   WCAG 2.5.8 asks for a 24x24 CSS px target. These links are small by
+   design, so the hit area is an invisible pseudo-element: the pointer
+   target grows, the layout does not move. */
+a.mark,a.back,.nav-links a,.top-nav a,.top a,.footer a,.site-footer a,.footer-nav a,.stack-all,.projects-link{ position:relative; }
+a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::before,.footer a::before,.site-footer a::before,.footer-nav a::before,.stack-all::before,.projects-link::before{
+  content:'';
+  position:absolute; left:0; right:0; top:50%;
+  transform:translateY(-50%);
+  height:24px;
+}
+/* The hero's indigo is too dark to read as a link colour on the dark
+   theme, so the accent is re-stated there rather than left to fail. */
+:root[data-theme="dark"]{ --accent:#8e9bf2; --deep:#161b30; }
+.hero-link{ color:#fff; text-decoration:none; border-bottom:1px solid rgba(255,255,255,.4); }
+.hero-link:hover{ border-bottom-color:#fff; }
+/* Screens of a website are wide and light; a hairline keeps them from
+   bleeding into the page on the light theme. */
+.page img{ background:#fff; }
+:root[data-theme="dark"] .page{ background:var(--soft); }
+</style></head>
+<body>
+<div class="progress" id="progress"></div>
+<header class="wrap top">
+  <a class="mark" href="index.html" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a>
+  <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">
+  <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg>
+  <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
+</button>
+<a class="back" href="index.html#projects-title">&larr; Back to selected work</a>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Product marketing site / selected work</span>
+    <h1>Workfabric<br>AI</h1>
+    <p>The marketing site for <strong>ContextFabric</strong>, a context layer that sits underneath an enterprise&rsquo;s AI agents. The hard part was never the layout. It was finding something to show, for a product whose whole value is that you never see it.</p>
+    <div class="tags">
+      <span class="tag">Web Design</span><span class="tag">UI Design</span><span class="tag">Information Design</span><span class="tag">B2B / Enterprise</span>
+    </div>
+    <div class="meta-row">
+      <div class="meta">Client<b>Workfabric AI</b></div>
+      <div class="meta">Role<b>Design</b></div>
+      <div class="meta">Live at<b><a class="hero-link" href="https://workfabricai.figma.site/" target="_blank" rel="noopener">workfabricai.figma.site &nearr;</a></b></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Context</span>
+    <h2 class="lede">Infrastructure has no photograph.</h2>
+    <p class="copy"><strong>ContextFabric</strong> learns how an organisation actually works &mdash; the cross-app sequences, the naming conventions, the exceptions people handle without ever writing them down &mdash; and hands that to AI agents so they act like someone who has worked there a while.</p>
+    <p class="copy">It is plumbing. It has no interface of its own worth showing, because the point is that it disappears into Salesforce, Slack, Zendesk and whatever agent framework the company already bought. A screenshot of a context layer is an empty rectangle.</p>
+    <figure class="page"><img src="assets/workfabric-ai/hero.jpg" alt="The site opening on the headline: your teams&rsquo; digital experiences vanish every day, AI fails without them" decoding="async" fetchpriority="high"><figcaption>The opening claim, made before any product appears</figcaption></figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">The problem</span>
+    <h2 class="lede">Every enterprise AI site uses the same seventy words.</h2>
+    <p class="copy">Context. Grounding. Agentic. Reliability. Governance. A buyer evaluating four vendors in an afternoon reads the same paragraph four times and leaves with nothing to tell them apart. Saying it more confidently than the last site does not make it more legible.</p>
+    <p class="copy">The audience makes it harder. This is not something you try in a browser tab &mdash; the reader is an enterprise architect or a head of revenue operations, arriving sceptical, already holding a list of reasons this will not survive contact with their company. They do not need to be excited. They need to be shown that somebody has met their actual mess.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">The decision</span>
+    <h2 class="lede">Show the evidence, not the product.</h2>
+    <p class="copy">If the product cannot be photographed, photograph what it reads. Almost every panel on the site is a reconstruction of a real cross-application sequence, drawn as a chain of small labelled cards. <strong>Zendesk &rarr; Excel &rarr; DocuSign</strong>, when a support rep works out that an SSO request is really an upgrade. <strong>Gong &rarr; Notion &rarr; Slack</strong>, when an account executive hears a competitor named on a call. Named tools, named roles, an arrow between them.</p>
+    <p class="copy">It works because the reader recognises the mess. Nobody needs tribal knowledge defined for them once they have seen &ldquo;their CFO always bluffs before renewal&rdquo; sitting in a Slack DM card. The argument gets made by specificity instead of adjectives.</p>
+    <p class="copy"><strong>What it costs.</strong> These are drawings, not screenshots, and a drawing invites the question a screenshot does not: is any of this real. It also leaves the site carrying a maintenance bill no product screenshot would &mdash; dozens of hand-built panels that have to stay truthful as the product changes, in a tool with no component library to change them from. That bill was taken on deliberately, in exchange for being understood at all.</p>
+    <figure class="page"><img loading="lazy" src="assets/workfabric-ai/context-sensors.jpg" alt="The Context Sensors section: a captured chain of work across Zendesk, Excel and Slack, and the inference drawn from it"><figcaption>Capture &mdash; a sensed sequence, and what was inferred from it</figcaption></figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">The device that does the most work</span>
+    <h2 class="lede">Two cards, side by side.</h2>
+    <p class="copy">The same account, the same question, answered twice. On the left the agent has the CRM: account active, NPS eight, send the monthly newsletter. On the right it also has the context &mdash; a support ticket asking for SSO, a competitor named on a call, usage at ninety-four per cent &mdash; and the recommendation becomes an enterprise proposal.</p>
+    <p class="copy">It is the one place on the page where the pitch lands without being read. The left-hand card is deliberately plausible rather than stupid: a strawman would have cost the whole argument its credibility with exactly the reader it is aimed at.</p>
+    <figure class="page"><img loading="lazy" src="assets/workfabric-ai/with-without.jpg" alt="A side-by-side comparison of the same account handled without ContextFabric and with it"><figcaption>Without, and with</figcaption></figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Structure</span>
+    <h2 class="lede">Capture, organise, deliver &mdash; and nothing else to remember.</h2>
+    <p class="copy">A reader who leaves with one thing should leave with the shape. The product is named as three components in a fixed order, each with a verb, so the page can go as deep as it likes afterwards without the reader losing the thread: <strong>Context Sensors</strong> capture, the <strong>Context Cloud</strong> organises, the <strong>Context Orchestrator</strong> delivers.</p>
+    <p class="copy">The Cloud is the section that most wanted to become a diagram of boxes and got a crowd instead &mdash; departments and geographies scattered across a dark field, with one sales team magnified far enough to show the individual work and the tribal knowledge sitting under it. An architecture diagram would have said &ldquo;this is a database&rdquo;. The crowd says &ldquo;this is your company&rdquo;, which is the claim actually being made.</p>
+    <div class="spread">
+      <figure class="page"><img loading="lazy" src="assets/workfabric-ai/context-cloud.jpg" alt="The Context Cloud section: an organisation-wide field of teams and geographies with one sales team magnified"><figcaption>Organise &mdash; the backbone drawn as a populated organisation</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/workfabric-ai/orchestrator.jpg" alt="The Context Orchestrator section: pieces of context feeding into a CRM agent answering a question"><figcaption>Deliver &mdash; the same field, resolved into what one agent is handed</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">The long demonstration</span>
+    <h2 class="lede">Let the reader watch one get built.</h2>
+    <p class="copy">High on the page, before a single component has been named, one panel runs a request end to end: a head of revenue operations asks for a lead-enrichment agent that enriches the way the team actually does it, and the panel shows the workflow being reverse-engineered, the naming conventions learned, twelve edge cases observed, and the agent assembled and benchmarked.</p>
+    <p class="copy">It is a long thing to put that early. The bet is that a sceptical reader gives you one demonstration and no more, so it had better be the whole arc rather than a feature.</p>
+    <figure class="page"><img loading="lazy" src="assets/workfabric-ai/agent-demo.jpg" alt="The lead enrichment demonstration: workflows reverse-engineered, conventions learned, and an agent assembled and benchmarked"><figcaption>One request, followed all the way to a deployable agent</figcaption></figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Answering the objections</span>
+    <h2 class="lede">The second half of the page is a list of reasons to say no.</h2>
+    <p class="copy">Past the explanation, the site stops describing and starts pre-empting. <em>What does it get me</em> &mdash; three numbers, large and unqualified, the only place on the page that trades nuance for a headline. <em>What will it cost my IT team</em> &mdash; no integration required, across mainframes and legacy systems. <em>Will it work with what we already bought</em> &mdash; Cursor, Agentforce, Sierra, ServiceNow, Workday, Harvey, named in a grid rather than claimed in a sentence. <em>What happens to our data</em> &mdash; zero trust, minimum approved context, audited.</p>
+    <p class="copy">Then a block of real Python against a real MCP endpoint, dark against the light page. For a technical evaluator that code is worth more than the four sections before it, because it is the first thing on the page that could be false in a checkable way.</p>
+    <div class="spread">
+      <figure class="page"><img loading="lazy" src="assets/workfabric-ai/outcomes.jpg" alt="Three outcome figures: sixty per cent faster task completion, ninety per cent lower compute spend, seventy per cent fewer hallucinations"><figcaption>The one unqualified claim on the page</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/workfabric-ai/interop.jpg" alt="A grid of connected enterprise agents beside the one context layer, every agent argument"><figcaption>Named, not claimed</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/workfabric-ai/mcp-code.jpg" alt="A dark section showing LangChain Python connecting to the ContextFabric MCP server"><figcaption>The first checkable thing on the page</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Making it concrete</span>
+    <h2 class="lede">Eight industries, one worked example each.</h2>
+    <p class="copy">An enterprise buyer does not generalise from somebody else&rsquo;s vertical, so the page lets them pick their own and then goes narrow: a churn agent that finds the cancellation email a support rep filed as a general inquiry, a shadow-spend agent that finds the fourteen people booking travel outside Concur because Concur times out.</p>
+    <p class="copy">Both examples are unflattering to the customer, which is the point. The product&rsquo;s value is that it sees what the systems of record missed, and an example where nothing was missed would demonstrate nothing.</p>
+    <figure class="page"><img loading="lazy" src="assets/workfabric-ai/industries.jpg" alt="The industries section with a churn prediction agent worked through in detail"><figcaption>Pick your industry, then go narrow</figcaption></figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Constraints</span>
+    <h2 class="lede">What shaped the work as much as the brief did.</h2>
+    <p class="copy"><strong>Built in Figma Sites.</strong> The design tool is also the CMS, which is the only reason a site this illustration-heavy could ship at the pace it did &mdash; there is no handoff, and a panel can be redrawn the afternoon it turns out to be wrong. The cost is everything a front-end codebase gives you for nothing: no components to change once, no build step, and a page that stays honest only by hand.</p>
+    <p class="copy"><strong>A category that does not exist yet.</strong> There is no shelf the reader can already put this on, so the site spends its first third establishing the problem before it is allowed to sell anything.</p>
+    <p class="copy"><strong>Enterprise claims are legally live.</strong> Every number, every named integration and every implication about a customer is something the company has to stand behind &mdash; which is why the illustrative panels run on a fictional account and the hard claims are kept few.</p>
+    <p class="copy"><strong>Roughly fourteen and a half thousand pixels.</strong> A long page is the honest answer to a complicated product and a sceptical reader, but it means the navigation, the section labels and the repeated card language are the things carrying the reader, not the scroll.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Outcome</span>
+    <h2 class="lede">Live, and the place the rest of the company points at.</h2>
+    <p class="copy">The site is published and is where the company&rsquo;s press lands &mdash; the Cognizant partnership, the Harvard Business Review pieces, the keynote &mdash; all of it arriving on a page that has to explain the product from zero in a single visit.</p>
+    <p class="copy">What I will not claim is performance. Traffic, conversion and demo bookings sit with the company and are not mine to publish, so the honest report is what shipped and why it is shaped the way it is.</p>
+    <div class="spread"><figure class="page"><img loading="lazy" src="assets/workfabric-ai/news.jpg" alt="The Latest News section with press coverage and Harvard Business Review articles"><figcaption>Where the press lands</figcaption></figure><figure class="page"><img loading="lazy" src="assets/workfabric-ai/cta-footer.jpg" alt="The closing call to action and the site footer"><figcaption>The one thing the whole page is asking for</figcaption></figure></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Reflection</span>
+    <h2 class="lede">What I would do differently.</h2>
+    <p class="copy">The illustrated panels are the best thing on the site and its largest liability. Drawn by hand in a design tool, they will drift from the product the first time a component gets renamed, and nothing makes that drift visible. I would build the recurring card language &mdash; the tool chip, the arrow chain, the inference card &mdash; as a strict set with a written rule for each, so the fiftieth panel is cheaper than the fifth and a change can be made in one place.</p>
+    <p class="copy">I would also fight harder for a short path through it. Everything here earns its place for a reader who reads all of it, and almost nobody does. A four-screen version of the same argument, with the long page behind it, would serve the architect who arrives having already decided to evaluate.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap footer">
+  <span>Kiran Goutam D / Workfabric AI</span>
+  <a href="index.html">Return to selected work &rarr;</a>
+</footer>
+
+<script>
+(function(){
+  var fill = document.getElementById('progress');
+  if (!fill) return;
+  var ticking = false;
+  function update(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    fill.style.transform = 'scaleX(' + (max > 0 ? window.pageYOffset / max : 0) + ')';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  var root = document.documentElement;
+  function sync(){
+    var dark = root.getAttribute('data-theme') === 'dark';
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  }
+  btn.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('kgd-theme', next); }catch(e){}
+    sync();
+  });
+  sync();
+})();
+</script>
+</body>
+
+</html>
