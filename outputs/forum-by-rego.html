@@ -153,6 +153,9 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     letter-spacing:.07em;
     text-transform:uppercase;
   }
+  /* Shot on a phone, so it stays phone-shaped rather than filling the column. */
+  .page.is-portrait{ max-width:392px; }
+  .page.is-portrait video{ display:block; width:100%; height:auto; background:#0f0f12; }
 </style>
 </head>
 <body>
@@ -237,6 +240,24 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     <p class="copy">The sequence runs in three beats. An organic shape &mdash; the knowledge pool &mdash; keeps growing as new knowledge is added to it. A domino effect of people follows, which is organic networking made literal. Then the logo and the tagline resolve out of it.</p>
     <p class="copy">Storyboarded first, across nine frames, because the beats had to be argued before they were animated. The order matters: knowledge grows, people connect <em>because</em> of it, and the brand is the result rather than the cause.</p>
     <figure class="page" style="margin-top:22px"><img loading="lazy" src="assets/forum-by-rego/doc-06.jpg" alt="Nine-frame storyboard for the Forum logo animation, with sketches"><figcaption>Storyboard &mdash; nine frames</figcaption></figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">Ramp Up, tested</span>
+    <h2 class="lede">Take It To The Streets.</h2>
+    <p class="copy">Of the promotional routes considered, one was taken out and tried on a sample audience rather than argued on paper. The reasoning in the document is plain about why: by starting a conversation with the general public you induce a thought process, awaken curiosity, and give someone a reason to turn up &mdash; which is a claim you can only test by going outside and doing it.</p>
+    <figure class="page is-portrait">
+      <video
+        src="assets/forum-by-rego/take-it-to-the-streets.mp4"
+        width="720" height="1280"
+        muted loop playsinline controls preload="metadata"
+        aria-label="Take It To The Streets: the Forum promotional campaign tested with a sample audience on the street.">
+      </video>
+      <figcaption>Take It To The Streets &mdash; the campaign, tested</figcaption>
+    </figure>
+    <p class="copy">Social media marketing was chosen over the other eleven routes Asana lists for three stated reasons &mdash; cost, sustainability, and the fact that its reach and impact can actually be measured. This is the piece of the Rising Formula that was put in front of real people.</p>
   </div>
 </section>
 
@@ -362,6 +383,12 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 (function(){
   /* The animation auto-plays because a logo resolve is the point of it,
      but not for anyone who has asked the system for less movement. */
+  var s = document.querySelector('.page.is-portrait video');
+  if (s && 'IntersectionObserver' in window){
+    new IntersectionObserver(function(e){ if (!e[0].isIntersecting) s.pause(); },
+      { threshold: 0.1 }).observe(s);
+  }
+
   var v = document.querySelector('.motion video');
   if (!v) return;
   try {
