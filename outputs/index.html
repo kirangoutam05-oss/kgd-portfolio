@@ -126,9 +126,13 @@
   /* ---------- photo (contained, parallax layer) ---------- */
   .portrait{
     position:absolute;
-    top:max(104px, 13%);
+    top:max(118px, 13%);
     right:clamp(20px, 5vw, 64px);
-    width:var(--figure-w);
+    /* Height, not width, is what runs out: the header is above and the name
+       is below. Deriving the size from the viewport height means it fits at
+       every window instead of at the breakpoints I happened to pick. */
+    width:auto;
+    height:min(calc(var(--figure-w) * 1.25), 47svh);
     aspect-ratio:4 / 5;
     z-index:5;
     overflow:hidden;
@@ -211,7 +215,9 @@
     z-index:15;
     pointer-events:none;
   }
+  .nameblock-h1{ margin:0; font:inherit; }
   .nameblock .line{
+    display:block;
     font-family:'Geist', sans-serif;
     font-weight:500;
     text-transform:uppercase;
@@ -407,17 +413,17 @@
      height runs out, rather than colliding. */
   @media (max-height: 880px){
     .hero{ --figure-w: min(28vw, 380px); }
-    .portrait{ top:max(96px, 7%); }
+    .portrait{ top:max(118px, 7%); }
     .card{ width:min(330px, 82vw); }
     .nameblock .line{ font-size:clamp(46px, 9.2vw, 120px); }
   }
   @media (max-height: 780px){
     .hero{ --figure-w: min(24vw, 320px); }
-    .portrait{ top:max(92px, 6%); }
+    .portrait{ top:max(118px, 6%); }
   }
   @media (max-height: 700px){
     .hero{ --figure-w: min(23vw, 300px); }
-    .portrait{ top:max(92px, 6%); }
+    .portrait{ top:max(118px, 6%); }
     .card{ width:min(300px, 84vw); }
     .nameblock .line{ font-size:clamp(38px, 7.6vw, 92px); }
   }
@@ -758,8 +764,10 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 
   <div class="nameblock">
     <div class="role-tag">Creative Designer</div>
-    <div class="line"><span class="txt" data-text="KIRAN">KIRAN</span></div>
-    <div class="line"><span class="txt" data-text="DHANANJAYAN">DHANANJAYAN</span></div>
+    <h1 class="nameblock-h1">
+      <span class="line"><span class="txt" data-text="KIRAN">KIRAN</span></span>
+      <span class="line"><span class="txt" data-text="DHANANJAYAN">DHANANJAYAN</span></span>
+    </h1>
   </div>
 </section>
 
