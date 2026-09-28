@@ -57,7 +57,7 @@
   .hero{
     /* Both hero figures derive from one width, so the photo and the
        floating card always keep the same proportion to each other. */
-    --figure-w: min(39vw, 530px);
+    --figure-w: min(42vw, 620px);
     position:relative;
     width:100%;
     height:100svh;
@@ -445,13 +445,17 @@
      At 1440x800 the name was crossing the photo by 289px. Both shrink as
      height runs out, rather than colliding. */
   @media (max-height: 880px){
-    .hero{ --figure-w: min(24vw, 320px); }
+    .hero{ --figure-w: min(28vw, 380px); }
     .portrait{ top:7%; }
     .card{ width:min(330px, 82vw); }
     .nameblock .line{ font-size:clamp(46px, 9.2vw, 120px); }
   }
+  @media (max-height: 780px){
+    .hero{ --figure-w: min(24vw, 320px); }
+    .portrait{ top:6%; }
+  }
   @media (max-height: 700px){
-    .hero{ --figure-w: min(20vw, 250px); }
+    .hero{ --figure-w: min(23vw, 300px); }
     .portrait{ top:6%; }
     .card{ width:min(300px, 84vw); }
     .nameblock .line{ font-size:clamp(38px, 7.6vw, 92px); }
@@ -740,7 +744,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   </div>
   <div class="project-window">
     <div class="project-rail" id="project-rail">
-    <a class="project-item" href="knku.html" style="--bg:#ece7f8;--art:url('assets/knku/cover.jpg')" aria-label="View the KNKU household ledger case study">
+    <a class="project-item" href="knku.html" style="--bg:#f2f2f7;--art:url('assets/knku/cover.jpg')" aria-label="View the KNKU household ledger case study">
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>KNKU</h3><p>Product Design &amp; Front-end</p></div>
     </a>
@@ -760,7 +764,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>Socials</h3><p>Social Media Design</p></div>
     </a>
-    <a class="project-item" href="knku.html" style="--bg:#ece7f8;--art:url('assets/knku/cover.jpg')" aria-hidden="true" tabindex="-1">
+    <a class="project-item" href="knku.html" style="--bg:#f2f2f7;--art:url('assets/knku/cover.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>KNKU</h3><p>Product Design &amp; Front-end</p></div>
     </a>
@@ -798,7 +802,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     <a class="stack-all" href="projects.html">All projects &#8599;</a>
   </div>
 
-  <a class="stack-item" href="knku.html" style="--tint:#ece7f8;--tint-dark:#191428">
+  <a class="stack-item" href="knku.html" style="--tint:#f2f2f7;--tint-dark:#17171c">
     <div class="stack-media"><img loading="lazy" src="assets/knku/cover.jpg" alt="KNKU household ledger: category, overview and savings screens"></div>
     <div class="stack-row">
       <div class="stack-names">
