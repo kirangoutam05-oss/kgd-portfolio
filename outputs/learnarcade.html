@@ -5,7 +5,7 @@
 (function(){
   try{
     var saved = localStorage.getItem('kgd-theme');
-    var t = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var t = saved || 'dark';
     document.documentElement.setAttribute('data-theme', t);
   }catch(e){
     document.documentElement.setAttribute('data-theme','light');

@@ -5,7 +5,7 @@
 (function(){
   try{
     var saved = localStorage.getItem('kgd-theme');
-    var t = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var t = saved || 'dark';
     document.documentElement.setAttribute('data-theme', t);
   }catch(e){
     document.documentElement.setAttribute('data-theme','light');
@@ -106,66 +106,20 @@
     -webkit-mask-image: radial-gradient(62px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 38%, transparent 76%);
     mask-image: radial-gradient(62px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 38%, transparent 76%);
   }
-  .menu-wrap{ position:relative; }
-  .burger{
-    width:38px; height:38px;
-    padding:0;
-    border:1px solid var(--line);
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    color:var(--ink);
-    background:rgba(19,19,22,0.02);
-    transition:background .25s ease, border-color .25s ease;
+  .topbar-right{ display:flex; align-items:center; gap:14px; }
+  .top-cta{
+    font-size:14px; color:var(--ink); text-decoration:none;
+    border:1px solid var(--line); border-radius:99px;
+    padding:9px 18px; white-space:nowrap;
+    transition:border-color .2s ease, color .2s ease;
   }
-  .burger[hidden]{ display:none; }
-  .burger:hover{ background:rgba(19,19,22,0.06); border-color:rgba(19,19,22,0.3); }
-  .burger:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
-  .burger span{ display:block; width:14px; height:1px; background:currentColor; position:relative; }
-  .burger span::before, .burger span::after{
-    content:""; position:absolute; left:0; width:14px; height:1px; background:currentColor;
-    transition:transform .25s ease;
-  }
-  .burger span::before{ top:-4px; } .burger span::after{ top:4px; }
-  .burger[aria-expanded="true"] span{ background:transparent; }
-  .burger[aria-expanded="true"] span::before{ transform:translateY(4px) rotate(45deg); }
-  .burger[aria-expanded="true"] span::after{ transform:translateY(-4px) rotate(-45deg); }
-
-  .menu-panel{
-    position:absolute;
-    top:calc(100% + 10px);
-    right:0;
-    min-width:190px;
-    padding:8px;
-    background:var(--glass);
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-    border:1px solid var(--line);
-    border-radius:8px;
-    box-shadow:0 18px 40px rgba(19,19,22,0.12);
-    display:flex;
-    flex-direction:column;
-    gap:2px;
-  }
-  .menu-panel[hidden]{ display:none; }
-  .menu-panel a{
-    padding:9px 12px;
-    border-radius:5px;
-    color:var(--ink);
-    font:500 14px 'Geist', sans-serif;
-    letter-spacing:-.02em;
-    text-decoration:none;
-    transition:background .2s ease, color .2s ease;
-  }
-  .menu-panel a:hover{ background:rgba(19,19,22,0.05); color:var(--accent); }
-  .menu-panel a:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
+  .top-cta:hover{ color:var(--accent); border-color:var(--accent); }
+  .top-cta:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
 
   /* ---------- photo (contained, parallax layer) ---------- */
   .portrait{
     position:absolute;
-    top:13%;
+    top:max(104px, 13%);
     right:clamp(20px, 5vw, 64px);
     width:var(--figure-w);
     aspect-ratio:4 / 5;
@@ -446,17 +400,17 @@
      height runs out, rather than colliding. */
   @media (max-height: 880px){
     .hero{ --figure-w: min(28vw, 380px); }
-    .portrait{ top:7%; }
+    .portrait{ top:max(96px, 7%); }
     .card{ width:min(330px, 82vw); }
     .nameblock .line{ font-size:clamp(46px, 9.2vw, 120px); }
   }
   @media (max-height: 780px){
     .hero{ --figure-w: min(24vw, 320px); }
-    .portrait{ top:6%; }
+    .portrait{ top:max(92px, 6%); }
   }
   @media (max-height: 700px){
     .hero{ --figure-w: min(23vw, 300px); }
-    .portrait{ top:6%; }
+    .portrait{ top:max(92px, 6%); }
     .card{ width:min(300px, 84vw); }
     .nameblock .line{ font-size:clamp(38px, 7.6vw, 92px); }
   }
@@ -666,7 +620,6 @@
   width:34px; height:34px; flex:0 0 auto;
   /* The headers use space-between; this keeps the toggle grouped with
      whatever sits on the right rather than stranded in the middle. */
-  margin-left:auto; margin-right:18px;
   display:inline-grid; place-items:center;
   padding:0; cursor:pointer;
   border:1px solid var(--line); border-radius:50%;
@@ -690,6 +643,81 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   transform:translateY(-50%);
   height:24px;
 }
+  /* ---------- contact ---------- */
+  .contact{
+    --contact-margin:max(24px, calc((100vw - 1160px)/2));
+    padding:clamp(72px, 9vw, 124px) var(--contact-margin);
+    background:var(--panel);
+    border-top:1px solid var(--line);
+  }
+  .contact-head{ max-width:640px; }
+  .contact-kicker{
+    font:500 11px 'Geist Mono', monospace;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--accent);
+    display:flex; align-items:center; gap:9px; margin-bottom:18px;
+  }
+  .contact-kicker::before{
+    content:''; width:7px; height:7px; border-radius:50%;
+    background:#59c07a; flex:0 0 auto;
+  }
+  .contact h2{
+    margin:0;
+    font:500 clamp(28px, 3.4vw, 46px)/1.04 'Geist', sans-serif;
+    letter-spacing:-.055em; color:var(--ink);
+  }
+  .contact-lede{
+    margin:18px 0 0; max-width:54ch;
+    color:var(--ink-dim); font-size:16px; line-height:1.62;
+  }
+  .contact-form{
+    margin-top:clamp(30px, 3.6vw, 48px);
+    display:grid; gap:18px;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    max-width:760px;
+  }
+  .field{ display:flex; flex-direction:column; gap:8px; }
+  .field.is-wide{ grid-column:1 / -1; }
+  .field label{
+    font:500 11px 'Geist Mono', monospace;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--ink-dim);
+  }
+  .field input, .field textarea{
+    font:400 15px/1.5 'Geist', sans-serif;
+    color:var(--ink); background:var(--surface);
+    border:1px solid var(--line); border-radius:8px;
+    padding:13px 14px; width:100%;
+    transition:border-color .2s ease;
+  }
+  .field textarea{ resize:vertical; min-height:132px; }
+  .field input:focus, .field textarea:focus{
+    outline:none; border-color:var(--accent);
+  }
+  .field input:focus-visible, .field textarea:focus-visible{
+    outline:2px solid var(--accent); outline-offset:2px;
+  }
+  .contact-actions{
+    grid-column:1 / -1;
+    display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+  }
+  .contact-send{
+    font:500 15px 'Geist', sans-serif;
+    color:var(--paper); background:var(--ink);
+    border:1px solid var(--ink); border-radius:99px;
+    padding:13px 28px; cursor:pointer;
+    transition:background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .contact-send:hover{ background:var(--accent); border-color:var(--accent); }
+  .contact-send:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  .contact-note{ margin:0; color:var(--ink-dim); font-size:13px; line-height:1.5; }
+  .contact-note a{ color:var(--ink); }
+  .contact-status{
+    grid-column:1 / -1; margin:0;
+    font-size:14px; color:var(--ink-dim);
+  }
+  .contact-status[hidden]{ display:none; }
+  @media (max-width: 680px){
+    .contact-form{ grid-template-columns:1fr; }
+  }
 </style>
 </head>
 <body>
@@ -698,21 +726,13 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 <section class="hero" id="hero">
   <div class="topbar">
     <a class="mark" href="index.html" aria-current="page" data-text="Kiran Goutam D" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a>
+    <div class="topbar-right">
     <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">
   <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg>
   <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
 </button>
-<nav class="menu-wrap" aria-label="Main">
-      <button type="button" class="burger" id="menu-toggle"
-              aria-label="Open menu" aria-expanded="false" aria-controls="menu-panel" hidden>
-        <span></span>
-      </button>
-      <div class="menu-panel" id="menu-panel" hidden>
-        <a href="#projects-title">Selected work</a>
-        <a href="#services-title">Services</a>
-        <a href="projects.html">All projects</a>
-      </div>
-    </nav>
+<a class="top-cta" href="#contact">Get in touch</a>
+    </div>
   </div>
 
   <div class="portrait" id="portrait">
@@ -748,15 +768,15 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>KNKU</h3><p>Product Design &amp; Front-end</p></div>
     </a>
-    <a class="project-item" href="pes-university.html" style="--bg:#1b2f6b;--art:url('assets/pes-university/page-01.jpg')" aria-label="View the PES University BBA Sports Management case study">
+    <a class="project-item" href="pes-university.html" style="--bg:#1b2f6b;--art:url('assets/pes-university/page-12.jpg')" aria-label="View the PES University BBA Sports Management case study">
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>PES University</h3><p>Campaign &amp; Digital</p></div>
     </a>
-    <a class="project-item" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-10.jpg')" aria-label="View the Forum by Rego case study">
+    <a class="project-item" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-08.jpg')" aria-label="View the Forum by Rego case study">
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>Forum by Rego</h3><p>Branding &amp; Motion Graphics</p></div>
     </a>
-    <a class="project-item" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-03.jpg')" aria-label="View the Tetrad Beverages case study">
+    <a class="project-item" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/tile.jpg')" aria-label="View the Tetrad Beverages case study">
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>Tetrad Beverages</h3><p>Social &amp; Web Design</p></div>
     </a>
@@ -768,15 +788,15 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>KNKU</h3><p>Product Design &amp; Front-end</p></div>
     </a>
-    <a class="project-item" href="pes-university.html" style="--bg:#1b2f6b;--art:url('assets/pes-university/page-01.jpg')" aria-hidden="true" tabindex="-1">
+    <a class="project-item" href="pes-university.html" style="--bg:#1b2f6b;--art:url('assets/pes-university/page-12.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>PES University</h3><p>Campaign &amp; Digital</p></div>
     </a>
-    <a class="project-item" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-10.jpg')" aria-hidden="true" tabindex="-1">
+    <a class="project-item" href="forum-by-rego.html" style="--bg:#101014;--art:url('assets/forum-by-rego/page-08.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>Forum by Rego</h3><p>Branding &amp; Motion Graphics</p></div>
     </a>
-    <a class="project-item" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/page-03.jpg')" aria-hidden="true" tabindex="-1">
+    <a class="project-item" href="tetrad-beverages.html" style="--bg:#171717;--art:url('assets/tetrad-beverages/tile.jpg')" aria-hidden="true" tabindex="-1">
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>Tetrad Beverages</h3><p>Social &amp; Web Design</p></div>
     </a>
@@ -837,6 +857,39 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 
 </section>
 
+
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <div class="contact-head">
+    <p class="contact-kicker">Open to new work</p>
+    <h2 id="contact-title">Tell me what you&rsquo;re making.</h2>
+    <p class="contact-lede">Branding, packaging, campaigns or a product interface &mdash; if there is a problem worth arguing about, I would like to hear it.</p>
+  </div>
+
+  <form class="contact-form" id="contact-form" action="mailto:kirangoutamdhananjayan@gmail.com" method="post" enctype="text/plain" novalidate>
+    <div class="field">
+      <label for="cf-name">Your name</label>
+      <input type="text" id="cf-name" name="name" autocomplete="name" required>
+    </div>
+    <div class="field">
+      <label for="cf-email">Email</label>
+      <input type="email" id="cf-email" name="email" autocomplete="email" required>
+    </div>
+    <div class="field is-wide">
+      <label for="cf-subject">What is it about</label>
+      <input type="text" id="cf-subject" name="subject" autocomplete="off">
+    </div>
+    <div class="field is-wide">
+      <label for="cf-message">Message</label>
+      <textarea id="cf-message" name="message" rows="6" required></textarea>
+    </div>
+    <div class="contact-actions">
+      <button type="submit" class="contact-send">Send message</button>
+      <p class="contact-note">This opens your own mail app with the message ready &mdash; or write to <a href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a> directly.</p>
+    </div>
+    <p class="contact-status" id="contact-status" role="status" hidden></p>
+  </form>
+</section>
+
 <footer class="site-footer">
   <a class="footer-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
   <nav class="footer-nav" aria-label="Footer">
@@ -849,41 +902,6 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 
 <script>
 (function(){
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ------------------------------------------------------------------
-     Menu. Set up regardless of motion preference — it is navigation, not
-     decoration. The button ships hidden so it never appears as a dead
-     control when scripting is unavailable.
-     ------------------------------------------------------------------ */
-  var menuBtn = document.getElementById('menu-toggle');
-  var menuPanel = document.getElementById('menu-panel');
-  if (menuBtn && menuPanel){
-    menuBtn.hidden = false;
-
-    var setMenu = function(open){
-      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      menuPanel.hidden = !open;
-    };
-
-    menuBtn.addEventListener('click', function(){
-      setMenu(menuBtn.getAttribute('aria-expanded') !== 'true');
-    });
-
-    document.addEventListener('keydown', function(e){
-      if (e.key !== 'Escape') return;
-      if (menuBtn.getAttribute('aria-expanded') !== 'true') return;
-      setMenu(false);
-      menuBtn.focus();
-    });
-
-    document.addEventListener('click', function(e){
-      if (menuBtn.getAttribute('aria-expanded') !== 'true') return;
-      if (menuBtn.contains(e.target) || menuPanel.contains(e.target)) return;
-      setMenu(false);
-    });
-  }
 
   /* ------------------------------------------------------------------
      Services word reveal. The greyed-out starting state is opt-in via
@@ -1231,7 +1249,49 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   }
 })();
 </script>
+<script>
+(function(){
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+  var status = document.getElementById('contact-status');
+  var MAIL = 'kirangoutamdhananjayan@gmail.com';
+
+  function say(msg){
+    if (!status) return;
+    status.textContent = msg;
+    status.hidden = !msg;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name    = form.querySelector('#cf-name').value.trim();
+    var email   = form.querySelector('#cf-email').value.trim();
+    var subject = form.querySelector('#cf-subject').value.trim();
+    var message = form.querySelector('#cf-message').value.trim();
+
+    if (!name || !email || !message){
+      say('Please fill in your name, your email and a message.');
+      return;
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
+      say('That email address does not look right.');
+      return;
+    }
+
+    /* There is no server behind this page, so the form hands the message
+       to whatever mail client the visitor already uses rather than
+       pretending to send it. */
+    var subj = subject || ('Portfolio enquiry from ' + name);
+    var body = message + '\n\n\u2014 ' + name + '\n' + email;
+    say('Opening your mail app\u2026 if nothing happens, write to ' + MAIL + ' directly.');
+    window.location.href = 'mailto:' + MAIL
+      + '?subject=' + encodeURIComponent(subj)
+      + '&body=' + encodeURIComponent(body);
+  });
+})();
+</script>
 </body>
+
 
 
 </html>
