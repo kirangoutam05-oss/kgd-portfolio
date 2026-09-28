@@ -1,0 +1,1108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KNKU &mdash; Kiran Goutam Dhananjayan</title>
+<meta name="description" content="KNKU &mdash; a shared household expense ledger that parses bank SMS, and the four interface problems that were quietly handing the checking back to the people using it. Case study by Kiran Goutam Dhananjayan.">
+<link rel="canonical" href="https://kirangoutamdhananjayan.com/knku.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kirangoutamdhananjayan.com/knku.html">
+<meta property="og:title" content="KNKU &mdash; Kiran Goutam Dhananjayan">
+<meta property="og:description" content="Killing the month-end spreadsheet, without recreating it by accident.">
+<meta property="og:image" content="https://kirangoutamdhananjayan.com/assets/knku/cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://kirangoutamdhananjayan.com/assets/knku/cover.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B6E4F'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%233FCB93'/%3E%3C/svg%3E">
+<style>
+  :root { color-scheme: light; box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body { margin: 0; padding: 0; }
+  img { max-width: 100%; }
+</style>
+<script>
+(function(){
+  try{
+    var saved = localStorage.getItem('kgd-theme');
+    var t = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', t);
+  }catch(e){
+    document.documentElement.setAttribute('data-theme','light');
+  }
+})();
+</script>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #101B17; --ink-soft: #33423C; --muted: #5B685F;
+    --paper: #F6F8F4; --paper-raised: #FFFFFF;
+    --line: #D9E0D6; --line-strong: #B9C4B5;
+    --accent: #0B6E4F; --accent-soft: #E3F0E8;
+    --danger: #A23B33; --danger-soft: #F5E7E4;
+    --focus: #0B6E4F;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #EAF1EC; --ink-soft: #C4D0C8; --muted: #8CA093;
+      --paper: #0B1210; --paper-raised: #121C18;
+      --line: #223028; --line-strong: #34473C;
+      --accent: #3FCB93; --accent-soft: #16302426;
+      --danger: #E38A82; --danger-soft: #3A201D;
+      --focus: #3FCB93; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #EAF1EC; --ink-soft: #C4D0C8; --muted: #8CA093;
+    --paper: #0B1210; --paper-raised: #121C18;
+    --line: #223028; --line-strong: #34473C;
+    --accent: #3FCB93; --accent-soft: #16302426;
+    --danger: #E38A82; --danger-soft: #3A201D;
+    --focus: #3FCB93; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px 96px; }
+  h1, h2, h3 { font-family: 'Archivo', 'Source Sans 3', sans-serif; text-wrap: balance; margin: 0; }
+  .mono { font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .tab-nums { font-variant-numeric: tabular-nums; }
+  a { color: var(--accent); text-decoration-thickness: 1.5px; text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 3px; }
+
+  /* masthead */
+  .masthead { padding: 56px 0 32px; border-bottom: 1px solid var(--line); }
+  .kicker {
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent);
+    display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+  }
+  .kicker .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .masthead h1 { font-size: clamp(32px, 6vw, 46px); font-weight: 800; letter-spacing: -0.01em; line-height: 1.08; max-width: 18ch; }
+  .masthead .dek { margin-top: 16px; font-size: 18px; color: var(--ink-soft); max-width: 60ch; }
+  .masthead .byline { margin-top: 24px; font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .byline b { color: var(--ink-soft); font-weight: 600; }
+
+  /* sections */
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  section h2 { font-size: clamp(24px, 4vw, 30px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 18px; max-width: 22ch; }
+  section > p { max-width: 66ch; color: var(--ink-soft); }
+  section > p + p { margin-top: 14px; }
+
+  /* problem statement */
+  .problem-lede {
+    font-size: 20px; line-height: 1.55; color: var(--ink); max-width: 62ch;
+    font-family: 'Archivo', sans-serif; font-weight: 500;
+  }
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 28px; }
+  @media (max-width: 640px) { .problem-grid { grid-template-columns: 1fr; } }
+  .problem-card { background: var(--paper-raised); padding: 22px 20px; }
+  .problem-card .idx { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--danger); margin-bottom: 10px; }
+  .problem-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
+  .problem-card p { font-size: 13.5px; color: var(--muted); margin: 0; }
+  .problem-card .fact {
+    margin-top: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+    color: var(--ink-soft); background: var(--danger-soft); padding: 8px 10px; display: inline-block;
+  }
+
+  /* derivation stage sequences */
+  .stagebar { display: flex; align-items: center; gap: 6px; margin: 34px 0 22px; flex-wrap: wrap; }
+  .stagebar .step {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.04em;
+    padding: 4px 10px; border: 1px solid var(--line-strong); color: var(--muted); border-radius: 20px;
+  }
+  .stagebar .step.current { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+  .stagebar .arrow { color: var(--line-strong); font-size: 13px; }
+
+  .stage {
+    display: grid; grid-template-columns: 260px 1fr; gap: 28px; align-items: start;
+    padding: 26px 0; border-top: 1px solid var(--line);
+  }
+  .stage:first-of-type { border-top: none; padding-top: 4px; }
+  @media (max-width: 640px) { .stage { grid-template-columns: 1fr; } }
+  .stage .label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+  }
+  .stage .label.regress { color: var(--danger); }
+  .stage .label.fixed { color: var(--accent); }
+  .stage h4 { font-size: 15.5px; font-weight: 700; margin-bottom: 6px; }
+  .stage p { font-size: 14px; color: var(--ink-soft); margin: 0; max-width: 48ch; }
+  .stage .measure {
+    margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted);
+    background: var(--paper); border: 1px solid var(--line); padding: 6px 10px; display: inline-block;
+  }
+
+  /* screen frame (the visual mockups) */
+  .frame {
+    border-radius: 18px; border: 1px solid var(--line-strong); background: var(--paper-raised);
+    overflow: hidden; box-shadow: 0 12px 28px -18px rgba(0,0,0,.28); width: 100%; max-width: 260px;
+  }
+  .frame .statusbar { display: flex; gap: 4px; padding: 8px 10px 0; }
+  .frame .statusbar span { width: 5px; height: 5px; border-radius: 50%; background: var(--line-strong); }
+  .frame .inner { padding: 10px; }
+  .frame.dark .inner { background: #08110E; color: #fff; }
+  .frame.dark .statusbar span { background: rgba(255,255,255,.2); }
+
+  /* row mock (transaction list) */
+  .rowmock { border: 1px solid #ECEEEA; border-radius: 10px; overflow: hidden; }
+  .rowmock .r {
+    display: flex; align-items: center; gap: 10px; padding: 10px; background: #fff;
+    border-bottom: 1px solid #F1F2EF;
+  }
+  .rowmock .r:last-child { border-bottom: none; }
+  .rowmock .ic { width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0; background: #E7897020; display:flex; align-items:center; justify-content:center; }
+  .rowmock .ic svg { width: 14px; height: 14px; }
+  .rowmock .meta { min-width: 0; flex: 1; }
+  .rowmock .t { font-size: 11.5px; font-weight: 600; color: #171717; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+  .rowmock .t.fit { text-overflow: ellipsis; }
+  .rowmock .sub { font-size: 9.5px; color: #A3A3A3; white-space: nowrap; overflow: hidden; text-overflow: clip; margin-top: 2px; }
+  .rowmock .sub.fit { text-overflow: ellipsis; }
+  .rowmock .amt { margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: #171717; flex-shrink: 0; white-space: nowrap; }
+  .rowmock .overlap { position: relative; }
+  .rowmock .overlap .amt { position: absolute; right: 10px; top: 8px; background: #fff; padding-left: 2px; }
+
+  /* icon grid mock */
+  .icongrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .icontile { aspect-ratio: 1; border-radius: 9px; display: flex; align-items: center; justify-content: center; }
+  .icontile svg { width: 16px; height: 16px; }
+  .icon-caption { font-size: 9px; color: var(--muted); text-align: center; margin-top: 4px; font-family: 'IBM Plex Mono', monospace; }
+
+  /* hero mock (dark card) */
+  .heromock { border-radius: 18px; padding: 16px 16px 18px; color: #fff; font-family: 'Source Sans 3', sans-serif;
+    background: radial-gradient(70% 85% at 50% 100%, rgba(147,51,234,0.28) 0%, rgba(147,51,234,0) 72%), #050308; }
+  .heromock .r1 { display:flex; justify-content:space-between; align-items:center; font-size: 10.5px; font-weight: 600; color: rgba(255,255,255,.7); }
+  .heromock .r1 .ic { width:18px; height:18px; border-radius:5px; background:rgba(255,255,255,.1); }
+  .heromock .period { margin-top: 4px; font-size: 9.5px; color: rgba(255,255,255,.5); }
+  .heromock .inout { display:flex; align-items:center; gap:6px; margin-top:2px; font-size: 9.5px; font-family:'IBM Plex Mono',monospace; font-weight:600; }
+  .heromock .inout .in { color: #3FCB93; } .heromock .inout .out { color: #E38A82; } .heromock .inout .dot { color: rgba(255,255,255,.25); }
+  .heromock .big { margin-top: 10px; font-family:'IBM Plex Mono',monospace; font-size: 30px; font-weight: 600; letter-spacing: -0.01em; }
+  .heromock .big .cur { font-size: 15px; opacity: .8; margin-right: 3px; }
+  .heromock .today { margin-top: 4px; font-size: 10px; color: rgba(255,255,255,.55); }
+  .heromock .block { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.1); }
+  .heromock .block .lbl { font-size: 10px; color: rgba(255,255,255,.6); display:flex; justify-content:space-between; }
+  .heromock .block .val { font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:12px; }
+  .heromock .block .val.pos { color:#3FCB93; } .heromock .block .val.neg { color:#E38A82; }
+  .heromock .block .split { display:flex; gap:10px; margin-top:6px; font-size:9px; color:rgba(255,255,255,.5); }
+
+  /* principles grid */
+  .principles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 28px; }
+  @media (max-width: 640px) { .principles { grid-template-columns: 1fr; } }
+  .principle { background: var(--paper-raised); padding: 22px; }
+  .principle h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 8px; }
+  .principle p { font-size: 13.5px; color: var(--muted); margin: 0; }
+  .principle .from { margin-top: 10px; font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--accent); }
+
+  /* compact evidence table */
+  .ledger { margin-top: 20px; border: 1px solid var(--line); }
+  .lrow { display: grid; grid-template-columns: 1.1fr 1fr; gap: 18px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+  .lrow:last-child { border-bottom: none; }
+  .lrow.head { background: var(--paper-raised); font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 9px 18px; }
+  @media (max-width: 560px) { .lrow { grid-template-columns: 1fr; gap: 8px; } .lrow.head { display: none; }
+    .lrow:not(.head) .cell::before { content: attr(data-label); display: block; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:3px; } }
+  .cell { font-size: 14px; }
+  .cell.strike { text-decoration: line-through; color: var(--muted); }
+
+  /* stat strip, chips, closing (reused) */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (max-width: 560px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  .stat { background: var(--paper-raised); padding: 16px 14px; }
+  .stat .n { font-family: 'IBM Plex Mono', monospace; font-size: 23px; font-weight: 600; letter-spacing: -0.02em; }
+  .stat .l { margin-top: 4px; font-size: 11.5px; color: var(--muted); line-height: 1.35; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .chip { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; border: 1px solid var(--line-strong); padding: 6px 12px; border-radius: 20px; color: var(--ink-soft); background: var(--paper-raised); }
+  .closing { padding: 56px 0 0; display: grid; gap: 20px; }
+  .closing h2 { font-size: 22px; }
+  .note { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 24px; margin-top: 12px; line-height: 1.7; }
+  .caption { font-size: 12.5px; color: var(--muted); margin-top: 14px; max-width: 58ch; }
+
+  /* journey strip */
+  .journey { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 30px; }
+  @media (max-width: 760px) { .journey { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 460px) { .journey { grid-template-columns: 1fr; } }
+  .jstep { display: flex; flex-direction: column; gap: 10px; }
+  .jstep .jn { font-family:'IBM Plex Mono',monospace; font-size:11px; color: var(--accent); }
+  .jstep .jt { font-size: 13px; font-weight: 700; }
+  .jstep .jd { font-size: 12px; color: var(--muted); line-height: 1.45; }
+  .jstep .frame { max-width: 100%; }
+
+  .obmock { background:#F2F2F7; padding: 26px 16px; text-align:center; }
+  .obmock .logo { width:44px; height:44px; border-radius:13px; margin:0 auto 10px; background: linear-gradient(135deg,#7C3AED,#EC4899,#0EA5E9); display:flex; align-items:center; justify-content:center; color:#fff; font-family:'Archivo',sans-serif; font-weight:800; font-size:10px; letter-spacing:.02em; }
+  .obmock h5 { font-size:14px; font-weight:800; margin:0 0 4px; color:#111; }
+  .obmock .obsub { font-size:9.5px; color:#6b6b70; margin-bottom:16px; line-height:1.4; }
+  .obbtn { display:block; width:100%; padding:9px; border-radius:10px; font-size:10.5px; font-weight:700; margin-bottom:7px; }
+  .obbtn.primary { background:#9333EA; color:#fff; }
+  .obbtn.ghost { background:#fff; color:#111; border:1px solid #E5E5EA; }
+
+  .waymock { background:#F2F2F7; padding: 26px 16px; text-align:center; }
+  .waymock .avatar { width:40px; height:40px; border-radius:12px; margin: 0 auto 8px; background:linear-gradient(135deg,#7C3AED,#EC4899); }
+  .waymock h5 { font-size:13px; font-weight:800; color:#111; margin:0 0 12px; }
+  .way-cards { display:flex; gap:8px; margin-bottom:10px; }
+  .way-card { flex:1; padding:14px 6px; border-radius:12px; border:2px solid #E5E5EA; background:#fff; font-size:11px; font-weight:700; color:#111; }
+  .way-card.sel { border-color:#9333EA; background:#F5EBFF; color:#7E22CE; }
+
+  .addmock { background:#fff; padding: 14px; }
+  .addmock .toggle { display:flex; padding:3px; border-radius:10px; background:#F5F5F5; margin-bottom:12px; }
+  .addmock .toggle span { flex:1; text-align:center; padding:6px; font-size:10.5px; font-weight:700; border-radius:7px; }
+  .addmock .toggle span.on { background:#fff; color:#111; box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .addmock .toggle span.off { color:#999; }
+  .addmock .fld { margin-bottom:9px; }
+  .addmock .fld label { font-size:9px; font-weight:700; color:#8A8A8E; display:block; margin-bottom:3px; }
+  .addmock .fld .box { background:#F5F5F5; border-radius:9px; padding:8px 9px; font-size:11px; color:#111; }
+  .addmock .fld .box.big { font-size:18px; font-weight:800; }
+
+  .catmock { background:#fff; padding:14px; }
+  .catrow { display:flex; align-items:center; gap:9px; padding:8px 0; border-bottom:1px solid #F1F1F1; }
+  .catrow:last-child { border-bottom:none; }
+  .catrow .ci { width:26px; height:26px; border-radius:8px; flex-shrink:0; }
+  .catrow .cn { flex:1; min-width:0; }
+  .catrow .cn .name { font-size:11px; font-weight:700; color:#111; }
+  .catrow .cn .bar { height:4px; border-radius:3px; background:#F0F0F0; margin-top:4px; overflow:hidden; }
+  .catrow .cn .bar i { display:block; height:100%; border-radius:3px; }
+  .catrow .camt { font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:#8A8A8E; flex-shrink:0; }
+
+  .goalmock { background:#fff; padding:14px; }
+  .goalcard { border:1px solid #F0F0F0; border-radius:14px; padding:12px; }
+  .goalcard .gh { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .goalcard .gi { width:30px; height:30px; border-radius:9px; background:#7C3AED20; display:flex; align-items:center; justify-content:center; }
+  .goalcard .gt { font-size:12px; font-weight:700; color:#111; }
+  .goalcard .gd { font-size:9px; color:#999; }
+  .goalcard .gnum { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+  .goalcard .gnum b { font-family:'IBM Plex Mono',monospace; font-size:14px; }
+  .goalcard .gnum span { font-size:10px; color:#999; }
+  .goalcard .gbar { height:6px; border-radius:4px; background:#F0F0F0; overflow:hidden; }
+  .goalcard .gbar i { display:block; height:100%; background:linear-gradient(90deg,#3B82F6,#9333EA); border-radius:4px; }
+
+  .accmock { background:#fff; padding:14px; }
+  .accrow { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid #F1F1F1; gap:10px; }
+  .accrow:last-child { border-bottom:none; }
+  .accrow .al { min-width:0; }
+  .accrow .al .t { font-size:11px; font-weight:700; color:#111; }
+  .accrow .al .d { font-size:9px; color:#999; margin-top:1px; }
+  .accsw { width:32px; height:18px; border-radius:10px; background:#E5E5EA; position:relative; flex-shrink:0; }
+  .accsw.on { background:#9333EA; }
+  .accsw i { position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%; background:#fff; }
+  .accsw.on i { left:16px; }
+
+  .cmp { margin-top:26px; border:1px solid var(--line); overflow-x:auto; }
+  .cmp table { width:100%; border-collapse:collapse; min-width:560px; }
+  .cmp th, .cmp td { text-align:left; padding:12px 16px; border-bottom:1px solid var(--line); font-size:13.5px; }
+  .cmp th { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); background:var(--paper-raised); font-weight:600; }
+  .cmp td.dim { font-weight:600; color:var(--ink); }
+  .cmp td.yes { color: var(--accent); font-weight: 600; }
+  .cmp td.no { color: var(--muted); }
+  .cmp tr:last-child td { border-bottom:none; }
+  .src-note { font-size: 11.5px; color: var(--muted); margin-top: 10px; }
+  .src-note a { color: var(--muted); text-decoration-color: var(--line-strong); }
+
+  .origin { display:grid; grid-template-columns: 120px 1fr; gap: 24px; align-items:center; margin-top: 26px; }
+  @media (max-width:520px) { .origin { grid-template-columns: 1fr; } }
+  .origin .wordmark { font-family:'Archivo',sans-serif; font-weight:800; font-size: 44px; letter-spacing: -0.02em; color: var(--ink); text-align:center; }
+  .origin .wordmark .tamil { font-family:'Noto Sans Tamil','Source Sans 3',sans-serif; font-size: 20px; font-weight: 400; color: var(--accent); margin-top: 6px; }
+  .origin p { margin: 0; color: var(--ink-soft); font-size: 15px; max-width: 56ch; }
+
+  .vision-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:26px; }
+  @media (max-width:640px){ .vision-grid{ grid-template-columns:1fr; } }
+  .vision-card { background: var(--paper-raised); padding: 20px; }
+  .vision-card h3 { font-size: 15.5px; font-weight:700; margin-bottom:8px; }
+  .vision-card p { font-size: 13px; color: var(--muted); margin:0; }
+
+
+  .frame img.real { display: block; width: 100%; height: auto; }
+  .frame.crop-hero img.real { height: 300px; object-fit: cover; object-position: top; }
+  .shot-caption { font-size: 10.5px; color: var(--muted); text-align: center; padding: 6px 0 2px; background: var(--paper-raised); }
+
+</style>
+<style>
+  /* Site chrome. Uses this page's tokens rather than importing the
+     portfolio's, so it inherits the light and dark palettes already here. */
+  .site-top{
+    max-width:860px; margin:0 auto; padding:22px 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .site-top .mark{
+    font-family:'Source Sans 3',sans-serif; font-weight:600; font-size:15px;
+    letter-spacing:-.012em; color:var(--ink);
+    text-decoration:none; position:relative; display:inline-block;
+  }
+  .site-top .mark::after{
+    content:attr(data-text); position:absolute; left:0; top:0; white-space:nowrap;
+    pointer-events:none;
+    background-image:linear-gradient(96deg,#0B6E4F 0%,#2f9e6e 30%,#3FCB93 60%,#6fd3c6 100%);
+    -webkit-background-clip:text; background-clip:text;
+    color:transparent; -webkit-text-fill-color:transparent;
+    -webkit-mask-image:radial-gradient(62px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 38%, transparent 76%);
+    mask-image:radial-gradient(62px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 38%, transparent 76%);
+  }
+  .site-top-right{ display:flex; align-items:center; gap:16px; }
+  .site-top .back{
+    font-family:'Source Sans 3',sans-serif; font-size:13px; color:var(--ink);
+    text-decoration:none; border-bottom:1px solid var(--line-strong); padding-bottom:3px;
+  }
+  .site-top .back:hover{ color:var(--accent); border-color:var(--accent); }
+  .theme-toggle{
+    width:34px; height:34px; flex:0 0 auto; display:inline-grid; place-items:center;
+    padding:0; cursor:pointer; border:1px solid var(--line); border-radius:50%;
+    background:transparent; color:var(--ink);
+  }
+  .theme-toggle:hover{ border-color:var(--accent); color:var(--accent); }
+  .theme-toggle svg{ width:16px; height:16px; display:block; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; }
+  .theme-toggle .moon{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .sun{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .moon{ display:block; }
+  .site-footer{
+    max-width:860px; margin:0 auto; padding:26px 20px 48px;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:18px; flex-wrap:wrap;
+    border-top:1px solid var(--line);
+    font-family:'Source Sans 3',sans-serif; font-size:13px; color:var(--muted);
+  }
+  .site-footer a{ color:var(--ink); text-decoration:none; }
+  .site-footer .footer-mail{ border-bottom:1px solid var(--line-strong); padding-bottom:3px; }
+  .site-footer a:hover{ color:var(--accent); }
+  .footer-nav{ display:flex; gap:20px; flex-wrap:wrap; }
+</style>
+
+<header class="site-top">
+  <a class="mark" href="index.html" data-text="Kiran Goutam D" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a>
+  <div class="site-top-right">
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
+    </button>
+    <a class="back" href="index.html#projects-title">&larr; Back to selected work</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker"><span class="dot"></span>Design Case Study</div>
+    <h1>Killing the month-end spreadsheet, without recreating it by accident</h1>
+    <p class="dek">
+      KNKU started from one plain, recurring chore: a couple writing down every
+      rupee they spent, every day, then sitting down at the end of the month to
+      turn that log into a dashboard by hand. The app&rsquo;s entire job is to make
+      that ritual disappear &mdash; parse it from the bank SMS the moment it happens,
+      keep the dashboard always current. But an automatic system only removes
+      the manual work if you can trust what it shows without checking it
+      yourself. This is the record of three places the interface was quietly
+      handing that checking back to them &mdash; and what it took to actually fix
+      each one.
+    </p>
+    <div class="byline">
+      <span><b>Role</b> Product design + front-end, working alongside Claude Opus 5</span>
+      <span><b>Surface</b> React / Tailwind, iOS PWA</span>
+      <span><b>Window</b> Sept 24&ndash;28, 2026</span>
+    </div>
+  </header>
+
+  <section id="problem">
+    <div class="eyebrow">Problem statement</div>
+    <h2>Two people, a notebook every day, a spreadsheet every month</h2>
+    <p class="problem-lede">
+      Before KNKU, the routine was manual twice over: write down what you
+      spent as you spent it, then &mdash; at the end of the month &mdash; sit down and
+      turn two people&rsquo;s worth of scattered entries into something that
+      actually showed where the money went. Not hard, exactly. Just enough
+      friction, repeated often enough, that the logging slipped and the
+      month-end rebuild got dreaded.
+    </p>
+    <p class="problem-lede" style="font-size:16px; font-weight:400; margin-top:14px; color:var(--ink-soft)">
+      KNKU&rsquo;s answer was to remove both steps at once: parse the transaction
+      straight from the bank&rsquo;s own SMS the moment it lands, and keep a
+      dashboard that&rsquo;s simply always current &mdash; nothing to assemble, ever.
+      That only works, though, if the automatic version can be trusted without
+      a second look. Three parts of the interface were quietly failing that
+      test &mdash; each one, if left alone, would have taught the couple to
+      double-check the app by hand, which is exactly the chore it was built
+      to end.
+    </p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="idx mono">01 &middot; Legibility</div>
+        <h3>You couldn&rsquo;t tell what you&rsquo;d bought without tapping in</h3>
+        <p>The one thing a glance at a row needs to answer &mdash; who did I pay &mdash;
+        was clipping mid-word or replaced outright by a bank logo, forcing a
+        second look the automation was supposed to make unnecessary.</p>
+        <span class="fact">6 of 6 sampled titles clipped</span>
+      </div>
+      <div class="problem-card">
+        <div class="idx mono">02 &middot; Honesty</div>
+        <h3>The dashboard handed down a verdict, not a fact</h3>
+        <p>&ldquo;Overspent by &#8377;X&rdquo; compared spending to income that structurally
+        couldn&rsquo;t land in the same window &mdash; wrong most months, stated as
+        fact, the kind of thing you&rsquo;d start mentally correcting yourself.</p>
+        <span class="fact">Salary falls outside the 21&ndash;20 cycle</span>
+      </div>
+      <div class="problem-card">
+        <div class="idx mono">03 &middot; Trust</div>
+        <h3>It guessed, and presented the guess as settled</h3>
+        <p>A &ldquo;Recurring&rdquo; badge was applied by timing alone &mdash; two purchases a
+        month apart &mdash; with nothing to say the system wasn&rsquo;t sure, which is
+        precisely the kind of claim you end up re-verifying by hand.</p>
+        <span class="fact">46 flagged, 1 ever confirmed by a person</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="origin">
+    <div class="eyebrow">Where the name comes from</div>
+    <h2>Kanakku &mdash; the word for account, kept to its consonants</h2>
+    <div class="origin">
+      <div class="wordmark">KNKU<div class="tamil">கணக்கு</div></div>
+      <p>
+        The project started as exactly what the problem statement above
+        describes &mdash; two people trying to keep an honest shared ledger.
+        The Tamil word for account, or calculation, is <b>kanakku</b>
+        (கணக்கு). Stripped to its consonants for a name that reads
+        cleanly in an app icon, it became <b>KNKU</b>.
+      </p>
+    </div>
+  </section>
+  <section id="journey">
+    <div class="eyebrow">The product, start to finish</div>
+    <h2>What actually happens between opening the app and seeing the month</h2>
+    <p>Before zooming into what got fixed, the whole loop the household actually
+    lives in &mdash; set up once, then almost never open the keyboard again.</p>
+    <div class="journey">
+
+      <div class="jstep">
+        <div class="jn mono">01</div>
+        <div class="frame"><div class="statusbar"><span></span><span></span><span></span></div>
+          <div class="inner" style="padding:0"><img class="real" src="assets/knku/01-get-started.png" alt="Real KNKU screen"></div>
+        </div>
+        <div class="jt">Set up once, as a household</div>
+        <div class="jd">One person creates the household and gets an invite link; the other joins with it. No separate accounts to reconcile later.</div>
+      </div>
+
+      <div class="jstep">
+        <div class="jn mono">02</div>
+        <div class="frame"><div class="statusbar"><span></span><span></span><span></span></div>
+          <div class="inner" style="padding:0"><img class="real" src="assets/knku/02-who-are-you.png" alt="Real KNKU screen"></div>
+        </div>
+        <div class="jt">Each phone knows whose it is</div>
+        <div class="jd">Picked once per device. Every expense that phone logs is attributed automatically &mdash; nobody types their own name in.</div>
+      </div>
+
+      <div class="jstep">
+        <div class="jn mono">03</div>
+        <div class="frame dark crop-hero"><div class="statusbar"><span></span><span></span><span></span></div>
+          <div class="inner" style="padding:0"><img class="real" src="assets/knku/03-overview-top.png" alt="Real KNKU screen"></div>
+        </div>
+        <div class="jt">The dashboard is just already there</div>
+        <div class="jd">Bank SMS arrives &rarr; gets parsed &rarr; the household total updates. Nobody opened a spreadsheet to make this number exist.</div>
+      </div>
+
+      <div class="jstep">
+        <div class="jn mono">04</div>
+        <div class="frame crop-hero"><div class="statusbar"><span></span><span></span><span></span></div>
+          <div class="inner" style="padding:0"><img class="real" src="assets/knku/05-add-money-in.png" alt="Real KNKU screen"></div>
+        </div>
+        <div class="jt">Manual entry still exists &mdash; for the rest</div>
+        <div class="jd">Cash, a UPI app that didn&rsquo;t send an SMS, or income &mdash; the same form the automatic parser would have filled in, open on demand.</div>
+      </div>
+
+    </div>
+
+    <div class="journey" style="margin-top:14px">
+      <div class="jstep">
+        <div class="jn mono">05</div>
+        <div class="frame crop-hero"><div class="statusbar"><span></span><span></span><span></span></div>
+          <div class="inner" style="padding:0"><img class="real" src="assets/knku/06-category.png" alt="Real KNKU screen"></div>
+        </div>
+        <div class="jt">Budgets, seen against reality</div>
+        <div class="jd">Each category carries a monthly ceiling the household set once; the bar is how close this month already is, no calculation required.</div>
+      </div>
+
+      <div class="jstep">
+        <div class="jn mono">06</div>
+        <div class="frame crop-hero"><div class="statusbar"><span></span><span></span><span></span></div>
+          <div class="inner" style="padding:0"><img class="real" src="assets/knku/07-goals.png" alt="Real KNKU screen"></div>
+        </div>
+        <div class="jt">Saving toward something, together</div>
+        <div class="jd">A goal both people contribute to, tracked the same way spending is &mdash; not a separate app, not a separate mental model.</div>
+      </div>
+
+      <div class="jstep">
+        <div class="jn mono">07</div>
+        <div class="frame crop-hero"><div class="statusbar"><span></span><span></span><span></span></div>
+          <div class="inner" style="padding:0"><img class="real" src="assets/knku/08-account.png" alt="Real KNKU screen"></div>
+        </div>
+        <div class="jt">The household decides what it wants tracked</div>
+        <div class="jd">Income visibility, notifications, lock &mdash; each a real switch, not a fixed opinion baked into the product.</div>
+      </div>
+
+      <div class="jstep">
+        <div class="jn mono">08</div>
+        <div class="frame"><div class="statusbar"><span></span><span></span><span></span></div>
+          <div class="inner"><div class="rowmock">
+            <div class="r"><div class="ic" style="background:#E7897020"><svg viewBox="0 0 24 24" fill="#E78970"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg></div>
+              <div class="meta"><div class="t fit" style="color:#B45309">Unknown VPA q4tr</div><div class="sub fit" style="color:#B45309">Context needed</div></div>
+              <div class="amt" style="color:#B45309">-&#8377;1,250</div></div>
+          </div></div>
+        </div>
+        <div class="jt">When the parser genuinely can&rsquo;t tell, it says so</div>
+        <div class="jd">Routed to a grey-area queue with one tap to resolve &mdash; instead of silently guessing a category and being wrong.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why-iterate">
+    <div class="eyebrow">Method</div>
+    <h2>Why this had to be built by constantly checking, not designed once</h2>
+    <p class="problem-lede" style="font-size:17px">
+      A tool that reads your finances and shows you a number only earns trust
+      by being right, repeatedly, on real inputs &mdash; not by looking finished.
+      Every derivation on this page exists because a first pass that looked
+      correct turned out, on the household&rsquo;s actual data, not to be: three
+      separate row-layout fixes in a row, five real versions of the outflow
+      card, forty-six false &ldquo;recurring&rdquo; flags found only by running the
+      logic against 640 real transactions instead of trusting the argument for
+      it. None of that surfaces from looking at a design file. It only shows
+      up from putting the real thing in front of the two people using it,
+      watching what they hit, and going again.
+    </p>
+    <p style="color:var(--ink-soft); max-width:62ch; margin-top:14px">
+      That loop is also why the scope kept growing past the original brief.
+      Fixing the transaction row surfaced the icon problem. Fixing the icon
+      problem surfaced how much of the ledger was unrecognised merchants.
+      Watching real usage surfaced that income had no home in the UI at all,
+      then that the home it got was making a claim the data couldn&rsquo;t back.
+      Each answer changed what the next real problem turned out to be.
+    </p>
+    <p style="color:var(--ink-soft); max-width:62ch; margin-top:14px">
+      The checking wasn&rsquo;t limited to the two people building it, either.
+      Usability testing ran across a deliberately wide range of people &mdash;
+      spouse, friends, parents, and elders &mdash; specifically because a
+      household finance app has no excuse to work for only the most
+      technical person in the house. A row that reads fine to someone who
+      writes software for a living can still fail for someone who doesn&rsquo;t,
+      and the only way to find that out is to watch them try to use it.
+    </p>
+  </section>
+  <section id="derivation-1">
+    <div class="eyebrow">Derivation &middot; 01</div>
+    <h2>Getting a merchant name to actually fit in its own row</h2>
+    <p>The transaction row is the single most-viewed piece of the app. In a
+    342px-wide row, the title column was measuring 110px &mdash; and every fix
+    attempt at first traded one failure for a different one.</p>
+
+    <div class="stagebar">
+      <span class="step">1 &middot; found</span><span class="arrow">&rarr;</span>
+      <span class="step">2 &middot; regression</span><span class="arrow">&rarr;</span>
+      <span class="step">3 &middot; regression</span><span class="arrow">&rarr;</span>
+      <span class="step current">4 &middot; shipped</span>
+    </div>
+
+    <div class="stage">
+      <div class="frame"><div class="statusbar"><span></span><span></span><span></span></div>
+        <div class="inner">
+          <div class="rowmock">
+            <div class="r"><div class="ic" style="background:#F9731620"><svg viewBox="0 0 24 24" fill="#F97316"><path d="M13 3L4 14h6l-1 8 9-11h-6l1-8z"/></svg></div>
+              <div class="meta"><div class="t">PhonePe Merc</div><div class="sub">24 Sept, 7:20 pm &middot; U</div></div>
+              <div class="amt">-&#8377;3,400</div></div>
+            <div class="r"><div class="ic" style="background:#E7897020"><svg viewBox="0 0 24 24" fill="#E78970"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg></div>
+              <div class="meta"><div class="t">Unknown VPA q4</div><div class="sub">23 Sept, 7:22 pm &middot; U</div></div>
+              <div class="amt">-&#8377;1,250</div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="label regress">Found</div>
+        <h4>Title column had no claim on its own space</h4>
+        <p>The left block carried <span class="mono">min-w-0</span> but no
+        <span class="mono">flex-1</span>, so it sized to whatever the right
+        column left over &mdash; and the right column, <span class="mono">shrink-0</span>,
+        took whatever the longest category name (&ldquo;Grey Area / Needs
+        Context&rdquo;, 122px) demanded first.</p>
+        <div class="measure">title column: 110px of 342px row</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="frame"><div class="statusbar"><span></span><span></span><span></span></div>
+        <div class="inner">
+          <div class="rowmock">
+            <div class="r overlap"><div class="ic" style="background:#F9731620"><svg viewBox="0 0 24 24" fill="#F97316"><path d="M13 3L4 14h6l-1 8 9-11h-6l1-8z"/></svg></div>
+              <div class="meta"><div class="t fit">PhonePe Merchant</div><div class="sub">24 Sept, 7:20 pm &middot; UPI &middot; Kiran</div></div>
+              <div class="amt">-&#8377;3,400</div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="label regress">Regression</div>
+        <h4>Fixing the title broke the line underneath it</h4>
+        <p>Giving the title <span class="mono">flex-1</span> worked &mdash; but the
+        metadata line (date &middot; payment &middot; owner) had no width limit of its
+        own, so it now ran straight under the amount column instead of
+        stopping before it.</p>
+        <div class="measure">meta line: 94px over its own container</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="frame"><div class="statusbar"><span></span><span></span><span></span></div>
+        <div class="inner">
+          <div class="rowmock">
+            <div class="r"><div class="ic" style="background:#0B6E4F20"><svg viewBox="0 0 24 24" fill="#0B6E4F"><path d="M4 4h16v16H4z"/></svg></div>
+              <div class="meta"><div class="t fit">Rent &ndash; Landlord</div><div class="sub">25 Sept, 4:31 pm &middot; Pluxee Ca</div></div>
+              <div class="amt">-&#8377;42,952</div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="label regress">Regression</div>
+        <h4>Clipping the overflow just moved where it broke</h4>
+        <p>Adding <span class="mono">overflow-hidden</span> stopped the collision
+        &mdash; and started hard-clipping the line mid-word instead, with no
+        ellipsis and a dangling separator: <span class="mono">&ldquo;Pluxee Ca&rdquo;</span>.</p>
+        <div class="measure">no ellipsis rendered, just a cut string</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="frame crop-hero"><div class="statusbar"><span></span><span></span><span></span></div>
+        <div class="inner" style="padding:0"><img class="real" src="assets/knku/04-overview-activity.png" alt="Real KNKU transaction list"></div>
+      </div>
+      <div>
+        <div class="label fixed">Shipped</div>
+        <h4>Removed a duplicate, capped a column, let both lines breathe</h4>
+        <p>The owner name in the meta line was already shown as a badge one
+        line above &mdash; deleting the duplicate freed 68px on its own. The
+        category name got a responsive width cap instead of an unbounded one,
+        so it stops driving the layout without disappearing.</p>
+        <div class="measure">0 of 8 titles clipped, 6 of 8 meta lines fit exactly</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="derivation-2">
+    <div class="eyebrow">Derivation &middot; 02</div>
+    <h2>An icon system that answered the wrong question</h2>
+    <p>Per-merchant icons exist so the list scans at a glance. Instead the list
+    read as a wall of identical bank-blue squares &mdash; because the icon logic
+    was answering <em>who paid</em> instead of <em>who got paid</em>.</p>
+
+    <div class="stagebar">
+      <span class="step">1 &middot; found</span><span class="arrow">&rarr;</span>
+      <span class="step">2 &middot; partial fix</span><span class="arrow">&rarr;</span>
+      <span class="step current">3 &middot; shipped</span>
+    </div>
+
+    <div class="stage">
+      <div class="label regress">Found</div>
+      <h4>The bank name was winning the match, not the merchant</h4>
+      <p style="max-width:60ch">Title, bank name, and notes were joined into one
+      string and matched against a rule list, first hit wins. <span class="mono">/hdfc/</span>
+      sits 12th of 29 rules &mdash; ahead of Amazon, Myntra, Domino&rsquo;s, BookMyShow.
+      An Amazon order paid on an HDFC card rendered the HDFC logo.</p>
+      <div class="icongrid" style="max-width:280px; margin-top:14px">
+        <div><div class="icontile" style="background:#004B8D18"><svg viewBox="0 0 24 24" fill="#004B8D"><path d="M.572 0v10.842h3.712V4.485h6.381V0Zm12.413 0v4.485h6.383v6.357h4.06V0Zm-4.64 8.53v6.938h6.963V8.53ZM.572 13.153V24h10.093v-4.486h-6.38v-6.361zm18.796 0v6.361h-6.383V24h10.443V13.153Z"/></svg></div><div class="icon-caption">Amazon</div></div>
+        <div><div class="icontile" style="background:#004B8D18"><svg viewBox="0 0 24 24" fill="#004B8D"><path d="M.572 0v10.842h3.712V4.485h6.381V0Zm12.413 0v4.485h6.383v6.357h4.06V0Zm-4.64 8.53v6.938h6.963V8.53ZM.572 13.153V24h10.093v-4.486h-6.38v-6.361zm18.796 0v6.361h-6.383V24h10.443V13.153Z"/></svg></div><div class="icon-caption">Myntra</div></div>
+        <div><div class="icontile" style="background:#004B8D18"><svg viewBox="0 0 24 24" fill="#004B8D"><path d="M.572 0v10.842h3.712V4.485h6.381V0Zm12.413 0v4.485h6.383v6.357h4.06V0Zm-4.64 8.53v6.938h6.963V8.53ZM.572 13.153V24h10.093v-4.486h-6.38v-6.361zm18.796 0v6.361h-6.383V24h10.443V13.153Z"/></svg></div><div class="icon-caption">Toit Brewpub</div></div>
+        <div><div class="icontile" style="background:#004B8D18"><svg viewBox="0 0 24 24" fill="#004B8D"><path d="M.572 0v10.842h3.712V4.485h6.381V0Zm12.413 0v4.485h6.383v6.357h4.06V0Zm-4.64 8.53v6.938h6.963V8.53ZM.572 13.153V24h10.093v-4.486h-6.38v-6.361zm18.796 0v6.361h-6.383V24h10.443V13.153Z"/></svg></div><div class="icon-caption">AMZN Mktpl</div></div>
+        <div><div class="icontile" style="background:#004B8D18"><svg viewBox="0 0 24 24" fill="#004B8D"><path d="M.572 0v10.842h3.712V4.485h6.381V0Zm12.413 0v4.485h6.383v6.357h4.06V0Zm-4.64 8.53v6.938h6.963V8.53ZM.572 13.153V24h10.093v-4.486h-6.38v-6.361zm18.796 0v6.361h-6.383V24h10.443V13.153Z"/></svg></div><div class="icon-caption">Blinkit</div></div>
+      </div>
+      <div class="measure" style="margin-top:12px">9 of 14 rows rendered the bank&rsquo;s icon, not the merchant&rsquo;s</div>
+    </div>
+
+    <div class="stage">
+      <div class="label regress">Partial fix</div>
+      <h4>Matching each field separately wasn&rsquo;t enough on its own</h4>
+      <p style="max-width:60ch">Matching title, then notes, then bank &mdash; in that
+      order, each on its own &mdash; correctly resolved every merchant the rule
+      list already knew. It did nothing for the far more common case: a
+      merchant the list <em>didn&rsquo;t</em> recognise, which still fell through to
+      the bank as a fallback.</p>
+      <div class="measure">Recognised merchants fixed &mdash; unrecognised ones still showed a bank</div>
+    </div>
+
+    <div class="stage">
+      <div class="label fixed">Shipped</div>
+      <h4>A bank can supply a payment-app icon. Never its own logo.</h4>
+      <p style="max-width:60ch">The fallback to the bank field now excludes
+      bank-brand rules entirely &mdash; it can still resolve a UPI app named there
+      (GPay, PhonePe), but never the bank itself. An unrecognised merchant
+      falls to its category glyph, which carries more information than a
+      repeated logo ever did.</p>
+      <div class="icongrid" style="max-width:280px; margin-top:14px">
+        <div><div class="icontile" style="background:#004B8D18"><svg viewBox="0 0 24 24" fill="#004B8D"><path d="M.572 0v10.842h3.712V4.485h6.381V0Zm12.413 0v4.485h6.383v6.357h4.06V0Zm-4.64 8.53v6.938h6.963V8.53ZM.572 13.153V24h10.093v-4.486h-6.38v-6.361zm18.796 0v6.361h-6.383V24h10.443V13.153Z"/></svg></div><div class="icon-caption">Amazon</div></div>
+        <div><div class="icontile" style="background:#E7897020"><svg viewBox="0 0 24 24" fill="#E78970"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg></div><div class="icon-caption">Myntra</div></div>
+        <div><div class="icontile" style="background:#FC801920"><svg viewBox="0 0 24 24" fill="#FC8019"><path d="M12.034 24c-.376-.411-2.075-2.584-3.95-5.513-.547-.916-.901-1.63-.833-1.814.178-.48 3.355-.743 4.333-.308.298.132.29.307.29.409 0 .44-.022 1.619-.022 1.619a.441.441 0 1 0 .883-.002l-.005-2.939c0-.255-.278-.319-.331-.329-.511-.002-1.548-.006-2.661-.006-2.457 0-3.006.101-3.423-.172-.904-.591-2.383-4.577-2.417-6.819C3.849 4.964 5.723 2.225 8.362.868A8.13 8.13 0 0 1 12.026 0c4.177 0 7.617 3.153 8.075 7.209l.001.011c.084.981-5.321 1.189-6.39.904-.164-.044-.206-.212-.206-.284L13.5 4.996a.442.442 0 0 0-.884.002l.009 3.866a.33.33 0 0 0 .268.32l3.354-.001c1.79 0 2.542.207 3.042.588.333.254.461.739.349 1.37C18.633 16.755 12.273 23.71 12.034 24z"/></svg></div><div class="icon-caption">Toit Brewpub</div></div>
+        <div><div class="icontile" style="background:#004B8D18"><svg viewBox="0 0 24 24" fill="#004B8D"><path d="M.572 0v10.842h3.712V4.485h6.381V0Zm12.413 0v4.485h6.383v6.357h4.06V0Zm-4.64 8.53v6.938h6.963V8.53ZM.572 13.153V24h10.093v-4.486h-6.38v-6.361zm18.796 0v6.361h-6.383V24h10.443V13.153Z"/></svg></div><div class="icon-caption">AMZN Mktpl</div></div>
+        <div><div class="icontile" style="background:#A5CD3920"><svg viewBox="0 0 24 24" fill="#A5CD39"><path d="M11.543 12.989a3.352 3.352 0 0 0-.871-1.375 2.251 2.251 0 0 0-1.474-.503 2.276 2.276 0 0 0-1.541.536 2.953 2.953 0 0 0-.973 1.375 5.609 5.609 0 0 0-.335 1.845 5.42 5.42 0 0 0 .335 1.809c.192.548.528 1.034.973 1.407.441.339.985.516 1.541.503a2.08 2.08 0 0 0 1.945-1.072h-.002a4.92 4.92 0 0 0 .67-2.649 6.477 6.477 0 0 0-.268-1.876zM20.381.033H3.587A3.584 3.584 0 0 0 0 3.585V20.38a3.59 3.59 0 0 0 3.587 3.586h16.794c1.986 0 3.601-1.6 3.619-3.586V3.585A3.614 3.614 0 0 0 20.381.033zM10.64 3.034h1.911v5.744a3.47 3.47 0 0 0-1.911-.584v-5.16zm-.438 17.93a5.586 5.586 0 0 1-2.278-.369 3.522 3.522 0 0 1-1.174-.804 4.18 4.18 0 0 1-.335-.536l-.033-.134v.302C6.281 21.266 3.4 20.931 3.4 20.931V3.034h3.15v7.442h.034a3.675 3.675 0 0 1 1.541-1.309 4.825 4.825 0 0 1 2.079-.435 4.197 4.197 0 0 1 2.649.871 5.263 5.263 0 0 1 1.675 2.278v-.001c.372.951.565 1.963.569 2.984a8.418 8.418 0 0 1-.571 2.984 5.47 5.47 0 0 1-1.675 2.278 4.161 4.161 0 0 1-2.649.838zm9.828-3.111a5.47 5.47 0 0 1-1.675 2.278 4.173 4.173 0 0 1-2.649.838 5.587 5.587 0 0 1-2.278-.37 4.85 4.85 0 0 1-.362-.186c.444-.36.837-.778 1.168-1.245.353.127.726.189 1.101.185 2.38 0 3.15-2.502 3.15-4.484 0-1.96-.721-4.523-3.15-4.523a3.058 3.058 0 0 0-1.021.163 6.349 6.349 0 0 0-1.017-1.166c.107-.063.218-.121.331-.176a4.72 4.72 0 0 1 6.403 2.715l-.001.004c.373.951.566 1.963.571 2.984a8.409 8.409 0 0 1-.571 2.983z"/></svg></div><div class="icon-caption">Blinkit</div></div>
+      </div>
+      <div class="measure" style="margin-top:12px">0 of 14 rows show a bank logo</div>
+    </div>
+  </section>
+
+  <section id="derivation-3">
+    <div class="eyebrow">Derivation &middot; 03</div>
+    <h2>The headline number that kept changing its mind</h2>
+    <p>The outflow card is the first thing either person sees. What it should
+    say &mdash; spending only, income only, or a verdict on both &mdash; took five
+    real iterations, most of them decided by looking at what it actually said
+    against real weeks.</p>
+
+    <div class="stagebar">
+      <span class="step">v1</span><span class="arrow">&rarr;</span>
+      <span class="step">v2</span><span class="arrow">&rarr;</span>
+      <span class="step">v3</span><span class="arrow">&rarr;</span>
+      <span class="step">v4</span><span class="arrow">&rarr;</span>
+      <span class="step current">v5</span>
+    </div>
+
+    <div class="stage">
+      <div class="frame dark"><div class="statusbar"><span></span><span></span><span></span></div>
+        <div class="inner">
+          <div class="heromock">
+            <div class="r1"><span>Household Outflow</span><div class="ic"></div></div>
+            <div class="period">21/9 &ndash; 20/10</div>
+            <div class="big"><span class="cur">&#8377;</span>24,200</div>
+            <div class="today">Today: &#8377;2,100 &middot; 3 txns</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="label">v1 &middot; baseline</div>
+        <h4>Spending only. No visibility into income at all.</h4>
+        <p>The original card, before this pass: a single figure, a today line,
+        a wave chart. Accurate, but a household putting real salary through
+        the ledger had no way to see it reflected anywhere.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="frame dark"><div class="statusbar"><span></span><span></span><span></span></div>
+        <div class="inner">
+          <div class="heromock">
+            <div class="r1"><span>Household Outflow</span><div class="ic"></div></div>
+            <div class="period">21/9 &ndash; 20/10</div>
+            <div class="big"><span class="cur">&#8377;</span>24,200</div>
+            <div class="today">Today: &#8377;2,100 &middot; 3 txns</div>
+            <div class="block">
+              <div class="lbl"><span>Money in</span><span class="val pos">+&#8377;18,500</span></div>
+              <div class="split"><span>&#9679; Kiran &#8377;18,500</span><span>&#9679; Mageswari &#8377;0</span></div>
+              <div class="lbl" style="margin-top:8px"><span>Overspent by</span><span class="val neg">&#8377;5,700</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="label">v2</div>
+        <h4>Added income &mdash; and a verdict alongside it</h4>
+        <p>Money in, split by person, plus a net figure that read either
+        &ldquo;Left over&rdquo; or &ldquo;Overspent by.&rdquo; It looked complete. It compared
+        two numbers that don&rsquo;t actually share a calendar.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="frame dark"><div class="statusbar"><span></span><span></span><span></span></div>
+        <div class="inner">
+          <div class="heromock">
+            <div class="r1"><span>Household Outflow</span><div class="ic"></div></div>
+            <div class="period">21/9 &ndash; 20/10</div>
+            <div class="big"><span class="cur">&#8377;</span>24,200</div>
+            <div class="today">Today: &#8377;2,100 &middot; 3 txns</div>
+            <div class="block">
+              <div class="lbl"><span>Money in</span><span class="val pos">+&#8377;18,500</span></div>
+              <div class="split"><span>&#9679; Kiran &#8377;18,500</span><span>&#9679; Mageswari &#8377;0</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="label regress">v3 &middot; caught the honesty problem</div>
+        <h4>Removed the verdict, kept the income</h4>
+        <p>Salary lands outside the household&rsquo;s 21st&ndash;20th billing cycle, so
+        the &ldquo;Overspent&rdquo; comparison was wrong most months regardless of how
+        the month actually went. The line came out. Money In stayed, on its
+        own, as a block beneath the figure.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="frame dark"><div class="statusbar"><span></span><span></span><span></span></div>
+        <div class="inner">
+          <div class="heromock">
+            <div class="r1"><span>Household Outflow</span><div class="ic"></div></div>
+            <div class="period">21/9 &ndash; 20/10</div>
+            <div class="big"><span class="cur">&#8377;</span>24,200</div>
+            <div class="today">Today: &#8377;2,100 &middot; 3 txns</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="label regress">v4</div>
+        <h4>A figure with nothing left to say didn&rsquo;t earn its block</h4>
+        <p>Once the verdict was gone, a standalone Money In block with a per-person
+        split felt heavier than the information deserved on a card whose one
+        job is the spend total. Cut entirely.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="frame dark crop-hero"><div class="statusbar"><span></span><span></span><span></span></div>
+        <div class="inner" style="padding:0"><img class="real" src="assets/knku/03-overview-top.png" alt="Real KNKU Overview hero card"></div>
+      </div>
+      <div>
+        <div class="label fixed">v5 &middot; shipped</div>
+        <h4>In and out, at a glance, deciding nothing for you</h4>
+        <p>A compact in/out readout sits beside the period label &mdash; visible
+        in one look, gone entirely when the household turns income tracking
+        off. The headline number underneath stays exactly what it says it is:
+        spending.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="derivation-4">
+    <div class="eyebrow">Derivation &middot; 04</div>
+    <h2>&ldquo;Recurring&rdquo; is a claim &mdash; and only a person can make it</h2>
+    <p>The system used to infer a recurring bill from timing: the same title
+    twice, roughly a month apart. Run against the household&rsquo;s real 640
+    transactions, it flagged forty-six titles this way. One had ever actually
+    been marked recurring by a person.</p>
+    <div class="ledger">
+      <div class="lrow head"><div>Flagged by the timing heuristic</div><div>What it actually was</div></div>
+      <div class="lrow"><div class="cell strike" data-label="Flagged">Chai</div><div class="cell" data-label="Actually">A tea run that happened to repeat a month apart, once</div></div>
+      <div class="lrow"><div class="cell strike" data-label="Flagged">Petrol</div><div class="cell" data-label="Actually">Routine refuelling, not a subscription</div></div>
+      <div class="lrow"><div class="cell strike" data-label="Flagged">Groceries</div><div class="cell" data-label="Actually">A normal weekly-ish purchase, mislabelled as a standing bill</div></div>
+      <div class="lrow"><div class="cell" data-label="Flagged" style="font-weight:600">Netflix <span style="color:var(--accent); font-family:'IBM Plex Mono',monospace; font-size:11px; margin-left:6px">&#10003; kept</span></div><div class="cell" data-label="Actually">The one title a person had actually tapped &ldquo;recurring&rdquo; on</div></div>
+    </div>
+    <p class="caption">The badge now reflects only what someone marked, in the
+    add or edit form &mdash; a single tap flags the whole title group, so a real
+    bill is tagged once, not re-confirmed every month. The system suggests
+    nothing it can&rsquo;t back up.</p>
+  </section>
+
+  <section id="principles">
+    <div class="eyebrow">What carried across all four</div>
+    <h2>Principles the work kept coming back to</h2>
+    <div class="principles">
+      <div class="principle">
+        <h3>Show identity, not infrastructure</h3>
+        <p>An icon, a label, a badge should answer what the person actually
+        wants to know &mdash; who did I pay &mdash; never how the system happened to
+        find that out.</p>
+        <div class="from">from the icon derivation</div>
+      </div>
+      <div class="principle">
+        <h3>Never assert what only a person can know</h3>
+        <p>Timing can suggest a pattern. It can&rsquo;t confirm a commitment. The
+        interface should say &ldquo;this looks recurring&rdquo; as a question, or wait
+        for the person to say so &mdash; not state it as settled.</p>
+        <div class="from">from the recurring derivation</div>
+      </div>
+      <div class="principle">
+        <h3>A number is a claim &mdash; check it before you show it</h3>
+        <p>&ldquo;Overspent by&rdquo; wasn&rsquo;t wrong because of a bug; it was wrong
+        because the comparison it made didn&rsquo;t hold up against the data it
+        actually had. Showing two figures beat asserting one conclusion.</p>
+        <div class="from">from the outflow card derivation</div>
+      </div>
+      <div class="principle">
+        <h3>The fix isn&rsquo;t done until the regression is gone too</h3>
+        <p>Three separate attempts at the same row each solved the stated
+        problem and broke something adjacent. Shipping meant checking the
+        whole row, not just the line that was reported.</p>
+        <div class="from">from the row-legibility derivation</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="market">
+    <div class="eyebrow">Where this sits in the market</div>
+    <h2>Automatic capture and a real two-person household rarely come together</h2>
+    <p>India has no shortage of expense trackers that read bank SMS, and no
+    shortage of apps built for couples. What&rsquo;s uncommon is a product that is
+    both at once &mdash; without asking two people to move their money into a new
+    account to get it.</p>
+
+    <div class="cmp">
+      <table>
+        <tr><th>Capability</th><th>SMS-parsing trackers<br><span style="font-weight:400;text-transform:none;letter-spacing:0">(Moneyview, axio)</span></th><th>Couple money apps<br><span style="font-weight:400;text-transform:none;letter-spacing:0">(Splitwise, Coupl)</span></th><th>KNKU</th></tr>
+        <tr><td class="dim">Reads existing bank SMS, no manual entry</td><td class="yes">Yes</td><td class="no">Rarely</td><td class="yes">Yes</td></tr>
+        <tr><td class="dim">Built around two people sharing one view</td><td class="no">No &mdash; single user</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+        <tr><td class="dim">Works with accounts you already have</td><td class="yes">Yes</td><td class="no">Coupl requires a new joint account &amp; cards</td><td class="yes">Yes</td></tr>
+        <tr><td class="dim">Flags what it can&rsquo;t confidently categorise</td><td class="no">Guesses silently</td><td class="no">N/A &mdash; manual entry</td><td class="yes">Grey-area queue</td></tr>
+        <tr><td class="dim">&ldquo;I paid, but it was really your expense&rdquo;</td><td class="no">No concept of a partner</td><td class="yes">Splitting, as a debt</td><td class="yes">Acknowledgement, as household spend</td></tr>
+      </table>
+    </div>
+    <p class="src-note">
+      Category research: <a href="https://jupiter.money/blog/best-expense-tracker-app/" target="_blank" rel="noopener">SMS-based trackers in India</a>,
+      <a href="https://coupl.money/blog/best-apps-couples-manage-money-india" target="_blank" rel="noopener">money apps built for couples</a>, and
+      <a href="https://coupl.money/" target="_blank" rel="noopener">Coupl&rsquo;s own joint-account model</a>. KNKU column reflects this build.
+    </p>
+
+    <p style="margin-top:22px; max-width:62ch; color:var(--ink-soft)">
+      The last two rows are the ones that don&rsquo;t show up in a feature-comparison
+      table but matter every day in a real household: most trackers have no
+      concept of a second person at all, so an unrecognised transaction just
+      gets a wrong guess and a shrug. KNKU routes it to a queue instead &mdash; and
+      separately, when one partner pays for something that&rsquo;s really the
+      other&rsquo;s, it&rsquo;s held until the other person acknowledges it &mdash; so it
+      lands as their spend, not silently attributed to whoever&rsquo;s card it hit.
+    </p>
+  </section>
+  <section id="vision">
+    <div class="eyebrow">Where this goes next</div>
+    <h2>From one household&rsquo;s ledger to a data layer that works for anyone&rsquo;s</h2>
+    <p>KNKU is early &mdash; by design, still one household&rsquo;s tool, still built by
+    two people rather than a team. The direction it&rsquo;s built toward has three
+    parts.</p>
+
+    <div class="vision-grid">
+      <div class="vision-card">
+        <h3>One picture, not six apps</h3>
+        <p>The actual daily problem &mdash; a family&rsquo;s money moving across several
+        UPI apps and bank cards, each with its own view and none of them
+        talking to each other &mdash; is what SMS parsing already works around.
+        The real fix is structural: India&rsquo;s RBI-regulated
+        <a href="https://sahamati.org.in/" target="_blank" rel="noopener">Account Aggregator framework</a>
+        already lets an app pull a person&rsquo;s real transaction data from their
+        bank, with their explicit, revocable consent, instead of inferring it
+        from a text message. Getting there means becoming a registered
+        participant in that framework rather than reading SMS &mdash; the
+        difference between guessing well and simply being told.</p>
+      </div>
+      <div class="vision-card">
+        <h3>A household, not just a couple</h3>
+        <p>Nothing about the underlying model is actually specific to a
+        husband and wife. The same shared-trust design &mdash; who spent what,
+        what needs acknowledging, what&rsquo;s everyone&rsquo;s to see &mdash; applies just
+        as well to parents and children, or any group of people managing
+        money together. The aspiration is a household model that isn&rsquo;t
+        hard-coded to one family shape.</p>
+      </div>
+      <div class="vision-card">
+        <h3>A dashboard you shape, not one we chose</h3>
+        <p>Right now the views are fixed &mdash; Overview, Category, Goals &mdash;
+        because that&rsquo;s what one household needed. The aspiration is a
+        dashboard that&rsquo;s actually customisable per person, with savings
+        goals and planning tools that flex to what an individual inside the
+        household actually needs, not a single layout everyone is handed.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:26px; max-width:62ch; color:var(--ink-soft)">
+      None of that happens without help &mdash; banks, licensed Account
+      Aggregators, and the financial institutions that would need to trust a
+      small independent app with that data. That&rsquo;s explicitly future work,
+      not a claim about what KNKU does today.
+    </p>
+
+    <p class="eyebrow" style="margin-top:32px">What&rsquo;s actually in the way</p>
+    <p style="max-width:62ch; color:var(--ink-soft)">
+      The gap between the two states above isn&rsquo;t vision &mdash; it&rsquo;s three
+      concrete constraints, and two of them are already visible earlier on
+      this page. iOS gives a web app no way to read a message on its own;
+      the entire SMS-ingestion pipeline exists as an iOS Shortcut precisely
+      because that&rsquo;s the only door Apple leaves open. The free hosting tier
+      sleeps the service after fifteen idle minutes, which is the whole
+      reason a phone automation can silently lose a message. And the
+      furthest step &mdash; real bank integration &mdash; needs licensing,
+      partnerships, and budget that a two-person household project,
+      self-funded, doesn&rsquo;t have yet. The product is honest about being
+      early because it is.
+    </p>
+  </section>
+  <section id="outcome">
+    <div class="eyebrow">In numbers</div>
+    <h2>What changed, measured</h2>
+    <div class="stats">
+      <div class="stat"><div class="n tab-nums">6 / 6 &rarr; 0 / 8</div><div class="l">transaction titles clipping in the list</div></div>
+      <div class="stat"><div class="n tab-nums">9 / 14 &rarr; 0 / 14</div><div class="l">rows wearing a bank logo instead of the merchant&rsquo;s</div></div>
+      <div class="stat"><div class="n tab-nums">46 &rarr; 1</div><div class="l">titles asserted as &ldquo;recurring&rdquo; without being told to</div></div>
+      <div class="stat"><div class="n tab-nums">5</div><div class="l">real iterations on the outflow card, each driven by looking at what it said</div></div>
+      <div class="stat"><div class="n tab-nums">19</div><div class="l">commits, each verified against the running app before shipping</div></div>
+      <div class="stat"><div class="n tab-nums">2</div><div class="l">people who use every screen in this case study daily</div></div>
+    </div>
+    <p class="caption">This pass also covered the layer underneath the interface
+    &mdash; a security audit, deploy pipeline, and an SMS-to-ledger automation for
+    the household&rsquo;s two phones &mdash; kept out of this write-up because it isn&rsquo;t
+    design work, not because it didn&rsquo;t happen.</p>
+    <div class="chips">
+      <span class="chip">React 19 + Tailwind</span>
+      <span class="chip">Framer Motion</span>
+      <span class="chip">iOS PWA</span>
+      <span class="chip">Figma-free &mdash; iterated live in the running app</span>
+    </div>
+  </section>
+
+  <div class="closing">
+    <h2>What this shows</h2>
+    <p style="color:var(--ink-soft); max-width:62ch">
+      None of these four problems looked like a design flaw from the code.
+      Each one only showed up by looking at the actual screen against real
+      data &mdash; measuring what clipped, counting what showed a bank logo,
+      running the recurring logic against 640 real transactions before
+      trusting the fix. The interesting part of this work wasn&rsquo;t any single
+      screen; it was catching, each time, that the first fix had quietly
+      traded one problem for another, and not calling it done until it hadn&rsquo;t.
+    </p>
+    <div class="note">
+      Designed and built with Claude Opus 5 in Claude Code, iterating directly
+      against the live app rather than static mockups. Screens on this page are
+      faithful recreations of the real interface &mdash; same layout, same colour
+      and icon system, same measured failure states &mdash; built with illustrative
+      figures in place of the household&rsquo;s actual financial data.
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <a class="footer-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
+  <nav class="footer-nav" aria-label="Footer">
+    <a href="index.html#projects-title">Selected work</a>
+    <a href="projects.html">All projects</a>
+    <a href="https://www.linkedin.com/in/kiran-goutam-dhananjayan/" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+</footer>
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  var root = document.documentElement;
+  if (btn){
+    function sync(){
+      var dark = root.getAttribute('data-theme') === 'dark';
+      btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    }
+    btn.addEventListener('click', function(){
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try{ localStorage.setItem('kgd-theme', next); }catch(e){}
+      sync();
+    });
+    sync();
+  }
+  var mark = document.querySelector('.site-top .mark');
+  if (mark){
+    try { if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch(e){}
+    mark.addEventListener('pointermove', function(e){
+      var r = mark.getBoundingClientRect();
+      mark.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      mark.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+    mark.addEventListener('pointerleave', function(){
+      mark.style.setProperty('--mx','-999px'); mark.style.setProperty('--my','-999px');
+    });
+  }
+})();
+</script>
+</body>
+</html>
