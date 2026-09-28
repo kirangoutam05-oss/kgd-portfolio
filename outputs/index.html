@@ -526,6 +526,19 @@
     opacity:.26;
   }
 
+  .stack-item.is-placeholder{ cursor:default; }
+  /* The shared .stack-mark opacity was tuned for a light panel. On the
+     placeholder tint it lands at 2.2:1, which is not a readable wordmark,
+     so the panel is lifted and the mark strengthened to clear 3:1. */
+  .stack-item.is-placeholder{ --tint-dark:#1d2733; }
+  .stack-item.is-placeholder .stack-mark{ opacity:.5; }
+  .stack-item.is-placeholder:hover .stack-media img{ transform:none; }
+  .stack-soon{
+    flex:0 0 auto;
+    font-size:13.5px; color:var(--muted);
+    border:1px solid var(--line); border-radius:99px;
+    padding:6px 14px; white-space:nowrap;
+  }
   .stack-row{
     display:flex; align-items:flex-start; justify-content:space-between;
     gap:22px; flex-wrap:wrap; padding:18px 4px 0;
@@ -845,6 +858,28 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     <h2 class="stack-title" id="stack-title">Selected work</h2>
     <a class="stack-all" href="projects.html">All projects &#8599;</a>
   </div>
+
+  <a class="stack-item" href="workfabric-ai.html" style="--tint:#eef0fa;--tint-dark:#161b30">
+    <div class="stack-media"><img loading="lazy" src="assets/workfabric-ai/cover.jpg" alt="The Workfabric AI site opening on its headline about vanishing digital experiences"></div>
+    <div class="stack-row">
+      <div class="stack-names">
+        <h3>Workfabric AI</h3>
+        <p class="stack-kind">Web &amp; Information Design</p>
+      </div>
+      <span class="stack-cta"><span class="stack-arrow" aria-hidden="true">&#8599;</span>View Project</span>
+    </div>
+  </a>
+
+  <article class="stack-item is-placeholder" style="--tint:#e8eef6">
+    <div class="stack-media is-type"><span class="stack-mark" aria-hidden="true">Jumbotail</span></div>
+    <div class="stack-row">
+      <div class="stack-names">
+        <h3>Jumbotail</h3>
+        <p class="stack-kind">Design Systems &amp; Packaging</p>
+      </div>
+      <span class="stack-soon">In progress</span>
+    </div>
+  </article>
 
   <a class="stack-item" href="knku.html" style="--tint:#f2f2f7;--tint-dark:#17171c">
     <div class="stack-media"><img loading="lazy" src="assets/knku/cover.jpg" alt="KNKU household ledger: category, overview and savings screens"></div>
