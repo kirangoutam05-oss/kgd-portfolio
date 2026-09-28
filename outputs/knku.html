@@ -68,9 +68,9 @@
   body {
     background: var(--paper); color: var(--ink);
     font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+    font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px 96px; }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 20px 96px; }
   h1, h2, h3 { font-family: 'Archivo', 'Source Sans 3', sans-serif; text-wrap: balance; margin: 0; }
   .mono { font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
   .tab-nums { font-variant-numeric: tabular-nums; }
@@ -85,22 +85,22 @@
     display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
   }
   .kicker .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
-  .masthead h1 { font-size: clamp(32px, 6vw, 46px); font-weight: 800; letter-spacing: -0.01em; line-height: 1.08; max-width: 18ch; }
-  .masthead .dek { margin-top: 16px; font-size: 18px; color: var(--ink-soft); max-width: 60ch; }
+  .masthead h1 { font-size: clamp(32px, 6vw, 46px); font-weight: 800; letter-spacing: -0.01em; line-height: 1.08; max-width: 24ch; }
+  .masthead .dek { margin-top: 16px; font-size: 18px; color: var(--ink-soft); max-width: 66ch; }
   .masthead .byline { margin-top: 24px; font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 18px; }
   .byline b { color: var(--ink-soft); font-weight: 600; }
 
   /* sections */
-  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section { padding: 76px 0; border-bottom: 1px solid var(--line); }
   section:last-of-type { border-bottom: none; }
   .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-  section h2 { font-size: clamp(24px, 4vw, 30px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 18px; max-width: 22ch; }
-  section > p { max-width: 66ch; color: var(--ink-soft); }
+  section h2 { font-size: clamp(24px, 4vw, 30px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 18px; max-width: 32ch; }
+  section > p { max-width: 720px; color: var(--ink-soft); }
   section > p + p { margin-top: 14px; }
 
   /* problem statement */
   .problem-lede {
-    font-size: 20px; line-height: 1.55; color: var(--ink); max-width: 62ch;
+    font-size: 20px; line-height: 1.55; color: var(--ink); max-width: 720px;
     font-family: 'Archivo', sans-serif; font-weight: 500;
   }
   .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 28px; }
@@ -136,7 +136,7 @@
   .stage .label.regress { color: var(--danger); }
   .stage .label.fixed { color: var(--accent); }
   .stage h4 { font-size: 15.5px; font-weight: 700; margin-bottom: 6px; }
-  .stage p { font-size: 14px; color: var(--ink-soft); margin: 0; max-width: 48ch; }
+  .stage p { font-size: 14px; color: var(--ink-soft); margin: 0; max-width: 56ch; }
   .stage .measure {
     margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted);
     background: var(--paper); border: 1px solid var(--line); padding: 6px 10px; display: inline-block;
@@ -223,7 +223,8 @@
   .closing { padding: 56px 0 0; display: grid; gap: 20px; }
   .closing h2 { font-size: 22px; }
   .note { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 24px; margin-top: 12px; line-height: 1.7; }
-  .caption { font-size: 12.5px; color: var(--muted); margin-top: 14px; max-width: 58ch; }
+  .caption { font-size: 12.5px; color: var(--muted); margin-top: 14px; max-width: 66ch; }
+  section > p.caption { max-width: 720px; }
 
   /* journey strip */
   .journey { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 30px; }
@@ -308,7 +309,7 @@
   @media (max-width:520px) { .origin { grid-template-columns: 1fr; } }
   .origin .wordmark { font-family:'Archivo',sans-serif; font-weight:800; font-size: 44px; letter-spacing: -0.02em; color: var(--ink); text-align:center; }
   .origin .wordmark .tamil { font-family:'Noto Sans Tamil','Source Sans 3',sans-serif; font-size: 20px; font-weight: 400; color: var(--accent); margin-top: 6px; }
-  .origin p { margin: 0; color: var(--ink-soft); font-size: 15px; max-width: 56ch; }
+  .origin p { margin: 0; color: var(--ink-soft); font-size: 15px; max-width: 64ch; }
 
   .vision-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:26px; }
   @media (max-width:640px){ .vision-grid{ grid-template-columns:1fr; } }
@@ -326,7 +327,7 @@
   /* Site chrome. Uses this page's tokens rather than importing the
      portfolio's, so it inherits the light and dark palettes already here. */
   .site-top{
-    max-width:860px; margin:0 auto; padding:22px 20px;
+    max-width:1060px; margin:0 auto; padding:22px 20px;
     display:flex; align-items:center; justify-content:space-between; gap:18px;
     border-bottom:1px solid var(--line);
   }
@@ -361,7 +362,7 @@
   :root[data-theme="dark"] .theme-toggle .sun{ display:none; }
   :root[data-theme="dark"] .theme-toggle .moon{ display:block; }
   .site-footer{
-    max-width:860px; margin:0 auto; padding:26px 20px 48px;
+    max-width:1060px; margin:0 auto; padding:26px 20px 48px;
     display:flex; align-items:center; justify-content:space-between;
     gap:18px; flex-wrap:wrap;
     border-top:1px solid var(--line);
@@ -390,15 +391,11 @@
     <div class="kicker"><span class="dot"></span>Design Case Study</div>
     <h1>Killing the month-end spreadsheet, without recreating it by accident</h1>
     <p class="dek">
-      KNKU started from one plain, recurring chore: a couple writing down every
-      rupee they spent, every day, then sitting down at the end of the month to
-      turn that log into a dashboard by hand. The app&rsquo;s entire job is to make
-      that ritual disappear &mdash; parse it from the bank SMS the moment it happens,
-      keep the dashboard always current. But an automatic system only removes
-      the manual work if you can trust what it shows without checking it
-      yourself. This is the record of three places the interface was quietly
-      handing that checking back to them &mdash; and what it took to actually fix
-      each one.
+      A shared ledger that parses the bank&rsquo;s own SMS as it lands, so the
+      month-end spreadsheet never has to be rebuilt. That only works if the
+      automatic version can be trusted without a second look &mdash; and four
+      parts of the interface were quietly handing that checking back. This is
+      what it took to fix each one.
     </p>
     <div class="byline">
       <span><b>Role</b> Product design + front-end, working alongside Claude Opus 5</span>
@@ -410,25 +407,9 @@
   <section id="problem">
     <div class="eyebrow">Problem statement</div>
     <h2>Two people, a notebook every day, a spreadsheet every month</h2>
-    <p class="problem-lede">
-      Before KNKU, the routine was manual twice over: write down what you
-      spent as you spent it, then &mdash; at the end of the month &mdash; sit down and
-      turn two people&rsquo;s worth of scattered entries into something that
-      actually showed where the money went. Not hard, exactly. Just enough
-      friction, repeated often enough, that the logging slipped and the
-      month-end rebuild got dreaded.
-    </p>
-    <p class="problem-lede" style="font-size:16px; font-weight:400; margin-top:14px; color:var(--ink-soft)">
-      KNKU&rsquo;s answer was to remove both steps at once: parse the transaction
-      straight from the bank&rsquo;s own SMS the moment it lands, and keep a
-      dashboard that&rsquo;s simply always current &mdash; nothing to assemble, ever.
-      That only works, though, if the automatic version can be trusted without
-      a second look. Three parts of the interface were quietly failing that
-      test &mdash; each one, if left alone, would have taught the couple to
-      double-check the app by hand, which is exactly the chore it was built
-      to end.
-    </p>
-    <div class="problem-grid">
+    <p>The routine was manual twice over: write down what you spent as you spent it, then turn two people&rsquo;s scattered entries into something that actually showed where the money went. Not hard. Just enough friction, often enough, that the logging slipped and the month-end rebuild got dreaded.</p>
+    <p>KNKU removes both steps &mdash; parse the transaction from the bank&rsquo;s own SMS as it lands, keep a dashboard that is always current. But that only helps if the automatic version can be trusted without a second look. Four parts of the interface were quietly failing that test, each one teaching the couple to check the app by hand &mdash; which is the chore it was built to end.</p>
+<div class="problem-grid">
       <div class="problem-card">
         <div class="idx mono">01 &middot; Legibility</div>
         <h3>You couldn&rsquo;t tell what you&rsquo;d bought without tapping in</h3>
@@ -561,36 +542,26 @@
   <section id="why-iterate">
     <div class="eyebrow">Method</div>
     <h2>Why this had to be built by constantly checking, not designed once</h2>
-    <p class="problem-lede" style="font-size:17px">
-      A tool that reads your finances and shows you a number only earns trust
-      by being right, repeatedly, on real inputs &mdash; not by looking finished.
-      Every derivation on this page exists because a first pass that looked
-      correct turned out, on the household&rsquo;s actual data, not to be: three
-      separate row-layout fixes in a row, five real versions of the outflow
-      card, forty-six false &ldquo;recurring&rdquo; flags found only by running the
-      logic against 640 real transactions instead of trusting the argument for
-      it. None of that surfaces from looking at a design file. It only shows
-      up from putting the real thing in front of the two people using it,
-      watching what they hit, and going again.
+    <p class="problem-lede" style="font-size:18px">
+      A tool that reads your finances and shows you a number earns trust by
+      being right on real inputs, repeatedly &mdash; not by looking finished.
+      Every derivation here exists because a first pass that looked correct
+      turned out, on the household&rsquo;s actual data, not to be: three row-layout
+      fixes in a row, five versions of the outflow card, forty-six false
+      &ldquo;recurring&rdquo; flags found only by running the logic against 640 real
+      transactions. None of that surfaces from a design file.
     </p>
-    <p style="color:var(--ink-soft); max-width:62ch; margin-top:14px">
-      That loop is also why the scope kept growing past the original brief.
-      Fixing the transaction row surfaced the icon problem. Fixing the icon
-      problem surfaced how much of the ledger was unrecognised merchants.
-      Watching real usage surfaced that income had no home in the UI at all,
-      then that the home it got was making a claim the data couldn&rsquo;t back.
-      Each answer changed what the next real problem turned out to be.
-    </p>
-    <p style="color:var(--ink-soft); max-width:62ch; margin-top:14px">
-      The checking wasn&rsquo;t limited to the two people building it, either.
-      Usability testing ran across a deliberately wide range of people &mdash;
-      spouse, friends, parents, and elders &mdash; specifically because a
-      household finance app has no excuse to work for only the most
-      technical person in the house. A row that reads fine to someone who
-      writes software for a living can still fail for someone who doesn&rsquo;t,
-      and the only way to find that out is to watch them try to use it.
+    <p style="color:var(--ink-soft); max-width:720px; margin-top:16px">
+      It is also why the scope kept growing. Fixing the transaction row
+      surfaced the icon problem; fixing that surfaced how much of the ledger
+      was unrecognised merchants; watching real usage surfaced that income had
+      no home in the UI at all. And the checking went wider than the two people
+      building it &mdash; testing ran across spouse, friends, parents and elders,
+      because a household finance app has no excuse to work only for the most
+      technical person in the house.
     </p>
   </section>
+
   <section id="derivation-1">
     <div class="eyebrow">Derivation &middot; 01</div>
     <h2>Getting a merchant name to actually fit in its own row</h2>
@@ -947,7 +918,7 @@
       <a href="https://coupl.money/" target="_blank" rel="noopener">Coupl&rsquo;s own joint-account model</a>. KNKU column reflects this build.
     </p>
 
-    <p style="margin-top:22px; max-width:62ch; color:var(--ink-soft)">
+    <p style="margin-top:22px; max-width:720px; color:var(--ink-soft)">
       The last two rows are the ones that don&rsquo;t show up in a feature-comparison
       table but matter every day in a real household: most trackers have no
       concept of a second person at all, so an unrecognised transaction just
@@ -960,65 +931,35 @@
   <section id="vision">
     <div class="eyebrow">Where this goes next</div>
     <h2>From one household&rsquo;s ledger to a data layer that works for anyone&rsquo;s</h2>
-    <p>KNKU is early &mdash; by design, still one household&rsquo;s tool, still built by
-    two people rather than a team. The direction it&rsquo;s built toward has three
-    parts.</p>
+    <p>KNKU is early by design &mdash; one household&rsquo;s tool, built by two people. Three directions, and one reason none of them is close yet.</p>
 
     <div class="vision-grid">
       <div class="vision-card">
         <h3>One picture, not six apps</h3>
-        <p>The actual daily problem &mdash; a family&rsquo;s money moving across several
-        UPI apps and bank cards, each with its own view and none of them
-        talking to each other &mdash; is what SMS parsing already works around.
-        The real fix is structural: India&rsquo;s RBI-regulated
-        <a href="https://sahamati.org.in/" target="_blank" rel="noopener">Account Aggregator framework</a>
-        already lets an app pull a person&rsquo;s real transaction data from their
-        bank, with their explicit, revocable consent, instead of inferring it
-        from a text message. Getting there means becoming a registered
-        participant in that framework rather than reading SMS &mdash; the
-        difference between guessing well and simply being told.</p>
+        <p>SMS parsing works around the real problem: money moving across several UPI apps and cards that don&rsquo;t talk to each other. The structural fix is India&rsquo;s RBI-regulated
+        <a href="https://sahamati.org.in/" target="_blank" rel="noopener">Account Aggregator framework</a>, which lets an app pull real transaction data with explicit, revocable consent &mdash; the difference between guessing well and being told.</p>
       </div>
       <div class="vision-card">
         <h3>A household, not just a couple</h3>
-        <p>Nothing about the underlying model is actually specific to a
-        husband and wife. The same shared-trust design &mdash; who spent what,
-        what needs acknowledging, what&rsquo;s everyone&rsquo;s to see &mdash; applies just
-        as well to parents and children, or any group of people managing
-        money together. The aspiration is a household model that isn&rsquo;t
-        hard-coded to one family shape.</p>
+        <p>Nothing in the model is specific to a husband and wife. Who spent what, what needs acknowledging, what everyone can see &mdash; that applies to parents and children, or any group managing money together.</p>
       </div>
       <div class="vision-card">
-        <h3>A dashboard you shape, not one we chose</h3>
-        <p>Right now the views are fixed &mdash; Overview, Category, Goals &mdash;
-        because that&rsquo;s what one household needed. The aspiration is a
-        dashboard that&rsquo;s actually customisable per person, with savings
-        goals and planning tools that flex to what an individual inside the
-        household actually needs, not a single layout everyone is handed.</p>
+        <h3>A dashboard you shape</h3>
+        <p>Overview, Category, Goals are fixed because that is what one household needed. Different people inside a household want different things in front of them.</p>
       </div>
     </div>
 
-    <p style="margin-top:26px; max-width:62ch; color:var(--ink-soft)">
-      None of that happens without help &mdash; banks, licensed Account
-      Aggregators, and the financial institutions that would need to trust a
-      small independent app with that data. That&rsquo;s explicitly future work,
-      not a claim about what KNKU does today.
-    </p>
-
-    <p class="eyebrow" style="margin-top:32px">What&rsquo;s actually in the way</p>
-    <p style="max-width:62ch; color:var(--ink-soft)">
-      The gap between the two states above isn&rsquo;t vision &mdash; it&rsquo;s three
-      concrete constraints, and two of them are already visible earlier on
-      this page. iOS gives a web app no way to read a message on its own;
-      the entire SMS-ingestion pipeline exists as an iOS Shortcut precisely
-      because that&rsquo;s the only door Apple leaves open. The free hosting tier
-      sleeps the service after fifteen idle minutes, which is the whole
-      reason a phone automation can silently lose a message. And the
-      furthest step &mdash; real bank integration &mdash; needs licensing,
-      partnerships, and budget that a two-person household project,
-      self-funded, doesn&rsquo;t have yet. The product is honest about being
-      early because it is.
+    <p class="eyebrow" style="margin-top:34px">What&rsquo;s actually in the way</p>
+    <p style="max-width:720px; color:var(--ink-soft)">
+      Three constraints, two of them already visible on this page. iOS gives a
+      web app no way to read a message, which is why the whole ingestion
+      pipeline is an iOS Shortcut. The free hosting tier sleeps after fifteen
+      idle minutes, which is how a phone automation silently loses one. And
+      bank integration needs licensing and partnerships a self-funded
+      two-person project doesn&rsquo;t have. The product is early because it is.
     </p>
   </section>
+
   <section id="outcome">
     <div class="eyebrow">In numbers</div>
     <h2>What changed, measured</h2>
@@ -1044,14 +985,12 @@
 
   <div class="closing">
     <h2>What this shows</h2>
-    <p style="color:var(--ink-soft); max-width:62ch">
+    <p style="color:var(--ink-soft); max-width:720px">
       None of these four problems looked like a design flaw from the code.
-      Each one only showed up by looking at the actual screen against real
-      data &mdash; measuring what clipped, counting what showed a bank logo,
-      running the recurring logic against 640 real transactions before
-      trusting the fix. The interesting part of this work wasn&rsquo;t any single
-      screen; it was catching, each time, that the first fix had quietly
-      traded one problem for another, and not calling it done until it hadn&rsquo;t.
+      Each surfaced only by putting the real screen against real data. And the
+      interesting part was never any single fix &mdash; it was catching, every
+      time, that the first one had quietly traded one problem for another, and
+      not calling it done until it hadn&rsquo;t.
     </p>
     <div class="note">
       Designed and built with Claude Opus 5 in Claude Code, iterating directly
