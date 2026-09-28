@@ -106,7 +106,14 @@
     -webkit-mask-image: radial-gradient(62px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 38%, transparent 76%);
     mask-image: radial-gradient(62px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 38%, transparent 76%);
   }
-  .topbar-right{ display:flex; align-items:center; gap:14px; }
+  .topbar-right{ display:flex; align-items:center; gap:18px; }
+  .top-link{
+    font-size:14px; color:var(--ink); text-decoration:none;
+    border-bottom:1px solid var(--line); padding-bottom:3px;
+    white-space:nowrap; transition:color .2s ease, border-color .2s ease;
+  }
+  .top-link:hover{ color:var(--accent); border-color:var(--accent); }
+  .top-link:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
   .top-cta{
     font-size:14px; color:var(--ink); text-decoration:none;
     border:1px solid var(--line); border-radius:99px;
@@ -731,7 +738,8 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg>
   <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
 </button>
-<a class="top-cta" href="#contact">Get in touch</a>
+<a class="top-link" href="projects.html">View all projects</a>
+      <a class="top-cta" href="#contact">Get in touch</a>
     </div>
   </div>
 
@@ -860,7 +868,6 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 
 <section class="contact" id="contact" aria-labelledby="contact-title">
   <div class="contact-head">
-    <p class="contact-kicker">Open to new work</p>
     <h2 id="contact-title">Tell me what you&rsquo;re making.</h2>
     <p class="contact-lede">Branding, packaging, campaigns or a product interface &mdash; if there is a problem worth arguing about, I would like to hear it.</p>
   </div>
@@ -902,6 +909,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 
 <script>
 (function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ------------------------------------------------------------------
      Services word reveal. The greyed-out starting state is opt-in via
