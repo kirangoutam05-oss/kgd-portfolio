@@ -123,6 +123,14 @@
   .top-cta:hover{ color:var(--accent); border-color:var(--accent); }
   .top-cta:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
 
+  @media (max-width: 860px){
+    .topbar-right{ gap:12px; }
+    .top-link, .top-cta{ font-size:13px; }
+    .top-cta{ padding:8px 14px; }
+  }
+  @media (max-width: 620px){
+    .topbar-right .top-link[href="projects.html"]{ display:none; }
+  }
   /* ---------- photo (contained, parallax layer) ---------- */
   .portrait{
     position:absolute;
@@ -757,7 +765,8 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg>
   <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
 </button>
-<a class="top-link" href="projects.html">View all projects</a>
+<a class="top-link" href="journey.html">Journey</a>
+      <a class="top-link" href="projects.html">View all projects</a>
       <a class="top-cta" href="#contact">Get in touch</a>
     </div>
   </div>
@@ -953,6 +962,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   <nav class="footer-nav" aria-label="Footer">
     <a href="#projects-title">Selected work</a>
     <a href="#services-title">Services</a>
+    <a href="journey.html">Journey</a>
     <a href="projects.html">All projects</a>
     <a href="https://www.linkedin.com/in/kiran-goutam-dhananjayan/" target="_blank" rel="noopener">LinkedIn</a>
   </nav>

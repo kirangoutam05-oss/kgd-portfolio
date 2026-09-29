@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+(function(){
+  try{
+    var saved = localStorage.getItem('kgd-theme');
+    var t = saved || 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  }catch(e){
+    document.documentElement.setAttribute('data-theme','light');
+  }
+})();
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journey — Kiran Goutam Dhananjayan</title>
+<meta name="description" content="Nine years of design work, in order: Soroco, Jumbotail, Cicada Media, Upapp Factory, Levon Homes, an MA at the University of the Arts London and a B.Des at NIFT Jodhpur.">
+<link rel="canonical" href="https://kirangoutamdhananjayan.com/journey.html">
+
+<meta property="og:url" content="https://kirangoutamdhananjayan.com/journey.html">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Journey — Kiran Goutam Dhananjayan">
+<meta property="og:description" content="The whole path, in order: roles, studies and what each one was actually for.">
+<meta property="og:image" content="https://kirangoutamdhananjayan.com/assets/portrait-kiran.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://kirangoutamdhananjayan.com/assets/portrait-kiran.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23131316'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23a8762a'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Same tokens as the home page, so the two read as one site. */
+  :root{
+    color-scheme:light;
+    --paper:#ffffff;
+    --panel:#f4f3ef;
+    --ink:#131316;
+    --ink-dim:#63636a;
+    --muted:#63636a;
+    --accent:#a8762a;
+    --line: rgba(19,19,22,0.12);
+    --surface:#ffffff;
+    --soft:#f7f6f2;
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --paper:#0e0e11;
+    --panel:#17171c;
+    --soft:#16161b;
+    --ink:#f3f2ef;
+    --muted:#9d9da7;
+    --ink-dim:#9d9da7;
+    --line:rgba(255,255,255,.15);
+    --surface:#0e0e11;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Geist', sans-serif;
+    overflow-x:hidden;
+  }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+
+  .wrap{ width:min(100% - 40px, 1160px); margin-inline:auto; }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    display:flex; justify-content:space-between; align-items:center;
+    gap:18px;
+    padding:28px clamp(20px, 4vw, 48px);
+    border-bottom:1px solid var(--line);
+  }
+  a.mark{
+    font-family:'Geist', sans-serif; font-weight:500; font-size:15px;
+    letter-spacing:-0.012em; color:var(--ink); text-decoration:none;
+    white-space:nowrap; transition:color .2s ease;
+  }
+  a.mark:hover{ color:var(--accent); }
+  .topbar-right{ display:flex; align-items:center; gap:18px; }
+  .top-link{
+    font-size:14px; color:var(--ink); text-decoration:none;
+    border-bottom:1px solid var(--line); padding-bottom:3px;
+    white-space:nowrap; transition:color .2s ease, border-color .2s ease;
+  }
+  .top-link:hover{ color:var(--accent); border-color:var(--accent); }
+  .top-cta{
+    font-size:14px; color:var(--ink); text-decoration:none;
+    border:1px solid var(--line); border-radius:99px;
+    padding:9px 18px; white-space:nowrap;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .top-cta:hover{ color:var(--accent); border-color:var(--accent); }
+
+  .theme-toggle{
+    width:34px; height:34px; flex:0 0 auto;
+    display:inline-grid; place-items:center;
+    padding:0; cursor:pointer;
+    border:1px solid var(--line); border-radius:50%;
+    background:transparent; color:var(--ink);
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .theme-toggle:hover{ border-color:var(--accent); color:var(--accent); }
+  .theme-toggle svg{ width:16px; height:16px; display:block; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; }
+  .theme-toggle .moon{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .sun{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .moon{ display:block; }
+
+  /* ---------- intro ---------- */
+  .intro{ padding:clamp(56px, 8vw, 104px) 0 clamp(40px, 5vw, 64px); }
+  .kicker{
+    font:500 11px 'Geist Mono', monospace;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--accent);
+    display:block; margin-bottom:20px;
+  }
+  .intro h1{
+    font-weight:500; font-size:clamp(42px, 7vw, 92px); line-height:.98;
+    letter-spacing:-.055em;
+  }
+  .intro p{
+    margin-top:24px; max-width:60ch;
+    color:var(--ink-dim); font-size:clamp(15px, 1.6vw, 17px); line-height:1.66;
+  }
+  .stats{
+    display:flex; flex-wrap:wrap; gap:clamp(24px, 5vw, 64px);
+    margin-top:clamp(32px, 4vw, 48px);
+    padding-top:26px; border-top:1px solid var(--line);
+  }
+  .stat b{
+    display:block; font-weight:500; font-size:clamp(24px, 3vw, 34px);
+    letter-spacing:-.04em;
+  }
+  .stat span{
+    display:block; margin-top:6px;
+    font:500 11px 'Geist Mono', monospace;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+  }
+
+  /* ---------- timeline ----------
+     One rail down the left with a dot per entry. The rail is drawn on the
+     list rather than on each row, so it stays unbroken between entries. */
+  .timeline{ padding-bottom:clamp(50px, 6vw, 80px); }
+  .track{
+    position:relative; list-style:none;
+    padding-left:clamp(28px, 4vw, 44px);
+  }
+  .track::before{
+    content:''; position:absolute; left:0; top:10px; bottom:10px;
+    width:1px; background:var(--line);
+  }
+  .entry{ position:relative; padding:0 0 clamp(38px, 4.5vw, 58px); }
+  .entry:last-child{ padding-bottom:0; }
+  .entry::before{
+    content:''; position:absolute;
+    left:calc(clamp(28px, 4vw, 44px) * -1); top:9px;
+    width:9px; height:9px; margin-left:-4px;
+    border-radius:50%;
+    background:var(--paper);
+    border:1px solid var(--muted);
+  }
+  /* Current role, and the two degrees, are the points worth finding at a
+     glance, so they get a filled dot instead of an outlined one. */
+  .entry.is-now::before{ background:var(--accent); border-color:var(--accent); }
+  .entry.is-study::before{ background:var(--ink); border-color:var(--ink); }
+
+  .entry-date{
+    font:500 11px 'Geist Mono', monospace;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--accent);
+    display:block; margin-bottom:12px;
+  }
+  .entry.is-study .entry-date{ color:var(--ink); }
+  .entry-head{
+    display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px;
+  }
+  .entry h2{
+    font-weight:500; font-size:clamp(21px, 2.4vw, 29px);
+    line-height:1.12; letter-spacing:-.04em;
+  }
+  .entry-org{ color:var(--muted); font-size:15px; }
+  .entry-tag{
+    font:500 10px 'Geist Mono', monospace;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+    border:1px solid var(--line); border-radius:99px;
+    padding:4px 10px;
+  }
+  .entry ul{
+    margin:18px 0 0; padding:0; list-style:none;
+    max-width:74ch;
+  }
+  .entry li{
+    position:relative; padding-left:18px;
+    margin-bottom:9px;
+    color:var(--ink-dim); font-size:15px; line-height:1.62;
+  }
+  .entry li::before{
+    content:''; position:absolute; left:0; top:.72em;
+    width:6px; height:1px; background:var(--muted);
+  }
+  .entry li:last-child{ margin-bottom:0; }
+  .entry-note{
+    margin-top:14px; max-width:74ch;
+    color:var(--ink-dim); font-size:15px; line-height:1.62;
+  }
+  /* Body links had no rule, so they fell back to the browser default
+     blue, which is the one colour on the page that belongs to nobody. */
+  .entry-note a, .entry li a{
+    color:var(--ink); text-decoration:none;
+    border-bottom:1px solid var(--line);
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .entry-note a:hover, .entry li a:hover{ color:var(--accent); border-color:var(--accent); }
+
+  /* ---------- download ---------- */
+  .download{
+    border-top:1px solid var(--line);
+    padding:clamp(56px, 7vw, 96px) 0 clamp(64px, 8vw, 110px);
+  }
+  .download h2{
+    font-weight:500; font-size:clamp(26px, 3.4vw, 42px);
+    line-height:1.06; letter-spacing:-.05em; max-width:18ch;
+  }
+  .download p{
+    margin-top:18px; max-width:56ch;
+    color:var(--ink-dim); font-size:16px; line-height:1.62;
+  }
+  .dl-row{ display:flex; flex-wrap:wrap; align-items:center; gap:18px; margin-top:30px; }
+  .dl-btn{
+    display:inline-flex; align-items:center; gap:11px;
+    font-size:15px; color:var(--paper); background:var(--ink);
+    border:1px solid var(--ink); border-radius:99px;
+    padding:14px 26px; text-decoration:none;
+    transition:background .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .dl-btn:hover{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .dl-btn svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .dl-meta{
+    font:500 11px 'Geist Mono', monospace;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+  }
+
+  /* ---------- footer ---------- */
+  .site-footer{
+    border-top:1px solid var(--line);
+    padding:34px clamp(20px, 4vw, 48px) 46px;
+    display:flex; flex-wrap:wrap; justify-content:space-between; gap:20px;
+  }
+  .footer-mail{ color:var(--ink); text-decoration:none; font-size:15px; }
+  .footer-mail:hover{ color:var(--accent); }
+  .footer-nav{ display:flex; flex-wrap:wrap; gap:22px; }
+  .footer-nav a{ color:var(--muted); text-decoration:none; font-size:14px; }
+  .footer-nav a:hover{ color:var(--accent); }
+
+  /* WCAG 2.5.8: a 24px pointer target without moving the layout. */
+  a.mark, .top-link, .footer-nav a, .footer-mail{ position:relative; }
+  a.mark::before, .top-link::before, .footer-nav a::before, .footer-mail::before{
+    content:''; position:absolute; left:0; right:0; top:50%;
+    transform:translateY(-50%); height:24px;
+  }
+
+  @media (max-width: 860px){
+    .topbar-right{ gap:12px; }
+    .top-link, .top-cta{ font-size:13px; }
+    .top-cta{ padding:8px 14px; }
+  }
+  @media (max-width: 620px){
+    /* Three links will not fit beside the wordmark on a phone. Projects
+       is the one to drop: it is reachable from the footer of every page,
+       while Journey and the contact CTA are not. */
+    .topbar-right .top-link[href="projects.html"]{ display:none; }
+  }
+  @media (max-width: 700px){
+    .wrap{ width:min(100% - 32px, 1160px); }
+    .entry-head{ gap:4px 10px; }
+  }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="mark" href="index.html" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a>
+  <div class="topbar-right">
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
+    </button>
+    <a class="top-link" href="projects.html">View all projects</a>
+    <a class="top-cta" href="index.html#contact">Get in touch</a>
+  </div>
+</header>
+
+<main>
+
+<section class="intro wrap">
+  <span class="kicker">Journey</span>
+  <h1>Where the<br>work has been.</h1>
+  <p>Nine years between a first internship in Hong Kong and an enterprise AI product in Bengaluru, taking in packaging for staples, identities for restaurants, a design system for a marketplace, and a masters in how design gets managed rather than made. In order, most recent first.</p>
+  <div class="stats">
+    <div class="stat"><b>2017</b><span>First role</span></div>
+    <div class="stat"><b>10</b><span>Organisations</span></div>
+    <div class="stat"><b>2</b><span>Degrees</span></div>
+    <div class="stat"><b>Bengaluru</b><span>Based in</span></div>
+  </div>
+</section>
+
+<section class="timeline wrap" aria-labelledby="track-title">
+  <h2 id="track-title" class="kicker" style="margin-bottom:34px;">The track</h2>
+  <ol class="track">
+
+    <li class="entry is-now">
+      <span class="entry-date">Sep 2025 &mdash; Present</span>
+      <div class="entry-head">
+        <h2>Senior Graphic Designer</h2>
+        <span class="entry-org">Soroco India Pvt Ltd &middot; Bangalore</span>
+      </div>
+      <ul>
+        <li>Analysed the existing Workfabric AI digital presence and evaluated potential design and deployment solutions to improve scalability and maintainability of the marketing website.</li>
+        <li>Explored and implemented Figma Sites as a web design and deployment workflow, contributing to the design and execution of the live Workfabric AI website.</li>
+        <li>Developed visual design and style guidelines for the Workfabric AI brand to ensure consistency across marketing communications, website assets, product documentation, and digital campaigns.</li>
+        <li>Designed and executed multiple enterprise product pitch decks, translating complex AI and platform capabilities into clear visual narratives for stakeholders and potential clients.</li>
+        <li>Acted as a bridge between Product and Marketing teams to align messaging and design for the Workfabric AI website launch.</li>
+        <li>Designed and optimised internal newsletters using Figma, improving readability, visual hierarchy, and engagement of company-wide updates.</li>
+        <li>Translated complex leadership briefs and Word-based documents into structured, high-impact executive presentations.</li>
+        <li>Produced product tutorial videos and motion-based walkthroughs to support onboarding and product understanding across various Workfabric AI and Soroco platform offerings.</li>
+      </ul>
+      <p class="entry-note"><a href="workfabric-ai.html">Read the Workfabric AI case study &#8599;</a></p>
+    </li>
+
+    <li class="entry">
+      <span class="entry-date">Jun 2024 &mdash; Sep 2025</span>
+      <div class="entry-head">
+        <h2>Graphic Designer</h2>
+        <span class="entry-org">Jumbotail Technologies Pvt Ltd &middot; Bangalore</span>
+      </div>
+      <ul>
+        <li>Developed a comprehensive design system for Jumbotail and its subsidiaries, ensuring brand consistency and scalability.</li>
+        <li>Created packaging designs for staple products, including Coriander Seeds, Jeera Seeds, Jeera Samba Rice, Mustard Oil, Soya Chunks, Lamp Oil, Lamp Ghee, and Toor Dal, under the Jumbofarms home brand.</li>
+        <li>Conducted user research initiatives through customer connect setups, gaining actionable insights into user behaviour and preferences.</li>
+        <li>Analysed user behaviour data to propose and implement a banner design that resulted in a 1.6x increase in click-through rates (CTR).</li>
+        <li>Collaborated with the Decision Science and Data Analyst teams to develop the Campaign Effectiveness Score (CES), enabling design and merchandising teams to optimise campaign strategies and outcomes.</li>
+        <li>Conceptualised and designed the Superclub, a premium subscription experience, enhancing customer loyalty and satisfaction.</li>
+        <li>Designed the official website for the Jumbofarms home brand, creating a seamless and engaging online presence.</li>
+        <li>Redesigned app icons for Jumbotail, improving user experience and visual appeal.</li>
+        <li>Strategised and executed social media marketing campaigns for Jumbotail, enhancing brand visibility and engagement.</li>
+      </ul>
+    </li>
+
+    <li class="entry">
+      <span class="entry-date">Apr 2024 &mdash; May 2024</span>
+      <div class="entry-head">
+        <h2>Graphic Design Trainee</h2>
+        <span class="entry-org">Foley Designs &middot; Bangalore</span>
+        <span class="entry-tag">Freelance</span>
+      </div>
+      <ul>
+        <li>Conceptualised and executed a unique Independence Day edition packaging design for the 100 Pipers brand.</li>
+        <li>Designed and developed the 2024 Christmas edition packaging for the Paul John brand.</li>
+      </ul>
+    </li>
+
+    <li class="entry is-study">
+      <span class="entry-date">Oct 2022 &mdash; Dec 2023</span>
+      <div class="entry-head">
+        <h2>MA Design Management</h2>
+        <span class="entry-org">University of the Arts London &middot; London</span>
+        <span class="entry-tag">Education</span>
+      </div>
+      <p class="entry-note">The final major project became <a href="learnarcade.html">LearnARcade &#8599;</a> &mdash; an augmented reality intervention using multi-sensory learning for dyslexic adults, built on a Triple Diamond research framework.</p>
+    </li>
+
+    <li class="entry">
+      <span class="entry-date">Dec 2020 &mdash; Dec 2021</span>
+      <div class="entry-head">
+        <h2>Graphic Designer</h2>
+        <span class="entry-org">Cicada Media Pvt Ltd &middot; Bangalore</span>
+      </div>
+      <ul>
+        <li>Crafted a brand identity for an FMCG brand encompassing logo design and packaging.</li>
+        <li>Conceptualised and created the customer journey mapping for the brand Trippy Goat.</li>
+        <li>Created banners and social media campaign for a university&rsquo;s new program.</li>
+        <li>Orchestrated and executed a large-scale event by overseeing all facets of an event organisation, from curation to branding, while also efficiently managing vendor teams.</li>
+      </ul>
+      <p class="entry-note">See <a href="trippy-goat.html">Trippy Goat &amp; The Mixer &#8599;</a> and <a href="pes-university.html">PES University &#8599;</a>.</p>
+    </li>
+
+    <li class="entry">
+      <span class="entry-date">Jul 2020 &mdash; Nov 2020</span>
+      <div class="entry-head">
+        <h2>Visual Communication Designer</h2>
+        <span class="entry-org">Upapp Factory &middot; Bangalore</span>
+      </div>
+      <ul>
+        <li>Redesigned the company website&rsquo;s visual identity for enhanced user engagement and experience.</li>
+        <li>Integrated micro-interactions into the company&rsquo;s web strategy, directly resulting in an increase of 15% user engagement.</li>
+        <li>Strategised and implemented visual improvements in customer service experience.</li>
+      </ul>
+    </li>
+
+    <li class="entry is-study">
+      <span class="entry-date">Jul 2016 &mdash; Jul 2020</span>
+      <div class="entry-head">
+        <h2>B.Des Fashion Communication</h2>
+        <span class="entry-org">National Institute of Fashion Technology &middot; Jodhpur</span>
+        <span class="entry-tag">Education</span>
+      </div>
+      <p class="entry-note">Four years that overlap the internships and the Levon Homes co-op below.</p>
+    </li>
+
+    <li class="entry">
+      <span class="entry-date">Dec 2019 &mdash; May 2020</span>
+      <div class="entry-head">
+        <h2>Visual Communication Designer</h2>
+        <span class="entry-org">Levon Homes &middot; Delhi</span>
+        <span class="entry-tag">Co-op</span>
+      </div>
+      <ul>
+        <li>Designed graphics, animations, and 3D renders across digital and print advertising channels.</li>
+        <li>Curated the visual narrative and directed photoshoots and videography.</li>
+        <li>Devised a social media advertising strategy that lifted average daily sales by 10%.</li>
+        <li>Secured more than three kitchen interior contracts and drove a notable 30% increase in sales by rapidly assisting with custom graphics needs.</li>
+        <li>Identified design deficiencies in the company&rsquo;s assets and devised effective design solutions.</li>
+        <li>Produced marketing design assets, including photos, videos, flyers, and spec sheets.</li>
+      </ul>
+    </li>
+
+    <li class="entry">
+      <span class="entry-date">Jun 2018 &mdash; Jul 2018 &middot; Jun 2019 &mdash; Jul 2019</span>
+      <div class="entry-head">
+        <h2>Design Summer Internship</h2>
+        <span class="entry-org">Titan Company Limited &middot; Bangalore</span>
+        <span class="entry-tag">Two summers</span>
+      </div>
+      <ul>
+        <li>Conducted retail brand and market studies for the strategic execution of the 2019 fall season launch for the Fastrack division within Visual Merchandising.</li>
+        <li>Presented a competitor analysis for facilitating data-driven decision-making for brand strategies.</li>
+        <li>Participated and contributed to the design strategy by conducting an in-depth analysis of the upcoming season collection.</li>
+        <li>Designed advertising graphic templates for Fastrack perfumes.</li>
+        <li>Managed design tasks and coordinated key events, including logo and merchandise design.</li>
+      </ul>
+    </li>
+
+    <li class="entry">
+      <span class="entry-date">Sep 2018 &mdash; Mar 2019</span>
+      <div class="entry-head">
+        <h2>Communication Designer</h2>
+        <span class="entry-org">Bhansali Art &amp; Craft &middot; Jodhpur</span>
+        <span class="entry-tag">Freelance</span>
+      </div>
+      <ul>
+        <li>Executed photography and catalogue design for export products.</li>
+        <li>Created six comprehensive catalogues through photography sessions for a diverse array of items.</li>
+        <li>Produced designs for exhibitions, including brochures, pamphlets, and a range of stationery items.</li>
+        <li>Implemented designs in out-of-state exhibitions, leading to an increase in sales of over 25% compared to the previous year.</li>
+      </ul>
+    </li>
+
+    <li class="entry">
+      <span class="entry-date">Apr 2018 &mdash; May 2018</span>
+      <div class="entry-head">
+        <h2>Graphic Designer</h2>
+        <span class="entry-org">Medapp &middot; Bangalore</span>
+        <span class="entry-tag">Freelance</span>
+      </div>
+      <ul>
+        <li>Collaborated with the marketing team to design packaging solutions.</li>
+        <li>Executed advertising campaigns and developed marketing collateral.</li>
+        <li>Cultivated engagement to drive company initiatives across various social media platforms.</li>
+      </ul>
+    </li>
+
+    <li class="entry">
+      <span class="entry-date">Jun 2017 &mdash; Jul 2017</span>
+      <div class="entry-head">
+        <h2>Design Trainee</h2>
+        <span class="entry-org">MZB World Time Limited &middot; Kwai Chung, Hong Kong</span>
+        <span class="entry-tag">Internship</span>
+      </div>
+      <ul>
+        <li>Orchestrated order administration and quality control procedures for prominent clients such as JC Penney, Walmart, and Macy&rsquo;s, ensuring product standards.</li>
+        <li>Collaborated with the design team to create innovative design solutions for esteemed clients and participated in significant client meetings to present new design and technology concepts.</li>
+        <li>Implemented a fresh design theme across three countries for mass production and to increase client satisfaction.</li>
+        <li>Streamlined communication and coordination between China and the USA, in customer interactions and product verification ahead of mass production.</li>
+        <li>Formulated merchandising and product placement strategies to elevate visibility.</li>
+      </ul>
+    </li>
+
+  </ol>
+</section>
+
+<section class="download wrap" id="cv" aria-labelledby="cv-title">
+  <h2 id="cv-title">Take the whole thing with you.</h2>
+  <p>The same history as a document, with the skills and tools listed &mdash; three pages, ready to forward.</p>
+  <div class="dl-row">
+    <a class="dl-btn" href="assets/cv/Kiran-Goutam-Dhananjayan-CV.pdf" download="Kiran Goutam Dhananjayan - CV.pdf">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg>
+      Download CV
+    </a>
+    <span class="dl-meta">PDF &middot; 3 pages &middot; 621 KB</span>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <a class="footer-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
+  <nav class="footer-nav" aria-label="Footer">
+    <a href="index.html">Home</a>
+    <a href="projects.html">All projects</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="https://www.linkedin.com/in/kiran-goutam-dhananjayan/" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+</footer>
+
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  var root = document.documentElement;
+  function sync(){
+    var dark = root.getAttribute('data-theme') === 'dark';
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  }
+  btn.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('kgd-theme', next); }catch(e){}
+    sync();
+  });
+  sync();
+})();
+</script>
+</body>
+</html>
