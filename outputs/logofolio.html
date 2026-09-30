@@ -295,7 +295,10 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   header.top, .topbar, header.site-top{ position:relative; }
 }
 @media (min-width: 761px){
-  .nav-bar-controls .theme-toggle{ display:none; }
+  /* The wrapper is empty at this width (its toggle and hamburger are both
+     hidden), so hide the wrapper itself - left in place it stays a flex
+     child of the bar and space-between strands the nav in the middle. */
+  .nav-bar-controls{ display:none; }
 }
 @media (prefers-reduced-motion: reduce){
   .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
