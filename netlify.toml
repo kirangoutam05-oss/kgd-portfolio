@@ -1,0 +1,43 @@
+# Netlify deploys outputs/ exactly as it is. There is no build step: the
+# site is hand-written HTML with no bundler, so anything Netlify "built"
+# would only be a chance for it to differ from what was tested locally.
+[build]
+  publish = "outputs"
+  command = ""
+
+# 404.html in the publish directory is served automatically for unknown
+# paths, so no redirect rule is needed for it.
+
+# Hashed asset names are not used here, so images are cached for a day
+# rather than forever - long enough to help a repeat visit, short enough
+# that replacing a packshot does not need a cache bust.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/assets/cv/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# HTML is always revalidated, so a push is live immediately rather than
+# after someone's cache expires.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Baseline security headers. The site loads fonts from Google and nothing
+# else third-party, so these cost nothing.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
