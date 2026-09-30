@@ -752,6 +752,32 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   @media (max-width: 680px){
     .contact-form{ grid-template-columns:1fr; }
   }
+/* ---------- landing page, second pass ---------- */
+
+/* The rail loops, so overflow:hidden was guillotining a card and its
+   caption mid-word at each edge - "AI", "on Design". A mask fades them
+   out instead, which is what the motion was always implying. */
+.project-window{
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 72px, #000 calc(100% - 72px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 72px, #000 calc(100% - 72px), transparent 100%);
+}
+
+/* Five stacked cards ran to 4102px - 54% of the page - because each one
+   was a full-measure 16:9 panel. Two up halves the scroll and still
+   leaves each panel wider than the rail cards it sits under. */
+@media (min-width: 1000px){
+  .stack-grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:clamp(22px,2.6vw,38px) clamp(20px,2.2vw,32px);
+    align-items:start;
+  }
+  .stack-item{ margin-bottom:0; }
+  /* The newest project keeps the full measure: it is the one that should
+     be seen at size, and an odd count would otherwise leave a hole. */
+  .stack-grid > .stack-item:first-child{ grid-column:1 / -1; }
+  .stack-grid > .stack-item:first-child .stack-media{ aspect-ratio:21 / 9; }
+}
 </style>
 </head>
 <body>
@@ -868,6 +894,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     <a class="stack-all" href="projects.html">All projects &#8599;</a>
   </div>
 
+  <div class="stack-grid">
   <a class="stack-item" href="workfabric-ai.html" style="--tint:#eef0fa;--tint-dark:#161b30">
     <div class="stack-media"><img loading="lazy" src="assets/workfabric-ai/cover.jpg" alt="The Workfabric AI site opening on its headline about vanishing digital experiences"></div>
     <div class="stack-row">
@@ -922,6 +949,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       <span class="stack-cta"><span class="stack-arrow" aria-hidden="true">&#8599;</span>View Project</span>
     </div>
   </a>
+  </div>
 
 </section>
 
