@@ -942,6 +942,144 @@ body{
   background-image:linear-gradient(162deg,
     rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
 }
+
+/* ---------- contact ----------
+   One card, two columns: the pitch on a soft accent wash, the form beside
+   it. Chips are real radios, so what someone picks is submitted and is
+   reachable by keyboard; only the label is styled. Inputs are underlines
+   rather than boxes, which keeps the column quiet next to the chips. */
+.contact{
+  --contact-margin:max(24px, calc((100vw - 1160px)/2));
+  padding:clamp(48px,5.5vw,84px) var(--contact-margin);
+  border-top:1px solid var(--line);
+  background-image:none;
+}
+.contact-card{
+  display:grid; grid-template-columns:1fr 1.18fr;
+  border:1px solid var(--line); border-radius:20px; overflow:hidden;
+}
+.contact-aside{
+  padding:clamp(28px,3vw,44px);
+  display:flex; flex-direction:column; gap:26px;
+  background-image:linear-gradient(152deg,
+    color-mix(in oklab, var(--accent) 24%, var(--panel)) 0%,
+    color-mix(in oklab, var(--accent) 9%, var(--panel)) 44%,
+    var(--panel) 100%);
+}
+.contact h2{
+  margin:0;
+  font:500 clamp(26px,3vw,40px)/1.06 'Plus Jakarta Sans',sans-serif;
+  letter-spacing:-.055em; color:var(--ink);
+}
+.contact-lede{ margin:14px 0 0; max-width:34ch; color:var(--ink-dim); font-size:15px; line-height:1.6; }
+.contact-points{ list-style:none; margin:0; padding:0; display:grid; gap:11px; }
+.contact-points li{ display:flex; gap:10px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:var(--ink-dim); }
+.contact-points svg{
+  flex:0 0 auto; width:17px; height:17px; margin-top:1px;
+  fill:none; stroke:var(--accent); stroke-width:2.1;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+.contact-aside-foot{ margin-top:auto; display:grid; gap:14px; justify-items:start; }
+.contact-mail{ color:var(--ink); font-size:14.5px; text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:2px; }
+.contact-mail:hover{ border-bottom-color:var(--accent); }
+.contact-alt{
+  font:500 13px 'Plus Jakarta Sans',sans-serif; color:var(--ink);
+  text-decoration:none; padding:9px 17px;
+  border:1px solid var(--line); border-radius:99px;
+  transition:border-color .2s ease;
+}
+.contact-alt:hover{ border-color:var(--accent); }
+
+.contact-form{
+  padding:clamp(28px,3vw,44px);
+  display:grid; gap:22px; align-content:start;
+  grid-template-columns:1fr; max-width:none; margin:0;
+  background:var(--surface);
+}
+.chipset{ border:0; margin:0; padding:0; min-width:0; }
+.chipset legend{
+  padding:0; margin-bottom:11px;
+  font:500 11px 'Geist Mono',monospace; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-dim);
+}
+.chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.chip{ position:relative; display:inline-flex; }
+.chip input{ position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:pointer; }
+.chip span{
+  display:block; padding:8px 15px; border-radius:99px;
+  border:1px solid var(--line); color:var(--ink-dim);
+  font-size:13.5px; line-height:1.2; white-space:nowrap;
+  transition:border-color .2s ease, color .2s ease;
+}
+.chip input:checked + span{
+  color:var(--ink); border-color:var(--accent);
+  background-image:linear-gradient(150deg,
+    color-mix(in oklab, var(--accent) 18%, var(--surface)) 0%,
+    color-mix(in oklab, var(--accent) 6%, var(--surface)) 100%);
+}
+.chip input:focus-visible + span{ outline:2px solid var(--accent); outline-offset:2px; }
+
+.field-row{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+.contact-form .field{ display:flex; flex-direction:column; gap:7px; }
+.contact-form .field label{
+  font:500 11px 'Geist Mono',monospace; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-dim);
+}
+.contact-form .field label i{ font-style:normal; color:var(--accent); }
+.contact-form .field label em{ font-style:normal; opacity:.72; }
+.contact-form .field input[type=text],
+.contact-form .field input[type=email],
+.contact-form .field textarea{
+  font:400 15px/1.55 'Plus Jakarta Sans',sans-serif;
+  color:var(--ink); background:transparent;
+  border:0; border-bottom:1px solid var(--line); border-radius:0;
+  padding:8px 2px; width:100%;
+  transition:border-color .2s ease;
+}
+.contact-form .field textarea{ resize:vertical; min-height:76px; }
+.contact-form .field input:focus,
+.contact-form .field textarea:focus{ outline:none; border-bottom-color:var(--accent); }
+.contact-form .field input:focus-visible,
+.contact-form .field textarea:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+
+.dropzone{ position:relative; display:block; cursor:pointer; }
+.dropzone input{ position:absolute; width:1px; height:1px; opacity:0; }
+.dropzone-box{
+  display:block; padding:20px; text-align:center;
+  border:1px dashed var(--line); border-radius:12px;
+  color:var(--ink-dim);
+  /* .dropzone is itself a label inside .field, so it inherits the mono,
+     uppercase, letterspaced label styling. The zone's own text is a
+     sentence, not a label, so it is set back here. */
+  font:400 14px/1.4 'Plus Jakarta Sans',sans-serif;
+  letter-spacing:normal; text-transform:none;
+  transition:border-color .2s ease, color .2s ease;
+}
+.dropzone:hover .dropzone-box,
+.dropzone.is-over .dropzone-box,
+.dropzone input:focus-visible + .dropzone-box{ border-color:var(--accent); color:var(--ink); }
+
+.contact-form .contact-send{
+  width:100%; margin-top:2px;
+  font:500 15px 'Plus Jakarta Sans',sans-serif;
+  color:var(--paper); background:var(--ink);
+  border:1px solid var(--ink); border-radius:99px;
+  padding:15px 28px; cursor:pointer;
+  transition:opacity .2s ease;
+}
+.contact-form .contact-send:hover{ opacity:.88; }
+.contact-note{ margin:0; font-size:13.5px; color:var(--ink-dim); }
+.contact-note a{ color:inherit; }
+
+@media (max-width: 900px){
+  .contact-card{ grid-template-columns:1fr; }
+  .contact-aside{ gap:20px; }
+}
+@media (max-width: 560px){
+  .field-row{ grid-template-columns:1fr; }
+  .chips{ gap:7px; }
+  .chip span{ padding:7px 13px; font-size:13px; }
+}
 </style>
 </head>
 <body>
@@ -1124,36 +1262,78 @@ body{
 
 
 <section class="contact" id="contact" aria-labelledby="contact-title">
-  <div class="contact-head">
-    <h2 id="contact-title">Tell me what you&rsquo;re making.</h2>
-    <p class="contact-lede">Branding, packaging, campaigns or a product interface &mdash; if there is a problem worth arguing about, I would like to hear it.</p>
-  </div>
+  <div class="contact-card">
 
-  <form class="contact-form" id="contact-form" name="contact" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="company" novalidate>
-    <input type="hidden" name="form-name" value="contact">
-    <p class="hp-field" aria-hidden="true"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
-    <div class="field">
-      <label for="cf-name">Your name</label>
-      <input type="text" id="cf-name" name="name" autocomplete="name" required>
+    <div class="contact-aside">
+      <div>
+        <h2 id="contact-title">Tell me what you&rsquo;re making.</h2>
+        <p class="contact-lede">Branding, packaging, campaigns or a product interface &mdash; if there is a problem worth arguing about, I would like to hear it.</p>
+      </div>
+      <ul class="contact-points">
+        <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.6 10.4l3.4 3.4 7.4-7.9"/></svg><span>Goes straight to my inbox</span></li>
+        <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.6 10.4l3.4 3.4 7.4-7.9"/></svg><span>Branding, packaging, campaigns and product interfaces</span></li>
+        <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.6 10.4l3.4 3.4 7.4-7.9"/></svg><span>Based in Bengaluru, IN</span></li>
+      </ul>
+      <div class="contact-aside-foot">
+        <a class="contact-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
+        <a class="contact-alt" href="https://www.linkedin.com/in/kiran-goutam-dhananjayan/" target="_blank" rel="noopener">Find me on LinkedIn</a>
+      </div>
     </div>
-    <div class="field">
-      <label for="cf-email">Email</label>
-      <input type="email" id="cf-email" name="email" autocomplete="email" required>
-    </div>
-    <div class="field is-wide">
-      <label for="cf-subject">What is it about</label>
-      <input type="text" id="cf-subject" name="subject" autocomplete="off">
-    </div>
-    <div class="field is-wide">
-      <label for="cf-message">Message</label>
-      <textarea id="cf-message" name="message" rows="6" required></textarea>
-    </div>
-    <div class="contact-actions">
+
+    <form class="contact-form" id="contact-form" name="contact" method="POST" action="/thanks.html" enctype="multipart/form-data" data-netlify="true" data-netlify-honeypot="company" novalidate>
+      <input type="hidden" name="form-name" value="contact">
+      <p class="hp-field" aria-hidden="true"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
+
+      <fieldset class="chipset">
+        <legend>What it is</legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="service" value="Branding"><span>Branding</span></label>
+          <label class="chip"><input type="radio" name="service" value="Packaging"><span>Packaging</span></label>
+          <label class="chip"><input type="radio" name="service" value="Campaign"><span>Campaign</span></label>
+          <label class="chip"><input type="radio" name="service" value="Product &amp; UI"><span>Product &amp; UI</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="chipset">
+        <legend>Budget</legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="budget" value="Under 1L"><span>Under &#8377;1L</span></label>
+          <label class="chip"><input type="radio" name="budget" value="1L - 5L"><span>&#8377;1L &ndash; &#8377;5L</span></label>
+          <label class="chip"><input type="radio" name="budget" value="Over 5L"><span>Over &#8377;5L</span></label>
+          <label class="chip"><input type="radio" name="budget" value="Not sure yet"><span>Not sure yet</span></label>
+        </div>
+      </fieldset>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="cf-name">Full name<i aria-hidden="true">*</i></label>
+          <input type="text" id="cf-name" name="name" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="cf-email">Email<i aria-hidden="true">*</i></label>
+          <input type="email" id="cf-email" name="email" autocomplete="email" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="cf-message">Project details<i aria-hidden="true">*</i></label>
+        <textarea id="cf-message" name="message" rows="4" required></textarea>
+      </div>
+
+      <div class="field">
+        <label for="cf-file">Attach a file <em>(optional)</em></label>
+        <label class="dropzone" for="cf-file">
+          <input type="file" id="cf-file" name="attachment">
+          <span class="dropzone-box" data-empty="Choose a file or drag and drop here">Choose a file or drag and drop here</span>
+        </label>
+      </div>
+
       <button type="submit" class="contact-send">Send message</button>
-      <p class="contact-note">Goes straight to my inbox. Or write to <a href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a> directly.</p>
-    </div>
-    <p class="contact-status" id="contact-status" role="status" hidden></p>
-  </form>
+      <p class="contact-status" id="contact-status" role="status" hidden></p>
+      <p class="contact-note">Or write to <a href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a> directly.</p>
+    </form>
+
+  </div>
 </section>
 
 <footer class="site-footer">
@@ -1623,11 +1803,12 @@ body{
     btn.disabled = true;
     say('Sending\u2026');
 
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(new FormData(form)).toString()
-    }).then(function(res){
+    /* Multipart, not urlencoded: the form carries a file input and declares
+       enctype multipart/form-data, and Netlify has to receive it the same
+       way. The browser sets the boundary, so Content-Type is deliberately
+       not set by hand here - setting it would omit the boundary and the
+       body would not parse. */
+    fetch('/', { method: 'POST', body: new FormData(form) }).then(function(res){
       if (!res.ok) throw new Error('HTTP ' + res.status);
       form.reset();
       say('Thank you \u2014 that has reached my inbox. I will reply from ' + 'kirangoutamdhananjayan@gmail.com' + '.');
@@ -1645,6 +1826,30 @@ body{
       }
       say('That did not send. Please write to kirangoutamdhananjayan@gmail.com directly.', true);
     }).then(function(){ btn.disabled = false; });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  /* The drop zone is a styled label wrapping a real file input, so the
+     click, the keyboard and the drop all come free. This only reports
+     back what was picked. */
+  var zone = document.querySelector('.dropzone');
+  if (!zone) return;
+  var input = zone.querySelector('input[type=file]');
+  var box = zone.querySelector('.dropzone-box');
+  if (!input || !box) return;
+
+  input.addEventListener('change', function(){
+    var f = input.files && input.files[0];
+    box.textContent = f ? f.name : box.getAttribute('data-empty');
+  });
+  ['dragenter','dragover'].forEach(function(ev){
+    zone.addEventListener(ev, function(e){ e.preventDefault(); zone.classList.add('is-over'); });
+  });
+  ['dragleave','drop'].forEach(function(ev){
+    zone.addEventListener(ev, function(){ zone.classList.remove('is-over'); });
   });
 })();
 </script>
