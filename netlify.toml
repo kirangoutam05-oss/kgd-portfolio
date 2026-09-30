@@ -35,9 +35,8 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
-# Baseline security headers. The site loads fonts from two third-party
-# origins and nothing else - Geist Mono from Google, Satoshi from
-# Fontshare - so these cost nothing.
+# Baseline security headers. The site loads fonts from Google and nothing
+# else third-party, so these cost nothing.
 [[headers]]
   for = "/*"
   [headers.values]
