@@ -889,6 +889,27 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     .topbar a.mark, .topbar .theme-toggle, .topbar .nav-toggle{ color:#fff; }
     .topbar .theme-toggle, .topbar .nav-toggle{ border-color:rgba(255,255,255,.34); }
   }
+  /* ---------- rail controls ---------- */
+  .rail-nav{ display:inline-flex; align-items:center; gap:8px; margin-right:18px; }
+  .rail-nav button{
+    width:34px; height:34px; display:grid; place-items:center;
+    padding:0; cursor:pointer;
+    border:1px solid var(--line); border-radius:50%;
+    background:transparent; color:var(--ink);
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .rail-nav button:hover{ border-color:var(--accent); color:var(--accent); }
+  .rail-nav button:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  .rail-nav svg{
+    width:15px; height:15px; fill:none; stroke:currentColor;
+    stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round;
+  }
+  @media (max-width: 560px){ .rail-nav{ margin-right:12px; } }
+  /* The honeypot has to be reachable by a bot and invisible to a person,
+     so it is moved out of view rather than display:none. */
+  .hp-field{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+  .contact-status.is-bad{ color:#e2574c; }
+  .contact-send[disabled]{ opacity:.6; cursor:default; }
 </style>
 </head>
 <body>
@@ -934,6 +955,10 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   <div class="projects-head">
     <h2 id="projects-title">Featured Projects</h2>
     <div class="projects-actions">
+      <div class="rail-nav">
+        <button type="button" data-rail="prev" aria-label="Previous project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg></button>
+        <button type="button" data-rail="next" aria-label="Next project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
       <a class="projects-link" href="projects.html">View projects</a>
     </div>
   </div>
@@ -1071,7 +1096,9 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     <p class="contact-lede">Branding, packaging, campaigns or a product interface &mdash; if there is a problem worth arguing about, I would like to hear it.</p>
   </div>
 
-  <form class="contact-form" id="contact-form" action="mailto:kirangoutamdhananjayan@gmail.com" method="post" enctype="text/plain" novalidate>
+  <form class="contact-form" id="contact-form" name="contact" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="company" novalidate>
+    <input type="hidden" name="form-name" value="contact">
+    <p class="hp-field" aria-hidden="true"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
     <div class="field">
       <label for="cf-name">Your name</label>
       <input type="text" id="cf-name" name="name" autocomplete="name" required>
@@ -1090,7 +1117,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     </div>
     <div class="contact-actions">
       <button type="submit" class="contact-send">Send message</button>
-      <p class="contact-note">This opens your own mail app with the message ready &mdash; or write to <a href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a> directly.</p>
+      <p class="contact-note">Goes straight to my inbox. Or write to <a href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a> directly.</p>
     </div>
     <p class="contact-status" id="contact-status" role="status" hidden></p>
   </form>
@@ -1305,14 +1332,14 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     // the rail holds each card twice; the duplicate set starts at the halfway point
     var half = projectRail.children.length >> 1;
     loopDistance = projectRail.children[half].offsetLeft - projectRail.children[0].offsetLeft;
-    // One resting place per card in the first run, each centred in the
-    // window, so a card stops where it can actually be looked at.
+    // One resting place per card, aligned to the left edge of the window.
+    // Centring the card put the first stop at +365px, which translated
+    // the rail to the right and left that much empty space before the
+    // first card - the gap that showed up at the end of the loop.
     railStops = [];
     var first = projectRail.children[0].offsetLeft;
     for (var n = 0; n < half; n++){
-      var el = projectRail.children[n];
-      var pad = Math.max(0, (projectWindow.clientWidth - el.offsetWidth) / 2);
-      railStops.push(-(el.offsetLeft - first - pad));
+      railStops.push(-(projectRail.children[n].offsetLeft - first));
     }
     if (railIndex >= railStops.length) railIndex = 0;
     if (railStops.length) railOffset = railStops[railIndex];
@@ -1320,30 +1347,55 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 
   function easeInOut(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; }
 
+  var slideFrom = 0, slideTo = 0, slideStart = 0, sliding = false, slideNext = 0;
+
+  function paint(){
+    projectRail.style.transform = 'translate3d(' + railOffset.toFixed(2) + 'px,0,0)';
+  }
+
+  // step(+1) shows the next card, step(-1) the previous. The rail holds
+  // two identical runs, so a position and that position minus one
+  // loopDistance look the same; going backwards from the first card
+  // teleports to its twin in run two first, which puts real content to
+  // the left of it to move onto.
+  function step(dir){
+    if (!railStops.length || sliding) return;
+    var last = railStops.length - 1;
+    if (dir > 0){
+      slideNext = (railIndex + 1) % railStops.length;
+      slideFrom = railStops[railIndex];
+      slideTo = (slideNext === 0) ? railStops[0] - loopDistance : railStops[slideNext];
+    } else {
+      slideNext = (railIndex === 0) ? last : railIndex - 1;
+      slideFrom = (railIndex === 0) ? railStops[0] - loopDistance : railStops[railIndex];
+      slideTo = railStops[slideNext];
+      if (railIndex === 0){ railOffset = slideFrom; paint(); }
+    }
+    slideStart = performance.now();
+    sliding = true;
+    requestTick();
+  }
+
   function advanceRail(){
     if (!railStops.length) return;
     var now = performance.now();
-    if (!phaseStart) phaseStart = now;
-    var elapsed = now - phaseStart;
 
-    if (elapsed < HOLD_MS){
-      railOffset = railStops[railIndex];              // at rest on a card
-    } else {
-      var t = Math.min(1, (elapsed - HOLD_MS) / SLIDE_MS);
-      var from = railStops[railIndex];
-      var nextIndex = (railIndex + 1) % railStops.length;
-      // From the last card the rail keeps moving forward into the
-      // duplicate run, whose first card sits exactly one loopDistance
-      // along. The move looks like any other and the reset is invisible.
-      var to = (nextIndex === 0) ? railStops[0] - loopDistance : railStops[nextIndex];
-      railOffset = from + (to - from) * easeInOut(t);
+    if (sliding){
+      var t = Math.min(1, (now - slideStart) / SLIDE_MS);
+      railOffset = slideFrom + (slideTo - slideFrom) * easeInOut(t);
       if (t >= 1){
-        railIndex = nextIndex;
-        railOffset = railStops[railIndex];            // identical card, run one
+        railIndex = slideNext;
+        railOffset = railStops[railIndex];   // the identical card in run one
+        sliding = false;
         phaseStart = now;
       }
+      paint();
+      return;
     }
-    projectRail.style.transform = 'translate3d(' + railOffset.toFixed(2) + 'px,0,0)';
+
+    if (!phaseStart) phaseStart = now;
+    if (now - phaseStart >= HOLD_MS) step(1);
+    else { railOffset = railStops[railIndex]; paint(); }
   }
 
   if (projectWindow && projectRail){
@@ -1354,6 +1406,18 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     projectWindow.addEventListener('pointerleave', function(){
       railPaused = false; phaseStart = performance.now(); requestTick();
     });
+
+    // Manual controls. They drive the same step() the timer uses, so a
+    // click and an automatic move are the same movement.
+    var nav = document.querySelector('.rail-nav');
+    if (nav){
+      nav.addEventListener('click', function(e){
+        var b = e.target.closest('button[data-rail]');
+        if (!b) return;
+        step(b.getAttribute('data-rail') === 'next' ? 1 : -1);
+        phaseStart = performance.now();   // a manual move restarts the hold
+      });
+    }
 
     // a card that has keyboard focus must stop moving, or it cannot be used
     projectRail.addEventListener('focusin', function(){ railFocused = true; });
@@ -1490,42 +1554,55 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   var form = document.getElementById('contact-form');
   if (!form) return;
   var status = document.getElementById('contact-status');
-  var MAIL = 'kirangoutamdhananjayan@gmail.com';
+  var btn = form.querySelector('.contact-send');
 
-  function say(msg){
+  function say(msg, bad){
     if (!status) return;
     status.textContent = msg;
     status.hidden = !msg;
+    status.classList.toggle('is-bad', !!bad);
   }
 
   form.addEventListener('submit', function(e){
-    e.preventDefault();
     var name    = form.querySelector('#cf-name').value.trim();
     var email   = form.querySelector('#cf-email').value.trim();
-    var subject = form.querySelector('#cf-subject').value.trim();
     var message = form.querySelector('#cf-message').value.trim();
 
     if (!name || !email || !message){
-      say('Please fill in your name, your email and a message.');
+      e.preventDefault();
+      say('Please fill in your name, your email and a message.', true);
       return;
     }
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
-      say('That email address does not look right.');
+      e.preventDefault();
+      say('That email address does not look right.', true);
       return;
     }
 
-    /* There is no server behind this page, so the form hands the message
-       to whatever mail client the visitor already uses rather than
-       pretending to send it. */
-    var subj = subject || ('Portfolio enquiry from ' + name);
-    var body = message + '\n\n\u2014 ' + name + '\n' + email;
-    say('Opening your mail app\u2026 if nothing happens, write to ' + MAIL + ' directly.');
-    window.location.href = 'mailto:' + MAIL
-      + '?subject=' + encodeURIComponent(subj)
-      + '&body=' + encodeURIComponent(body);
+    /* Post in the background so the page does not change. If anything
+       goes wrong - offline, or opened as a local file where there is no
+       Netlify to receive it - fall through to a normal submit rather
+       than swallowing the message. */
+    if (!window.fetch) return;
+    e.preventDefault();
+    btn.disabled = true;
+    say('Sending\u2026');
+
+    fetch(form.getAttribute('action') || '/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(form)).toString()
+    }).then(function(res){
+      if (!res.ok) throw new Error(res.status);
+      form.reset();
+      say('Thank you \u2014 that has reached my inbox. I will reply from ' + 'kirangoutamdhananjayan@gmail.com' + '.');
+    }).catch(function(){
+      say('That did not send. Please write to kirangoutamdhananjayan@gmail.com directly.', true);
+    }).then(function(){ btn.disabled = false; });
   });
 })();
 </script>
+
 <script>
 (function(){
   /* The links live in one container; on a phone that container becomes a
