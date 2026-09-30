@@ -1628,10 +1628,21 @@ body{
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(new FormData(form)).toString()
     }).then(function(res){
-      if (!res.ok) throw new Error(res.status);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       form.reset();
       say('Thank you \u2014 that has reached my inbox. I will reply from ' + 'kirangoutamdhananjayan@gmail.com' + '.');
-    }).catch(function(){
+    }).catch(function(err){
+      /* A 404 or 405 here means Netlify did not handle the POST at all,
+         which is what happens when form detection is off for the site, or
+         when it was switched on after the last deploy. The message stays
+         plain for a visitor; the detail goes to the console so the cause
+         is visible without guessing. */
+      if (window.console && console.error) {
+        console.error('[contact form] submission failed:', err && err.message ? err.message : err,
+          '\n  Posted to: ' + location.origin + '/',
+          '\n  If this is HTTP 404 or 405, Netlify is not processing the form:',
+          '\n  Site configuration -> Forms -> enable form detection, then redeploy.');
+      }
       say('That did not send. Please write to kirangoutamdhananjayan@gmail.com directly.', true);
     }).then(function(){ btn.disabled = false; });
   });
