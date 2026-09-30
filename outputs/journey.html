@@ -39,9 +39,11 @@
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23131316'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23a8762a'/%3E%3C/svg%3E">
 
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   /* Same tokens as the home page, so the two read as one site. */
   :root{
@@ -72,7 +74,7 @@
   body{
     background:var(--paper);
     color:var(--ink);
-    font-family:'Geist', sans-serif;
+    font-family:'Satoshi', sans-serif;
     overflow-x:hidden;
   }
   a:focus-visible, button:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
@@ -87,7 +89,7 @@
     border-bottom:1px solid var(--line);
   }
   a.mark{
-    font-family:'Geist', sans-serif; font-weight:500; font-size:15px;
+    font-family:'Satoshi', sans-serif; font-weight:500; font-size:15px;
     letter-spacing:-0.012em; color:var(--ink); text-decoration:none;
     white-space:nowrap; transition:color .2s ease;
   }
@@ -368,6 +370,31 @@
 @media (prefers-reduced-motion: reduce){
   .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
   .nav-toggle span::before, .nav-toggle span::after{ transition:none !important; }
+}
+
+/* ---------- surfaces: mild gradients, not flat fills ----------
+   Every large fill now moves through a faint wash of the page's own accent
+   rather than sitting as one solid colour. The steps are deliberately small,
+   4-6%, so this reads as depth rather than as colour. Text keeps a solid ink
+   colour, so contrast is untouched. Built from the theme tokens, so the dark
+   theme recomputes the same way. */
+body{
+  background-image:linear-gradient(177deg,
+    color-mix(in oklab, var(--accent) 5%, var(--paper)) 0%,
+    var(--paper) 32%,
+    var(--paper) 68%,
+    color-mix(in oklab, var(--accent) 4%, var(--paper)) 100%);
+}
+.page,.card,.figure,.question,.keys li,.hooked li,.goals li,.themes li,
+.contents li,.spec li,.products li,.phases li,.parts li,.brands li{
+  background-image:linear-gradient(158deg,
+    color-mix(in oklab, var(--accent) 6%, var(--panel)) 0%,
+    var(--panel) 54%,
+    color-mix(in oklab, var(--ink) 3%, var(--panel)) 100%);
+}
+.hero{
+  background-image:linear-gradient(162deg,
+    rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
 }
 </style>
 </head>

@@ -43,9 +43,11 @@
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23131316'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23a8762a'/%3E%3C/svg%3E">
 
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#ffffff;
@@ -60,7 +62,7 @@
   body{
     background:var(--paper);
     color:var(--ink);
-    font-family:'Geist', sans-serif;
+    font-family:'Satoshi', sans-serif;
     overflow-x:hidden;
   }
 
@@ -90,7 +92,7 @@
     animation-delay:.15s;
   }
   a.mark, .topbar a.mark{
-    font-family:'Geist', sans-serif;
+    font-family:'Satoshi', sans-serif;
     font-weight:500;
     font-size:15px;
     letter-spacing:-0.012em;
@@ -201,7 +203,7 @@
   }
   .card.is-following{ left:0; top:0; }
   .card h2{
-    font-family:'Geist', sans-serif;
+    font-family:'Satoshi', sans-serif;
     font-weight:700;
     font-size:21px;
     margin-bottom:14px;
@@ -240,9 +242,8 @@
   .nameblock-h1{ margin:0; font:inherit; }
   .nameblock .line{
     display:block;
-    font-family:'Geist', sans-serif;
+    font-family:'Satoshi', sans-serif;
     font-weight:500;
-    text-transform:uppercase;
     color:var(--ink);
     line-height:0.86;
     letter-spacing:-0.01em;
@@ -313,7 +314,7 @@
     padding:0 var(--projects-margin) clamp(8px, 1.2vw, 14px);
   }
   .projects h2{
-    font-family:'Geist', sans-serif;
+    font-family:'Satoshi', sans-serif;
     font-weight:400;
     font-size:clamp(20px, 1.85vw, 28px);
     letter-spacing:-.055em;
@@ -329,7 +330,7 @@
     border-bottom:1px solid currentColor;
     color:var(--ink);
     background:transparent;
-    font:600 14px 'Geist', sans-serif;
+    font:600 14px 'Satoshi', sans-serif;
     text-decoration:none;
     transition:color .25s ease, gap .25s ease;
   }
@@ -371,7 +372,7 @@
   .project-caption{ padding:15px 3px 0; }
   .project-caption h3{
     margin:0;
-    font:500 clamp(18px, 1.5vw, 23px)/1.12 'Geist', sans-serif;
+    font:500 clamp(18px, 1.5vw, 23px)/1.12 'Satoshi', sans-serif;
     letter-spacing:-.04em;
     color:var(--ink);
   }
@@ -404,13 +405,13 @@
   .services-kicker{
     margin-bottom:clamp(18px, 2vw, 30px);
     color:var(--ink);
-    font:500 clamp(20px, 1.85vw, 28px)/1 'Geist', sans-serif;
+    font:500 clamp(20px, 1.85vw, 28px)/1 'Satoshi', sans-serif;
     letter-spacing:-.055em;
   }
   .services-title{
     margin:0;
     color:var(--ink);
-    font:500 clamp(31px, 3.35vw, 52px)/1.08 'Geist', sans-serif;
+    font:500 clamp(31px, 3.35vw, 52px)/1.08 'Satoshi', sans-serif;
     letter-spacing:-.065em;
     /* The gradient is painted behind the whole heading and clipped to its
        glyphs. A word reveals by turning its own fill transparent, which
@@ -463,8 +464,9 @@
     .portrait{ width:min(62%, 300px); aspect-ratio:4 / 5; top:9%; right:20px; }
     .card{ width:auto; max-width:calc(100vw - 32px); left:16px; right:16px; top:54%; }
     .card.is-following{ left:0; right:auto; top:0; }
-    /* 15vw overflowed: "DHANANJAYAN" is 11 uppercase characters at nowrap, which
-       needs roughly 6.8em — over 100vw once the left padding is counted. */
+    /* 15vw overflowed: "Dhananjayan" is 11 characters at nowrap, which needs
+       roughly 6.8em at the old all-caps setting — over 100vw once the left
+       padding is counted. Mixed case is narrower, so this now has headroom. */
     .nameblock .line{ font-size:clamp(38px, 12.4vw, 80px); }
   }
 
@@ -491,7 +493,7 @@
     gap:20px; flex-wrap:wrap; margin-bottom:clamp(26px, 3.2vw, 44px);
   }
   .stack-title{
-    font-family:'Geist', sans-serif; font-weight:400;
+    font-family:'Satoshi', sans-serif; font-weight:400;
     font-size:clamp(20px, 1.85vw, 28px); letter-spacing:-.055em; line-height:1;
   }
   .stack-all{
@@ -542,7 +544,7 @@
      carries the initials until the visuals can be added. */
   .stack-media.is-type{ place-items:center; }
   .stack-mark{
-    font:500 clamp(58px, 9vw, 150px)/1 'Geist', sans-serif;
+    font:500 clamp(58px, 9vw, 150px)/1 'Satoshi', sans-serif;
     letter-spacing:-.07em;
     color:var(--ink);
     opacity:.26;
@@ -567,7 +569,7 @@
   }
   .stack-names h3{
     margin:0;
-    font-family:'Geist', sans-serif; font-weight:500;
+    font-family:'Satoshi', sans-serif; font-weight:500;
     font-size:clamp(21px, 2vw, 30px); line-height:1.08; letter-spacing:-.04em;
   }
   .stack-kind{
@@ -610,7 +612,7 @@
     gap:20px; flex-wrap:wrap;
     padding:30px max(24px, calc((100vw - 1160px)/2)) 42px;
     border-top:1px solid var(--line);
-    font:400 13px 'Geist', sans-serif;
+    font:400 13px 'Satoshi', sans-serif;
     letter-spacing:0; color:var(--ink-dim);
   }
   .footer-nav{ display:flex; gap:22px; flex-wrap:wrap; }
@@ -710,7 +712,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   }
   .contact h2{
     margin:0;
-    font:500 clamp(28px, 3.4vw, 46px)/1.04 'Geist', sans-serif;
+    font:500 clamp(28px, 3.4vw, 46px)/1.04 'Satoshi', sans-serif;
     letter-spacing:-.055em; color:var(--ink);
   }
   .contact-lede{
@@ -730,7 +732,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     letter-spacing:.12em; text-transform:uppercase; color:var(--ink-dim);
   }
   .field input, .field textarea{
-    font:400 15px/1.5 'Geist', sans-serif;
+    font:400 15px/1.5 'Satoshi', sans-serif;
     color:var(--ink); background:var(--surface);
     border:1px solid var(--line); border-radius:8px;
     padding:13px 14px; width:100%;
@@ -748,7 +750,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     display:flex; align-items:center; gap:20px; flex-wrap:wrap;
   }
   .contact-send{
-    font:500 15px 'Geist', sans-serif;
+    font:500 15px 'Satoshi', sans-serif;
     color:var(--paper); background:var(--ink);
     border:1px solid var(--ink); border-radius:99px;
     padding:13px 28px; cursor:pointer;
@@ -917,6 +919,31 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   .hp-field{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
   .contact-status.is-bad{ color:#e2574c; }
   .contact-send[disabled]{ opacity:.6; cursor:default; }
+
+/* ---------- surfaces: mild gradients, not flat fills ----------
+   Every large fill now moves through a faint wash of the page's own accent
+   rather than sitting as one solid colour. The steps are deliberately small,
+   4-6%, so this reads as depth rather than as colour. Text keeps a solid ink
+   colour, so contrast is untouched. Built from the theme tokens, so the dark
+   theme recomputes the same way. */
+body{
+  background-image:linear-gradient(177deg,
+    color-mix(in oklab, var(--accent) 5%, var(--paper)) 0%,
+    var(--paper) 32%,
+    var(--paper) 68%,
+    color-mix(in oklab, var(--accent) 4%, var(--paper)) 100%);
+}
+.page,.card,.figure,.question,.keys li,.hooked li,.goals li,.themes li,
+.contents li,.spec li,.products li,.phases li,.parts li,.brands li{
+  background-image:linear-gradient(158deg,
+    color-mix(in oklab, var(--accent) 6%, var(--panel)) 0%,
+    var(--panel) 54%,
+    color-mix(in oklab, var(--ink) 3%, var(--panel)) 100%);
+}
+.hero{
+  background-image:linear-gradient(162deg,
+    rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
+}
 </style>
 </head>
 <body>
@@ -952,8 +979,8 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   <div class="nameblock">
     <div class="role-tag">Creative Designer</div>
     <h1 class="nameblock-h1">
-      <span class="line"><span class="txt" data-text="KIRAN">KIRAN</span></span>
-      <span class="line"><span class="txt" data-text="DHANANJAYAN">DHANANJAYAN</span></span>
+      <span class="line"><span class="txt" data-text="Kiran">Kiran</span></span>
+      <span class="line"><span class="txt" data-text="Dhananjayan">Dhananjayan</span></span>
     </h1>
   </div>
 </section>

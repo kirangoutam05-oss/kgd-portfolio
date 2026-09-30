@@ -10,8 +10,33 @@
 <script>location.replace('index.html' + location.hash + location.search);</script>
 <style>
   body{margin:0;min-height:100svh;display:flex;align-items:center;justify-content:center;
-       font:400 16px/1.6 'Geist',Arial,sans-serif;color:#131316;background:#fff;padding:24px;text-align:center}
+       font:400 16px/1.6 'Satoshi',Arial,sans-serif;color:#131316;background:#fff;padding:24px;text-align:center}
   a{color:#a8762a}
+
+/* ---------- surfaces: mild gradients, not flat fills ----------
+   Every large fill now moves through a faint wash of the page's own accent
+   rather than sitting as one solid colour. The steps are deliberately small,
+   4-6%, so this reads as depth rather than as colour. Text keeps a solid ink
+   colour, so contrast is untouched. Built from the theme tokens, so the dark
+   theme recomputes the same way. */
+body{
+  background-image:linear-gradient(177deg,
+    color-mix(in oklab, var(--accent) 5%, var(--paper)) 0%,
+    var(--paper) 32%,
+    var(--paper) 68%,
+    color-mix(in oklab, var(--accent) 4%, var(--paper)) 100%);
+}
+.page,.card,.figure,.question,.keys li,.hooked li,.goals li,.themes li,
+.contents li,.spec li,.products li,.phases li,.parts li,.brands li{
+  background-image:linear-gradient(158deg,
+    color-mix(in oklab, var(--accent) 6%, var(--panel)) 0%,
+    var(--panel) 54%,
+    color-mix(in oklab, var(--ink) 3%, var(--panel)) 100%);
+}
+.hero{
+  background-image:linear-gradient(162deg,
+    rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
+}
 </style>
 </head>
 <body>

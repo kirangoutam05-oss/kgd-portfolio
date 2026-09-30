@@ -34,29 +34,31 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%236c3fa4'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%234ec3e0'/%3E%3C/svg%3E">
 <link rel="canonical" href="https://kirangoutamdhananjayan.com/socials.html">
 <title>Socials — Kiran Goutam Dhananjayan</title>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--paper:#fff;--panel:#f4f2f6;--ink:#131316;--muted:#64656c;--line:rgba(19,19,22,.14);--accent:#8a4fd0;--deep:#4a2a78}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:'Geist',Arial,sans-serif}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Satoshi',Arial,sans-serif}
 .progress{position:fixed;inset:0 0 auto;height:3px;background:linear-gradient(90deg,#4ec3e0,#8a4fd0);transform:scaleX(0);transform-origin:left;z-index:10}
 .wrap{width:min(100% - 40px,1160px);margin:auto}
 .top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 .mark,.eyebrow,.label,.meta{font:500 11px 'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
-a.mark,.top a.mark,.topbar a.mark{display:inline-block;font-family:'Geist',Arial,sans-serif;font-size:14px;font-weight:500;text-decoration:none;border-bottom:0;padding-bottom:0;color:inherit;text-transform:none;letter-spacing:-.012em;transition:color .2s ease}a.mark:hover{color:var(--accent)}a.mark:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+a.mark,.top a.mark,.topbar a.mark{display:inline-block;font-family:'Satoshi',Arial,sans-serif;font-size:14px;font-weight:500;text-decoration:none;border-bottom:0;padding-bottom:0;color:inherit;text-transform:none;letter-spacing:-.012em;transition:color .2s ease}a.mark:hover{color:var(--accent)}a.mark:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .back{font-size:13px;text-decoration:none;border-bottom:1px solid;padding-bottom:4px;color:inherit}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .hero{background:linear-gradient(135deg,#4ec3e0 0%,#8a4fd0 55%,#4a2a78 100%);color:#fff;padding:clamp(56px,9vw,110px) 0 46px}
 .hero .eyebrow{color:rgba(255,255,255,.8)}
-.hero h1{margin:18px 0 22px;font:500 clamp(46px,9.5vw,124px)/.86 'Geist',sans-serif;letter-spacing:-.01em;text-transform:uppercase;max-width:940px}
+.hero h1{margin:18px 0 22px;font:500 clamp(46px,9.5vw,124px)/.86 'Satoshi',sans-serif;letter-spacing:-.01em;max-width:940px}
 .hero p{max-width:660px;margin:0;font-size:clamp(16px,1.9vw,20px);line-height:1.5;color:rgba(255,255,255,.88)}
 .hero p strong{color:#fff;font-weight:600}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
 .tag{font:500 11px 'Geist Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.4);color:rgba(255,255,255,.9)}
 .meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255,255,.3)}
 .hero .meta{color:rgba(255,255,255,.7)}
-.hero .meta b{display:block;margin-top:7px;color:#fff;font:600 14px 'Geist',sans-serif;letter-spacing:-.02em;text-transform:none}
+.hero .meta b{display:block;margin-top:7px;color:#fff;font:600 14px 'Satoshi',sans-serif;letter-spacing:-.02em;text-transform:none}
 .section{padding:clamp(54px,7vw,88px) 0;border-bottom:1px solid var(--line)}
 .section:last-of-type{border:0}
 .label{color:var(--accent);display:block;margin-bottom:18px}
@@ -302,6 +304,27 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 @media (prefers-reduced-motion: reduce){
   .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
   .nav-toggle span::before, .nav-toggle span::after{ transition:none !important; }
+}
+
+/* ---------- surfaces: mild gradients, not flat fills ----------
+   Every large fill now moves through a faint wash of the page's own accent
+   rather than sitting as one solid colour. The steps are deliberately small,
+   4-6%, so this reads as depth rather than as colour. Text keeps a solid ink
+   colour, so contrast is untouched. Built from the theme tokens, so the dark
+   theme recomputes the same way. */
+body{
+  background-image:linear-gradient(177deg,
+    color-mix(in oklab, var(--accent) 5%, var(--paper)) 0%,
+    var(--paper) 32%,
+    var(--paper) 68%,
+    color-mix(in oklab, var(--accent) 4%, var(--paper)) 100%);
+}
+.page,.card,.figure,.question,.keys li,.hooked li,.goals li,.themes li,
+.contents li,.spec li,.products li,.phases li,.parts li,.brands li{
+  background-image:linear-gradient(158deg,
+    color-mix(in oklab, var(--accent) 6%, var(--panel)) 0%,
+    var(--panel) 54%,
+    color-mix(in oklab, var(--ink) 3%, var(--panel)) 100%);
 }
 </style>
 </head>
