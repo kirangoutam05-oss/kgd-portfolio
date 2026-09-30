@@ -154,6 +154,10 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
    the right group is where you can go. */
 .top-left{ display:flex; align-items:center; gap:18px; min-width:0; }
 .top-right{ display:flex; align-items:center; gap:16px; }
+/* The project count rides the Projects link as an exponent. line-height:0
+   keeps the raised digits from opening up the nav's line box. */
+.nav-count{ font-size:.62em; font-weight:500; line-height:0; vertical-align:super;
+  margin-left:.18em; opacity:.62; letter-spacing:.02em; }
 .top-link{
   font-size:13.5px; color:var(--ink); text-decoration:none;
   border-bottom:1px solid var(--line); padding-bottom:3px;
@@ -326,7 +330,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
     </button>
     <a class="top-link" href="journey.html">Journey</a>
-    <a class="top-link" href="projects.html">All projects</a>
+    <a class="top-link" href="projects.html">Projects<sup class="nav-count">13</sup></a>
     <a class="top-cta" href="index.html#contact">Get in touch</a>
   </nav>
 </header>

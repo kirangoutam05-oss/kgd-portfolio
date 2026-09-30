@@ -117,6 +117,10 @@
     mask-image: radial-gradient(62px circle at var(--mx,-999px) var(--my,-999px), black 0%, black 38%, transparent 76%);
   }
   .topbar-right{ display:flex; align-items:center; gap:18px; }
+  /* The project count rides the Projects link as an exponent. line-height:0
+     keeps the raised digits from opening up the nav's line box. */
+  .nav-count{ font-size:.62em; font-weight:500; line-height:0; vertical-align:super;
+    margin-left:.18em; opacity:.62; letter-spacing:.02em; }
   .top-link{
     font-size:14px; color:var(--ink); text-decoration:none;
     border-bottom:1px solid var(--line); padding-bottom:3px;
@@ -927,7 +931,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
 </button>
 <a class="top-link" href="journey.html">Journey</a>
-      <a class="top-link" href="projects.html">View all projects</a>
+      <a class="top-link" href="projects.html">Projects<sup class="nav-count">13</sup></a>
       <a class="top-cta" href="#contact">Get in touch</a>
     </div>
   </div>
@@ -954,70 +958,6 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   </div>
 </section>
 
-<section class="projects" aria-labelledby="projects-title">
-  <div class="projects-head">
-    <h2 id="projects-title">Featured Projects</h2>
-    <div class="projects-actions">
-      <div class="rail-nav">
-        <button type="button" data-rail="prev" aria-label="Previous project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg></button>
-        <button type="button" data-rail="next" aria-label="Next project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-      </div>
-      <a class="projects-link" href="projects.html">View projects</a>
-    </div>
-  </div>
-  <div class="project-window">
-    <div class="project-rail" id="project-rail">
-    <a class="project-item" href="meraki.html" style="--bg:#eeeae4;--art:url(assets/meraki/page-01.jpg)" aria-label="View the Meraki rebrand case study">
-      <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>Meraki</h3><p>Branding &amp; Packaging</p></div>
-    </a>
-    <a class="project-item" href="trippy-goat.html" style="--bg:#efe7db;--art:url(assets/trippy-goat/case-01.jpg)" aria-label="View the Trippy Goat case study">
-      <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>Trippy Goat</h3><p>Brand &amp; Packaging</p></div>
-    </a>
-    <a class="project-item" href="pes-university.html" style="--bg:#1b2f6b;--art:url(assets/pes-university/page-12.jpg)" aria-label="View the PES University BBA Sports Management case study">
-      <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>PES University</h3><p>Campaign &amp; Digital</p></div>
-    </a>
-    <a class="project-item" href="bell-home-security.html" style="--bg:#e2f2f5;--art:url(assets/bell-home-security/tile.jpg)" aria-label="View the Bell home security case study">
-      <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>Bell</h3><p>Product &amp; UI Design</p></div>
-    </a>
-    <a class="project-item" href="tetrad-beverages.html" style="--bg:#171717;--art:url(assets/tetrad-beverages/tile.jpg)" aria-label="View the Tetrad Beverages case study">
-      <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>Tetrad Beverages</h3><p>Social &amp; Web Design</p></div>
-    </a>
-    <a class="project-item" href="socials.html" style="--bg:#6d3aa8;--art:url(assets/socials/page-01.jpg)" aria-label="View the social media design case study">
-      <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>Socials</h3><p>Social Media Design</p></div>
-    </a>
-    <a class="project-item" href="meraki.html" style="--bg:#eeeae4;--art:url(assets/meraki/page-01.jpg)" aria-hidden="true" tabindex="-1">
-      <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>Meraki</h3><p>Branding &amp; Packaging</p></div>
-    </a>
-    <a class="project-item" href="trippy-goat.html" style="--bg:#efe7db;--art:url(assets/trippy-goat/case-01.jpg)" aria-hidden="true" tabindex="-1">
-      <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>Trippy Goat</h3><p>Brand &amp; Packaging</p></div>
-    </a>
-    <a class="project-item" href="pes-university.html" style="--bg:#1b2f6b;--art:url(assets/pes-university/page-12.jpg)" aria-hidden="true" tabindex="-1">
-      <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>PES University</h3><p>Campaign &amp; Digital</p></div>
-    </a>
-    <a class="project-item" href="bell-home-security.html" style="--bg:#e2f2f5;--art:url(assets/bell-home-security/tile.jpg)" aria-hidden="true" tabindex="-1">
-      <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>Bell</h3><p>Product &amp; UI Design</p></div>
-    </a>
-    <a class="project-item" href="tetrad-beverages.html" style="--bg:#171717;--art:url(assets/tetrad-beverages/tile.jpg)" aria-hidden="true" tabindex="-1">
-      <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>Tetrad Beverages</h3><p>Social &amp; Web Design</p></div>
-    </a>
-    <a class="project-item" href="socials.html" style="--bg:#6d3aa8;--art:url(assets/socials/page-01.jpg)" aria-hidden="true" tabindex="-1">
-      <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>Socials</h3><p>Social Media Design</p></div>
-    </a>
-    </div>
-  </div>
-</section>
 
 <section class="services" aria-labelledby="services-title">
   <div class="services-intro">
@@ -1092,6 +1032,71 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 
 </section>
 
+<section class="projects" aria-labelledby="projects-title">
+  <div class="projects-head">
+    <h2 id="projects-title">More projects</h2>
+    <div class="projects-actions">
+      <div class="rail-nav">
+        <button type="button" data-rail="prev" aria-label="Previous project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg></button>
+        <button type="button" data-rail="next" aria-label="Next project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+      <a class="projects-link" href="projects.html">View projects</a>
+    </div>
+  </div>
+  <div class="project-window">
+    <div class="project-rail" id="project-rail">
+    <a class="project-item" href="meraki.html" style="--bg:#eeeae4;--art:url(assets/meraki/page-01.jpg)" aria-label="View the Meraki rebrand case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Meraki</h3><p>Branding &amp; Packaging</p></div>
+    </a>
+    <a class="project-item" href="trippy-goat.html" style="--bg:#efe7db;--art:url(assets/trippy-goat/case-01.jpg)" aria-label="View the Trippy Goat case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Trippy Goat</h3><p>Brand &amp; Packaging</p></div>
+    </a>
+    <a class="project-item" href="pes-university.html" style="--bg:#1b2f6b;--art:url(assets/pes-university/page-12.jpg)" aria-label="View the PES University BBA Sports Management case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>PES University</h3><p>Campaign &amp; Digital</p></div>
+    </a>
+    <a class="project-item" href="bell-home-security.html" style="--bg:#e2f2f5;--art:url(assets/bell-home-security/tile.jpg)" aria-label="View the Bell home security case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Bell</h3><p>Product &amp; UI Design</p></div>
+    </a>
+    <a class="project-item" href="tetrad-beverages.html" style="--bg:#171717;--art:url(assets/tetrad-beverages/tile.jpg)" aria-label="View the Tetrad Beverages case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Tetrad Beverages</h3><p>Social &amp; Web Design</p></div>
+    </a>
+    <a class="project-item" href="socials.html" style="--bg:#6d3aa8;--art:url(assets/socials/page-01.jpg)" aria-label="View the social media design case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Socials</h3><p>Social Media Design</p></div>
+    </a>
+    <a class="project-item" href="meraki.html" style="--bg:#eeeae4;--art:url(assets/meraki/page-01.jpg)" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Meraki</h3><p>Branding &amp; Packaging</p></div>
+    </a>
+    <a class="project-item" href="trippy-goat.html" style="--bg:#efe7db;--art:url(assets/trippy-goat/case-01.jpg)" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Trippy Goat</h3><p>Brand &amp; Packaging</p></div>
+    </a>
+    <a class="project-item" href="pes-university.html" style="--bg:#1b2f6b;--art:url(assets/pes-university/page-12.jpg)" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>PES University</h3><p>Campaign &amp; Digital</p></div>
+    </a>
+    <a class="project-item" href="bell-home-security.html" style="--bg:#e2f2f5;--art:url(assets/bell-home-security/tile.jpg)" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Bell</h3><p>Product &amp; UI Design</p></div>
+    </a>
+    <a class="project-item" href="tetrad-beverages.html" style="--bg:#171717;--art:url(assets/tetrad-beverages/tile.jpg)" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Tetrad Beverages</h3><p>Social &amp; Web Design</p></div>
+    </a>
+    <a class="project-item" href="socials.html" style="--bg:#6d3aa8;--art:url(assets/socials/page-01.jpg)" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Socials</h3><p>Social Media Design</p></div>
+    </a>
+    </div>
+  </div>
+</section>
+
 
 <section class="contact" id="contact" aria-labelledby="contact-title">
   <div class="contact-head">
@@ -1129,10 +1134,10 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 <footer class="site-footer">
   <a class="footer-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
   <nav class="footer-nav" aria-label="Footer">
-    <a href="#projects-title">Selected work</a>
+    <a href="#stack-title">Selected work</a>
     <a href="#services-title">Services</a>
     <a href="journey.html">Journey</a>
-    <a href="projects.html">All projects</a>
+    <a href="projects.html">Projects<sup class="nav-count">13</sup></a>
     <a href="https://www.linkedin.com/in/kiran-goutam-dhananjayan/" target="_blank" rel="noopener">LinkedIn</a>
   </nav>
 </footer>

@@ -93,6 +93,10 @@
   }
   a.mark:hover{ color:var(--accent); }
   .topbar-right{ display:flex; align-items:center; gap:18px; }
+  /* The project count rides the Projects link as an exponent. line-height:0
+     keeps the raised digits from opening up the nav's line box. */
+  .nav-count{ font-size:.62em; font-weight:500; line-height:0; vertical-align:super;
+    margin-left:.18em; opacity:.62; letter-spacing:.02em; }
   .top-link{
     font-size:14px; color:var(--ink); text-decoration:none;
     border-bottom:1px solid var(--line); padding-bottom:3px;
@@ -376,7 +380,7 @@
       <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg>
       <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
     </button>
-    <a class="top-link" href="projects.html">View all projects</a>
+    <a class="top-link" href="projects.html">Projects<sup class="nav-count">13</sup></a>
     <a class="top-cta" href="index.html#contact">Get in touch</a>
   </div>
 </header>
@@ -600,7 +604,7 @@
   <a class="footer-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
   <nav class="footer-nav" aria-label="Footer">
     <a href="index.html">Home</a>
-    <a href="projects.html">All projects</a>
+    <a href="projects.html">Projects<sup class="nav-count">13</sup></a>
     <a href="index.html#contact">Contact</a>
     <a href="https://www.linkedin.com/in/kiran-goutam-dhananjayan/" target="_blank" rel="noopener">LinkedIn</a>
   </nav>
