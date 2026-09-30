@@ -691,234 +691,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   transform:translateY(-50%);
   height:24px;
 }
-  /* ---------- contact ---------- */
-  .contact{
-    --contact-margin:max(24px, calc((100vw - 1160px)/2));
-    padding:clamp(64px, 6.5vw, 92px) var(--contact-margin);
-    background:var(--panel);
-    border-top:1px solid var(--line);
-  }
-  .contact-head{ max-width:640px; }
-  .contact-kicker{
-    font:500 11px 'Geist Mono', monospace;
-    letter-spacing:.14em; text-transform:uppercase; color:var(--accent);
-    display:flex; align-items:center; gap:9px; margin-bottom:18px;
-  }
-  .contact-kicker::before{
-    content:''; width:7px; height:7px; border-radius:50%;
-    background:#59c07a; flex:0 0 auto;
-  }
-  .contact h2{
-    margin:0;
-    font:500 clamp(28px, 3.4vw, 46px)/1.04 'Plus Jakarta Sans', sans-serif;
-    letter-spacing:-.055em; color:var(--ink);
-  }
-  .contact-lede{
-    margin:18px 0 0; max-width:54ch;
-    color:var(--ink-dim); font-size:16px; line-height:1.62;
-  }
-  .contact-form{
-    margin-top:clamp(26px, 2.8vw, 36px);
-    display:grid; gap:18px;
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-    max-width:760px;
-  }
-  .field{ display:flex; flex-direction:column; gap:8px; }
-  .field.is-wide{ grid-column:1 / -1; }
-  .field label{
-    font:500 11px 'Geist Mono', monospace;
-    letter-spacing:.12em; text-transform:uppercase; color:var(--ink-dim);
-  }
-  .field input, .field textarea{
-    font:400 15px/1.5 'Plus Jakarta Sans', sans-serif;
-    color:var(--ink); background:var(--surface);
-    border:1px solid var(--line); border-radius:8px;
-    padding:13px 14px; width:100%;
-    transition:border-color .2s ease;
-  }
-  .field textarea{ resize:vertical; min-height:104px; }
-  .field input:focus, .field textarea:focus{
-    outline:none; border-color:var(--accent);
-  }
-  .field input:focus-visible, .field textarea:focus-visible{
-    outline:2px solid var(--accent); outline-offset:2px;
-  }
-  .contact-actions{
-    grid-column:1 / -1;
-    display:flex; align-items:center; gap:20px; flex-wrap:wrap;
-  }
-  .contact-send{
-    font:500 15px 'Plus Jakarta Sans', sans-serif;
-    color:var(--paper); background:var(--ink);
-    border:1px solid var(--ink); border-radius:99px;
-    padding:13px 28px; cursor:pointer;
-    transition:background .2s ease, color .2s ease, border-color .2s ease;
-  }
-  .contact-send:hover{ background:var(--accent); border-color:var(--accent); }
-  .contact-send:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
-  .contact-note{ margin:0; color:var(--ink-dim); font-size:13px; line-height:1.5; }
-  .contact-note a{ color:var(--ink); }
-  .contact-status{
-    grid-column:1 / -1; margin:0;
-    font-size:14px; color:var(--ink-dim);
-  }
-  .contact-status[hidden]{ display:none; }
-  @media (max-width: 680px){
-    .contact-form{ grid-template-columns:1fr; }
-  }
-/* ---------- landing page, second pass ---------- */
-
-/* The rail loops, so overflow:hidden was guillotining a card and its
-   caption mid-word at each edge - "AI", "on Design". A mask fades them
-   out instead, which is what the motion was always implying. */
-.project-window{
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 72px, #000 calc(100% - 72px), transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0, #000 72px, #000 calc(100% - 72px), transparent 100%);
-}
-
-/* Five stacked cards ran to 4102px - 54% of the page - because each one
-   was a full-measure 16:9 panel. Two up halves the scroll and still
-   leaves each panel wider than the rail cards it sits under. */
-@media (min-width: 1000px){
-  .stack-grid{
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0,1fr));
-    gap:clamp(22px,2.6vw,38px) clamp(20px,2.2vw,32px);
-    align-items:start;
-  }
-  .stack-item{ margin-bottom:0; }
-  /* The newest project keeps the full measure: it is the one that should
-     be seen at size, and an odd count would otherwise leave a hole. */
-  .stack-grid > .stack-item:first-child{ grid-column:1 / -1; }
-  .stack-grid > .stack-item:first-child .stack-media{ aspect-ratio:21 / 9; }
-}
-/* ---------- mobile nav ----------
-   Below 760 the links stop sitting in the bar and move behind a button.
-   The bar keeps only the wordmark and the toggle, which is what the
-   width can actually hold. */
-.nav-toggle{
-  display:none;
-  width:38px; height:38px; flex:0 0 auto;
-  align-items:center; justify-content:center;
-  padding:0; cursor:pointer;
-  border:1px solid var(--line); border-radius:9px;
-  background:transparent; color:var(--ink);
-}
-.nav-toggle span{
-  display:block; width:16px; height:1.5px; background:currentColor;
-  position:relative; transition:transform .22s ease, opacity .18s ease;
-}
-.nav-toggle span::before, .nav-toggle span::after{
-  content:''; position:absolute; left:0; width:16px; height:1.5px;
-  background:currentColor; transition:transform .22s ease;
-}
-.nav-toggle span::before{ top:-5px; }
-.nav-toggle span::after{ top:5px; }
-.nav-toggle[aria-expanded="true"] span{ transform:rotate(45deg); }
-.nav-toggle[aria-expanded="true"] span::before{ transform:translateY(5px) rotate(-90deg); }
-.nav-toggle[aria-expanded="true"] span::after{ opacity:0; }
-
-@media (max-width: 760px){
-  .nav-toggle{ display:inline-flex; }
-  .top-right, .topbar-right, .site-top-right, .top-nav{
-    position:absolute; top:100%; right:clamp(16px,4vw,48px);
-    z-index:60;
-    flex-direction:column; align-items:stretch; gap:2px;
-    min-width:186px; padding:8px;
-    background:var(--paper);
-    border:1px solid var(--line); border-radius:12px;
-    box-shadow:0 18px 40px rgba(0,0,0,.28);
-    opacity:0; visibility:hidden; transform:translateY(-6px);
-    transition:opacity .18s ease, transform .18s ease, visibility .18s;
-  }
-  .top-right.is-open, .topbar-right.is-open, .site-top-right.is-open, .top-nav.is-open{
-    opacity:1; visibility:visible; transform:translateY(0);
-  }
-  .top-right a, .topbar-right a, .site-top-right a, .top-nav a,
-  .top-right .top-cta, .topbar-right .top-cta, .site-top-right .top-cta{
-    display:block; width:100%;
-    padding:11px 12px; margin:0;
-    border:0; border-radius:8px;
-    text-align:left; font-size:15px; white-space:nowrap;
-  }
-  .top-right .top-cta, .topbar-right .top-cta, .site-top-right .top-cta, .top-nav .top-cta{
-    border:1px solid var(--line); margin-top:4px;
-  }
-  /* the theme control belongs in the bar, not in the drawer */
-  .top-right .theme-toggle, .topbar-right .theme-toggle,
-  .site-top-right .theme-toggle{ display:none; }
-  .nav-bar-controls{ display:inline-flex; align-items:center; gap:10px; }
-  header.top, .topbar, header.site-top{ position:relative; }
-}
-@media (min-width: 761px){
-  /* The wrapper is empty at this width (its toggle and hamburger are both
-     hidden), so hide the wrapper itself - left in place it stays a flex
-     child of the bar and space-between strands the nav in the middle. */
-  .nav-bar-controls{ display:none; }
-}
-@media (prefers-reduced-motion: reduce){
-  .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
-  .nav-toggle span::before, .nav-toggle span::after{ transition:none !important; }
-}
-  /* ---------- phone hero ----------
-     The portrait was a small inset panel with the name beneath it. On a
-     phone it is now the whole screen, with the card and the name over it
-     and a scrim keeping the type legible against the picture. */
-  @media (max-width: 760px){
-    .hero{ min-height:100svh; }
-    .portrait{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      top:0; right:0; left:0; bottom:0;
-      border-radius:0; aspect-ratio:auto; overflow:hidden;
-      z-index:1;
-    }
-    .portrait img{ width:100%; height:100%; object-fit:cover; object-position:50% 16%; }
-    .portrait::after{
-      content:''; position:absolute; inset:0; pointer-events:none;
-      background:linear-gradient(180deg,
-        rgba(0,0,0,.58) 0%, rgba(0,0,0,.14) 28%,
-        rgba(0,0,0,.42) 58%, rgba(0,0,0,.9) 100%);
-    }
-    .card{
-      position:absolute; z-index:6;
-      left:20px; right:20px; top:auto; bottom:calc(30svh + 10px);
-      width:auto; max-width:none;
-      background:rgba(14,14,17,.6);
-      -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
-      border-color:rgba(255,255,255,.16);
-    }
-    .card, .card *{ color:#f4f3ef; }
-    .nameblock{ position:absolute; z-index:6; left:0; right:0; bottom:24px; top:auto; }
-    .nameblock .line{ color:#fff; }
-    .role-tag{ position:absolute; z-index:6; color:rgba(255,255,255,.75); }
-    .topbar{ z-index:30; }
-    .topbar a.mark, .topbar .theme-toggle, .topbar .nav-toggle{ color:#fff; }
-    .topbar .theme-toggle, .topbar .nav-toggle{ border-color:rgba(255,255,255,.34); }
-  }
-  /* ---------- rail controls ---------- */
-  .rail-nav{ display:inline-flex; align-items:center; gap:8px; margin-right:18px; }
-  .rail-nav button{
-    width:34px; height:34px; display:grid; place-items:center;
-    padding:0; cursor:pointer;
-    border:1px solid var(--line); border-radius:50%;
-    background:transparent; color:var(--ink);
-    transition:border-color .2s ease, color .2s ease;
-  }
-  .rail-nav button:hover{ border-color:var(--accent); color:var(--accent); }
-  .rail-nav button:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
-  .rail-nav svg{
-    width:15px; height:15px; fill:none; stroke:currentColor;
-    stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round;
-  }
-  @media (max-width: 560px){ .rail-nav{ margin-right:12px; } }
-  /* The honeypot has to be reachable by a bot and invisible to a person,
-     so it is moved out of view rather than display:none. */
-  .hp-field{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
-  .contact-status.is-bad{ color:#e2574c; }
-  .contact-send[disabled]{ opacity:.6; cursor:default; }
-
-/* ---------- surfaces: mild gradients, not flat fills ----------
+  /* ---------- surfaces: mild gradients, not flat fills ----------
    Every large fill now moves through a faint wash of the page's own accent
    rather than sitting as one solid colour. The steps are deliberately small,
    4-6%, so this reads as depth rather than as colour. Text keeps a solid ink
@@ -943,80 +716,16 @@ body{
     rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
 }
 
-/* ---------- contact ----------
-   One card, two columns: the pitch on a soft accent wash, the form beside
-   it. Chips are real radios, so what someone picks is submitted and is
-   reachable by keyboard; only the label is styled. Inputs are underlines
-   rather than boxes, which keeps the column quiet next to the chips. */
-.contact{
-  --contact-margin:max(24px, calc((100vw - 1160px)/2));
-  padding:clamp(48px,5.5vw,84px) var(--contact-margin);
-  border-top:1px solid var(--line);
-  background-image:none;
-}
-.contact-card{
-  display:grid; grid-template-columns:1fr 1.18fr;
-  border:1px solid var(--line); border-radius:20px; overflow:hidden;
-}
-.contact-aside{
-  padding:clamp(28px,3vw,44px);
-  display:flex; flex-direction:column; justify-content:center; min-height:260px;
-  background-image:linear-gradient(152deg,
-    color-mix(in oklab, var(--accent) 24%, var(--panel)) 0%,
-    color-mix(in oklab, var(--accent) 9%, var(--panel)) 44%,
-    var(--panel) 100%);
-}
-.contact h2{
+/* ---------- footer contact ----------
+   The contact form is gone; the footer carries the invitation instead, so
+   it is the anchor every "Get in touch" now points at. */
+.footer-talk{ display:grid; gap:9px; justify-items:start; }
+.footer-talk-title{
   margin:0;
-  font:500 clamp(30px,3.6vw,52px)/1.04 'Plus Jakarta Sans',sans-serif;
-  letter-spacing:-.055em; color:var(--ink);
+  font:500 clamp(22px,2.4vw,30px)/1.1 'Plus Jakarta Sans',sans-serif;
+  letter-spacing:-.045em; color:var(--ink);
 }
-
-.contact-form{
-  padding:clamp(28px,3vw,44px);
-  display:grid; gap:22px; align-content:start;
-  grid-template-columns:1fr; max-width:none; margin:0;
-  background:var(--surface);
-}
-
-.contact-form .field{ display:flex; flex-direction:column; gap:7px; }
-.contact-form .field label{
-  font:500 11px 'Geist Mono',monospace; letter-spacing:.12em;
-  text-transform:uppercase; color:var(--ink-dim);
-}
-.contact-form .field label i{ font-style:normal; color:var(--accent); }
-.contact-form .field label em{ font-style:normal; opacity:.72; }
-.contact-form .field input[type=text],
-.contact-form .field input[type=email],
-.contact-form .field textarea{
-  font:400 15px/1.55 'Plus Jakarta Sans',sans-serif;
-  color:var(--ink); background:transparent;
-  border:0; border-bottom:1px solid var(--line); border-radius:0;
-  padding:8px 2px; width:100%;
-  transition:border-color .2s ease;
-}
-.contact-form .field textarea{ resize:vertical; min-height:76px; }
-.contact-form .field input:focus,
-.contact-form .field textarea:focus{ outline:none; border-bottom-color:var(--accent); }
-.contact-form .field input:focus-visible,
-.contact-form .field textarea:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
-
-
-.contact-form .contact-send{
-  width:100%; margin-top:2px;
-  font:500 15px 'Plus Jakarta Sans',sans-serif;
-  color:var(--paper); background:var(--ink);
-  border:1px solid var(--ink); border-radius:99px;
-  padding:15px 28px; cursor:pointer;
-  transition:opacity .2s ease;
-}
-.contact-form .contact-send:hover{ opacity:.88; }
-
-@media (max-width: 900px){
-  .contact-card{ grid-template-columns:1fr; }
-  .contact-aside{ gap:20px; }
-}
-
+.site-footer{ align-items:flex-end; }
 </style>
 </head>
 <body>
@@ -1032,7 +741,7 @@ body{
 </button>
 <a class="top-link" href="journey.html">Journey</a>
       <a class="top-link" href="projects.html">Projects<sup class="nav-count">13</sup></a>
-      <a class="top-cta" href="#contact">Get in touch</a>
+      <a class="top-cta" href="#talk">Get in touch</a>
     </div>
   </div>
 
@@ -1198,41 +907,11 @@ body{
 </section>
 
 
-<section class="contact" id="contact" aria-labelledby="contact-title">
-  <div class="contact-card">
-
-    <div class="contact-aside">
-      <h2 id="contact-title">Let&rsquo;s talk.</h2>
-    </div>
-
-    <form class="contact-form" id="contact-form" name="contact" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="company" novalidate>
-      <input type="hidden" name="form-name" value="contact">
-      <p class="hp-field" aria-hidden="true"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
-
-      <div class="field">
-        <label for="cf-name">Full name<i aria-hidden="true">*</i></label>
-        <input type="text" id="cf-name" name="name" autocomplete="name" required>
-      </div>
-
-      <div class="field">
-        <label for="cf-contact">Contact<i aria-hidden="true">*</i></label>
-        <input type="text" id="cf-contact" name="contact" autocomplete="email" inputmode="email" required>
-      </div>
-
-      <div class="field">
-        <label for="cf-reason">Reason for connecting<i aria-hidden="true">*</i></label>
-        <textarea id="cf-reason" name="reason" rows="4" required></textarea>
-      </div>
-
-      <button type="submit" class="contact-send">Send message</button>
-      <p class="contact-status" id="contact-status" role="status" hidden></p>
-    </form>
-
+<footer class="site-footer" id="talk">
+  <div class="footer-talk">
+    <h2 class="footer-talk-title">Let&rsquo;s talk.</h2>
+    <a class="footer-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
   </div>
-</section>
-
-<footer class="site-footer">
-  <a class="footer-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
   <nav class="footer-nav" aria-label="Footer">
     <a href="#stack-title">Selected work</a>
     <a href="#services-title">Services</a>
@@ -1657,78 +1336,6 @@ body{
   }
 })();
 </script>
-<script>
-(function(){
-  var form = document.getElementById('contact-form');
-  if (!form) return;
-  var status = document.getElementById('contact-status');
-  var btn = form.querySelector('.contact-send');
-
-  function say(msg, bad){
-    if (!status) return;
-    status.textContent = msg;
-    status.hidden = !msg;
-    status.classList.toggle('is-bad', !!bad);
-  }
-
-  form.addEventListener('submit', function(e){
-    var name    = form.querySelector('#cf-name').value.trim();
-    var contact = form.querySelector('#cf-contact').value.trim();
-    var reason  = form.querySelector('#cf-reason').value.trim();
-
-    if (!name || !contact || !reason){
-      e.preventDefault();
-      say('Please fill in your name, a contact and a reason for connecting.', true);
-      return;
-    }
-    /* Contact takes an email or a phone number, so this only rejects what
-       is neither - an address with an @ and a dot after it, or six or more
-       digits once spaces, brackets, dashes and a leading + are discounted. */
-    var looksEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(contact);
-    var looksPhone = /^[0-9]{6,}$/.test(contact.replace(/[\s()+-]/g, ''));
-    if (!looksEmail && !looksPhone){
-      e.preventDefault();
-      say('Please leave an email address or a phone number I can reply on.', true);
-      return;
-    }
-
-    /* Post in the background so the page does not change. Netlify's form
-       handler takes the POST at the site root and identifies the form from
-       the hidden form-name field; the action attribute stays /thanks.html
-       for the no-JS path. If anything goes wrong - offline, or opened as a
-       local file where there is no Netlify to receive it - fall through to
-       a normal submit rather than swallowing the message. */
-    if (!window.fetch) return;
-    e.preventDefault();
-    btn.disabled = true;
-    say('Sending\u2026');
-
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(new FormData(form)).toString()
-    }).then(function(res){
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      form.reset();
-      say('Thank you \u2014 that has reached my inbox. I will reply from ' + 'kirangoutamdhananjayan@gmail.com' + '.');
-    }).catch(function(err){
-      /* A 404 or 405 here means Netlify did not handle the POST at all,
-         which is what happens when form detection is off for the site, or
-         when it was switched on after the last deploy. The message stays
-         plain for a visitor; the detail goes to the console so the cause
-         is visible without guessing. */
-      if (window.console && console.error) {
-        console.error('[contact form] submission failed:', err && err.message ? err.message : err,
-          '\n  Posted to: ' + location.origin + '/',
-          '\n  If this is HTTP 404 or 405, Netlify is not processing the form:',
-          '\n  Site configuration -> Forms -> enable form detection, then redeploy.');
-      }
-      say('That did not send. Please write to kirangoutamdhananjayan@gmail.com directly.', true);
-    }).then(function(){ btn.disabled = false; });
-  });
-})();
-</script>
-
 <script>
 (function(){
   /* The links live in one container; on a phone that container becomes a

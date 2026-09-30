@@ -394,6 +394,17 @@ body{
   background-image:linear-gradient(162deg,
     rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
 }
+
+/* ---------- footer contact ----------
+   The contact form is gone; the footer carries the invitation instead, so
+   it is the anchor every "Get in touch" now points at. */
+.footer-talk{ display:grid; gap:9px; justify-items:start; }
+.footer-talk-title{
+  margin:0;
+  font:500 clamp(22px,2.4vw,30px)/1.1 'Plus Jakarta Sans',sans-serif;
+  letter-spacing:-.045em; color:var(--ink);
+}
+.site-footer{ align-items:flex-end; }
 </style>
 </head>
 <body>
@@ -406,7 +417,7 @@ body{
       <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
     </button>
     <a class="top-link" href="projects.html">Projects<sup class="nav-count">13</sup></a>
-    <a class="top-cta" href="index.html#contact">Get in touch</a>
+    <a class="top-cta" href="#talk">Get in touch</a>
   </div>
 </header>
 
@@ -625,12 +636,15 @@ body{
 
 </main>
 
-<footer class="site-footer">
-  <a class="footer-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
+<footer class="site-footer" id="talk">
+  <div class="footer-talk">
+    <h2 class="footer-talk-title">Let&rsquo;s talk.</h2>
+    <a class="footer-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
+  </div>
   <nav class="footer-nav" aria-label="Footer">
     <a href="index.html">Home</a>
     <a href="projects.html">Projects<sup class="nav-count">13</sup></a>
-    <a href="index.html#contact">Contact</a>
+    <a href="#talk">Contact</a>
     <a href="https://www.linkedin.com/in/kiran-goutam-dhananjayan/" target="_blank" rel="noopener">LinkedIn</a>
   </nav>
 </footer>
