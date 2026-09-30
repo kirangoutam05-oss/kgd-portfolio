@@ -3,7 +3,9 @@
 # would only be a chance for it to differ from what was tested locally.
 [build]
   publish = "outputs"
-  command = ""
+# No command key at all. An empty string still reads as "a command was
+# configured" to some of Netlify's build detection; omitting it is the
+# unambiguous way to say there is nothing to build.
 
 # 404.html in the publish directory is served automatically for unknown
 # paths, so no redirect rule is needed for it.
