@@ -266,6 +266,15 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   gap:16px; margin-top:34px;
 }
 @media (max-width: 680px){ .pair{ grid-template-columns:1fr; } }
+/* The mark that sits above every own brand on this page. */
+.hero-visual{
+  margin-top:clamp(34px,4vw,52px);
+  aspect-ratio:16/9;
+  border-radius:10px; overflow:hidden;
+  background:#e9efe9;
+}
+.hero-visual video{ display:block; width:100%; height:100%; object-fit:cover; }
+@media (max-width:700px){ .hero-visual{ aspect-ratio:4/3; } }
 </style></head>
 <body>
 <div class="progress" id="progress"></div>
@@ -299,6 +308,9 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       <div class="meta">Role<b>Graphic Designer</b></div>
       <div class="meta">Dates<b>Jun 2024 &mdash; Sep 2025</b></div>
     </div>
+    <figure class="hero-visual">
+      <video class="hero-video" src="assets/jumbotail/tile-outro.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Jumbotail logo animation"></video>
+    </figure>
   </div>
 </section>
 
@@ -316,7 +328,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     <span class="label">The shape of it</span>
     <h2 class="lede">Three brands, two shelves, one system underneath.</h2>
     <p class="copy"><strong>Jumbofarms</strong> carries the staples and behaves like a house brand &mdash; one oval mark, one set of quality roundels, one way of photographing a bowl of the raw product. Within it, each range solves its own problem: nine grades of basmati separated by colour alone, a cumin bag that changes by a ribbon, a mustard oil that had to survive being both a bottle and a pouch.</p>
-    <p class="copy"><strong>Vedha</strong> and <strong>Crispy Corner</strong> sit outside it, because a pooja ghee and a &#8377;10 namkeen are not staples and should not look like them. Vedha even shares a bottle with the mustard oil &mdash; the label is the only thing keeping them apart.</p>
+    <p class="copy"><strong>Jumbofarms</strong> is the one that behaves like a brand rather than a label: nine ranges, a shared mark, and a retail kit that puts it on the front of the shop. <strong>Vedha</strong> and <strong>Crispy Corner</strong> sit outside it, because a pooja ghee and a &#8377;10 namkeen are not staples and should not look like them. Vedha even shares a bottle with the mustard oil &mdash; the label is the only thing keeping them apart.</p>
     <p class="copy">Alongside the packaging sat the retail layer: fascia, danglers, standees and posters that had to be co-brandable with whatever store they went into.</p>
   </div>
 </section>
@@ -401,8 +413,8 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       <a class="strand" href="jumbofarms.html">
         <div class="strand-media"><img loading="lazy" src="assets/jumbofarms/posm-standee.jpg" alt="Jumbofarms retail standee"></div>
         <div class="strand-body">
-          <h3>Retail &amp; POSM</h3>
-          <p>Shop fascia, danglers, standees and posters, built to be co-branded with each store.</p>
+          <h3>Mustard Oil retail kit</h3>
+          <p>Shop fascia, danglers and standees for the mustard oil launch, co-branded to each store.</p>
           <span class="strand-cta">View &#8599;</span>
         </div>
       </a>
@@ -455,6 +467,27 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   sync();
 })();
 </script>
+<script>
+(function(){
+  var vids = document.querySelectorAll('.hero-video');
+  if (!vids.length) return;
+  try {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      vids.forEach(function(v){ v.removeAttribute('autoplay'); v.pause(); });
+      return;
+    }
+  } catch(e){}
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        en.isIntersecting ? en.target.play().catch(function(){}) : en.target.pause();
+      });
+    }, { threshold: 0.15 });
+    vids.forEach(function(v){ io.observe(v); });
+  }
+})();
+</script>
 </body>
+
 
 </html>
