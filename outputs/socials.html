@@ -35,28 +35,28 @@
 <link rel="canonical" href="https://kirangoutamdhananjayan.com/socials.html">
 <title>Socials — Kiran Goutam Dhananjayan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--paper:#fff;--panel:#f4f2f6;--ink:#131316;--muted:#64656c;--line:rgba(19,19,22,.14);--accent:#8a4fd0;--deep:#4a2a78}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:'Geist',Arial,sans-serif}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Plus Jakarta Sans',Arial,sans-serif}
 .progress{position:fixed;inset:0 0 auto;height:3px;background:linear-gradient(90deg,#4ec3e0,#8a4fd0);transform:scaleX(0);transform-origin:left;z-index:10}
 .wrap{width:min(100% - 40px,1160px);margin:auto}
 .top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 .mark,.eyebrow,.label,.meta{font:500 11px 'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
-a.mark,.top a.mark,.topbar a.mark{display:inline-block;font-family:'Geist',Arial,sans-serif;font-size:14px;font-weight:500;text-decoration:none;border-bottom:0;padding-bottom:0;color:inherit;text-transform:none;letter-spacing:-.012em;transition:color .2s ease}a.mark:hover{color:var(--accent)}a.mark:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+a.mark,.top a.mark,.topbar a.mark{display:inline-block;font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:14px;font-weight:500;text-decoration:none;border-bottom:0;padding-bottom:0;color:inherit;text-transform:none;letter-spacing:-.012em;transition:color .2s ease}a.mark:hover{color:var(--accent)}a.mark:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .back{font-size:13px;text-decoration:none;border-bottom:1px solid;padding-bottom:4px;color:inherit}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .hero{background:linear-gradient(135deg,#4ec3e0 0%,#8a4fd0 55%,#4a2a78 100%);color:#fff;padding:clamp(56px,9vw,110px) 0 46px}
 .hero .eyebrow{color:rgba(255,255,255,.8)}
-.hero h1{margin:18px 0 22px;font:500 clamp(46px,9.5vw,124px)/.86 'Geist',sans-serif;letter-spacing:-.01em;text-transform:uppercase;max-width:940px}
+.hero h1{margin:18px 0 22px;font:500 clamp(46px,9.5vw,124px)/.86 'Plus Jakarta Sans',sans-serif;letter-spacing:-.01em;max-width:940px}
 .hero p{max-width:660px;margin:0;font-size:clamp(16px,1.9vw,20px);line-height:1.5;color:rgba(255,255,255,.88)}
 .hero p strong{color:#fff;font-weight:600}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
 .tag{font:500 11px 'Geist Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.4);color:rgba(255,255,255,.9)}
 .meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255,255,.3)}
 .hero .meta{color:rgba(255,255,255,.7)}
-.hero .meta b{display:block;margin-top:7px;color:#fff;font:600 14px 'Geist',sans-serif;letter-spacing:-.02em;text-transform:none}
+.hero .meta b{display:block;margin-top:7px;color:#fff;font:600 14px 'Plus Jakarta Sans',sans-serif;letter-spacing:-.02em;text-transform:none}
 .section{padding:clamp(54px,7vw,88px) 0;border-bottom:1px solid var(--line)}
 .section:last-of-type{border:0}
 .label{color:var(--accent);display:block;margin-bottom:18px}
@@ -141,6 +141,10 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
    the right group is where you can go. */
 .top-left{ display:flex; align-items:center; gap:18px; min-width:0; }
 .top-right{ display:flex; align-items:center; gap:16px; }
+/* The project count rides the Projects link as an exponent. line-height:0
+   keeps the raised digits from opening up the nav's line box. */
+.nav-count{ font-size:.62em; font-weight:500; line-height:0; vertical-align:super;
+  margin-left:.18em; opacity:.62; letter-spacing:.02em; }
 .top-link{
   font-size:13.5px; color:var(--ink); text-decoration:none;
   border-bottom:1px solid var(--line); padding-bottom:3px;
@@ -290,11 +294,35 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   header.top, .topbar, header.site-top{ position:relative; }
 }
 @media (min-width: 761px){
-  .nav-bar-controls .theme-toggle{ display:none; }
+  /* The wrapper is empty at this width (its toggle and hamburger are both
+     hidden), so hide the wrapper itself - left in place it stays a flex
+     child of the bar and space-between strands the nav in the middle. */
+  .nav-bar-controls{ display:none; }
 }
 @media (prefers-reduced-motion: reduce){
   .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
   .nav-toggle span::before, .nav-toggle span::after{ transition:none !important; }
+}
+
+/* ---------- surfaces: mild gradients, not flat fills ----------
+   Every large fill now moves through a faint wash of the page's own accent
+   rather than sitting as one solid colour. The steps are deliberately small,
+   4-6%, so this reads as depth rather than as colour. Text keeps a solid ink
+   colour, so contrast is untouched. Built from the theme tokens, so the dark
+   theme recomputes the same way. */
+body{
+  background-image:linear-gradient(177deg,
+    color-mix(in oklab, var(--accent) 5%, var(--paper)) 0%,
+    var(--paper) 32%,
+    var(--paper) 68%,
+    color-mix(in oklab, var(--accent) 4%, var(--paper)) 100%);
+}
+.page,.card,.figure,.question,.keys li,.hooked li,.goals li,.themes li,
+.contents li,.spec li,.products li,.phases li,.parts li,.brands li{
+  background-image:linear-gradient(158deg,
+    color-mix(in oklab, var(--accent) 6%, var(--panel)) 0%,
+    var(--panel) 54%,
+    color-mix(in oklab, var(--ink) 3%, var(--panel)) 100%);
 }
 </style>
 </head>
@@ -311,7 +339,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
     </button>
     <a class="top-link" href="journey.html">Journey</a>
-    <a class="top-link" href="projects.html">All projects</a>
+    <a class="top-link" href="projects.html">Projects<sup class="nav-count">13</sup></a>
     <a class="top-cta" href="index.html#contact">Get in touch</a>
   </nav>
 </header>
@@ -321,13 +349,13 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   <div class="wrap">
     <span class="eyebrow">Event &amp; social design / selected work</span>
     <h1>Socials</h1>
-    <p>“The Socials” is an event organised by the team known as <strong>the Mixer</strong>. They hosted a trial event to gauge demand for a networking-only gathering, which needed a design kit with a fresh, contrasting colour theme distinct from the existing Mixer identity.</p>
+    <p>A dating night from <strong>Trippy Goat</strong>, run by the team behind <strong>the Mixer</strong> and intended as a quarterly fixture &mdash; a reason for people to meet each other, and for a venue to fill its room, in the middle of Covid. The kit needed a fresh, contrasting colour theme distinct from the existing Mixer identity.</p>
     <div class="tags">
       <span class="tag">Social Media Design</span><span class="tag">Motion Graphics</span><span class="tag">Brand Design</span>
     </div>
     <div class="meta-row">
-      <div class="meta">Client<b>the Mixer</b></div>
-      <div class="meta">Brief<b>Trial networking event</b></div>
+      <div class="meta">Client<b>Trippy Goat / the Mixer</b></div>
+      <div class="meta">Brief<b>Quarterly dating event</b></div>
       <div class="meta">Scope<b>Design kit and identity</b></div>
     </div>
   </div>
@@ -335,40 +363,23 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 
 <section class="section">
   <div class="wrap">
-    <span class="label">Context</span>
-    <h2 class="lede">A trial event, run to find out whether a format had demand.</h2>
-    <p class="copy">&ldquo;The Socials&rdquo; was organised by the team behind <strong>the Mixer</strong>. It was a trial: a networking-only gathering, with no other draw attached, run to gauge whether that proposition could stand on its own.</p>
+    <span class="label">The work</span>
+    <h2 class="lede">A dating night, built to come back every quarter.</h2>
+    <p class="copy"><strong>Socials</strong> was Trippy Goat&rsquo;s, run by the team behind <strong>the Mixer</strong>. The format was a dating night: individuals, coming on their own, to meet other people. The intent was a quarterly fixture rather than a one-off.</p>
+    <p class="copy">It was designed for Covid, and the timing explains the shape of it. A venue needed customers through the door on nights it would otherwise be empty, and people had spent a long stretch not meeting anyone. The event answered both at once, which is why it had to read as an easy evening out rather than as a singles night with something to prove.</p>
     <p class="copy">The scope was a design kit and identity, deliberately distinct from the Mixer&rsquo;s.</p>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap">
-    <span class="label">The problem</span>
-    <h2 class="lede">A test that its own branding could invalidate.</h2>
-    <p class="copy">The Mixer&rsquo;s identity is dark and gold, and it carries an established association. If Socials had inherited that palette, any turnout would have been ambiguous &mdash; impossible to say whether people came for networking or because they already trusted the Mixer.</p>
-    <p class="copy">So the design had a job beyond looking right: it had to keep the experiment clean.</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <span class="label">The decision</span>
+    <span class="label">The kit</span>
     <h2 class="lede">Share the discipline, share none of the colour.</h2>
-    <p class="copy">Socials moves to a cyan-to-violet gradient that has nothing in common with the parent palette, while keeping the same typographic discipline and structural logic. Same hand, different proposition.</p>
-    <p class="copy">The cost is that recognition starts from zero and the kit borrows no equity from a brand that already had some &mdash; measurably harder work for the same turnout. I took it because a contaminated result would have been worth less than a smaller honest one.</p>
+    <p class="copy">The Mixer&rsquo;s identity is dark and gold. Socials moves to a cyan-to-violet gradient that has nothing in common with it, while keeping the same typographic discipline and structural logic &mdash; the same hand, plainly a different proposition.</p>
+    <p class="copy">The campaign ran with <strong>LBB</strong>, and the assets carry an open invitation &mdash; <em>come alone, with someone, or in a group</em>. Turning up by yourself is the whole premise and also the thing that stops people coming, so the line does the real work on the poster.</p>
+    <p class="copy">A second strand takes <strong>The Single&rsquo;s Social</strong> through wordmark, colourways, script variants and an icon set.</p>
   </div>
 </section>
-
-<section class="section">
-  <div class="wrap">
-    <span class="label">What that made possible</span>
-    <h2 class="lede">A readable answer, and a second identity out of it.</h2>
-    <p class="copy">The campaign ran with <strong>LBB</strong>, and the assets carry an open invitation &mdash; <em>come alone, with someone, or in a group</em> &mdash; written to remove the social cost of turning up by yourself, which is the real barrier to a networking-only event.</p>
-    <p class="copy">A second strand in the document takes <strong>The Single&rsquo;s Social</strong> through wordmark, colourways, script variants and an icon set &mdash; a related format that the first one made it possible to imagine.</p>
-  </div>
-</section>
-
 
 <section class="section">
   <div class="wrap">
@@ -386,34 +397,6 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     </div>
   </div>
 </section>
-<section class="section">
-  <div class="wrap">
-    <span class="label">Constraints</span>
-    <h2 class="lede">What shaped the work as much as the brief did.</h2>
-    <p class="copy"><strong>Trial budget, trial timeline.</strong> A test event does not get a full launch spend, so the kit had to be built from a gradient and type rather than from photography or illustration.</p>
-    <p class="copy"><strong>A media partner&rsquo;s formats.</strong> Running with LBB meant designing to their placements and crops rather than to my own.</p>
-    <p class="copy"><strong>Copy had to do emotional work.</strong> &ldquo;Networking only&rdquo; is an unappealing promise to a person deciding whether to attend alone; the invitation line is load-bearing, not decorative.</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <span class="label">Outcome</span>
-    <h2 class="lede">The kit shipped and the event ran. The demand signal is not mine to report.</h2>
-    <p class="copy">Eight pages of identity and campaign assets, plus the Single&rsquo;s Social exploration. Whether the trial proved demand is a question about attendance and repeat interest, and those numbers sat with the organisers and were never shared back to me in a form I can cite.</p>
-    <p class="copy">I will not estimate them. The design claim stands on its own: a sibling identity that could be tested without its parent skewing the result.</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <span class="label">Reflection</span>
-    <h2 class="lede">What I would do differently.</h2>
-    <p class="copy">I would agree, before designing anything, what number would count as demand proven. The entire point of the event was to answer a question, and a question without a threshold cannot be answered &mdash; which is a design problem as much as a business one.</p>
-    <p class="copy">I would also test the invitation line. It is the one asset doing persuasive work, and it went out on instinct.</p>
-  </div>
-</section>
-
 </main>
 
 <footer class="wrap footer">

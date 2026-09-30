@@ -41,7 +41,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   /* Same tokens as the home page, so the two read as one site. */
   :root{
@@ -72,7 +72,7 @@
   body{
     background:var(--paper);
     color:var(--ink);
-    font-family:'Geist', sans-serif;
+    font-family:'Plus Jakarta Sans', sans-serif;
     overflow-x:hidden;
   }
   a:focus-visible, button:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
@@ -87,12 +87,16 @@
     border-bottom:1px solid var(--line);
   }
   a.mark{
-    font-family:'Geist', sans-serif; font-weight:500; font-size:15px;
+    font-family:'Plus Jakarta Sans', sans-serif; font-weight:500; font-size:15px;
     letter-spacing:-0.012em; color:var(--ink); text-decoration:none;
     white-space:nowrap; transition:color .2s ease;
   }
   a.mark:hover{ color:var(--accent); }
   .topbar-right{ display:flex; align-items:center; gap:18px; }
+  /* The project count rides the Projects link as an exponent. line-height:0
+     keeps the raised digits from opening up the nav's line box. */
+  .nav-count{ font-size:.62em; font-weight:500; line-height:0; vertical-align:super;
+    margin-left:.18em; opacity:.62; letter-spacing:.02em; }
   .top-link{
     font-size:14px; color:var(--ink); text-decoration:none;
     border-bottom:1px solid var(--line); padding-bottom:3px;
@@ -356,11 +360,39 @@
   header.top, .topbar, header.site-top{ position:relative; }
 }
 @media (min-width: 761px){
-  .nav-bar-controls .theme-toggle{ display:none; }
+  /* The wrapper is empty at this width (its toggle and hamburger are both
+     hidden), so hide the wrapper itself - left in place it stays a flex
+     child of the bar and space-between strands the nav in the middle. */
+  .nav-bar-controls{ display:none; }
 }
 @media (prefers-reduced-motion: reduce){
   .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
   .nav-toggle span::before, .nav-toggle span::after{ transition:none !important; }
+}
+
+/* ---------- surfaces: mild gradients, not flat fills ----------
+   Every large fill now moves through a faint wash of the page's own accent
+   rather than sitting as one solid colour. The steps are deliberately small,
+   4-6%, so this reads as depth rather than as colour. Text keeps a solid ink
+   colour, so contrast is untouched. Built from the theme tokens, so the dark
+   theme recomputes the same way. */
+body{
+  background-image:linear-gradient(177deg,
+    color-mix(in oklab, var(--accent) 5%, var(--paper)) 0%,
+    var(--paper) 32%,
+    var(--paper) 68%,
+    color-mix(in oklab, var(--accent) 4%, var(--paper)) 100%);
+}
+.page,.card,.figure,.question,.keys li,.hooked li,.goals li,.themes li,
+.contents li,.spec li,.products li,.phases li,.parts li,.brands li{
+  background-image:linear-gradient(158deg,
+    color-mix(in oklab, var(--accent) 6%, var(--panel)) 0%,
+    var(--panel) 54%,
+    color-mix(in oklab, var(--ink) 3%, var(--panel)) 100%);
+}
+.hero{
+  background-image:linear-gradient(162deg,
+    rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
 }
 </style>
 </head>
@@ -373,7 +405,7 @@
       <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg>
       <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
     </button>
-    <a class="top-link" href="projects.html">View all projects</a>
+    <a class="top-link" href="projects.html">Projects<sup class="nav-count">13</sup></a>
     <a class="top-cta" href="index.html#contact">Get in touch</a>
   </div>
 </header>
@@ -597,7 +629,7 @@
   <a class="footer-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
   <nav class="footer-nav" aria-label="Footer">
     <a href="index.html">Home</a>
-    <a href="projects.html">All projects</a>
+    <a href="projects.html">Projects<sup class="nav-count">13</sup></a>
     <a href="index.html#contact">Contact</a>
     <a href="https://www.linkedin.com/in/kiran-goutam-dhananjayan/" target="_blank" rel="noopener">LinkedIn</a>
   </nav>

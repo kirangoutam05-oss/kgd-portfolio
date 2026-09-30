@@ -36,21 +36,21 @@
 <link rel="canonical" href="https://kirangoutamdhananjayan.com/learnarcade.html">
 <title>LearnARcade — Kiran Goutam Dhananjayan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--paper:#fff;--panel:#f3f3f8;--ink:#131316;--muted:#64656c;--line:rgba(19,19,22,.14);--accent:#6f5bff;--deep:#181a2e}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:'Geist',Arial,sans-serif}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Plus Jakarta Sans',Arial,sans-serif}
 .progress{position:fixed;inset:0 0 auto;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;z-index:10}
 .wrap{width:min(100% - 40px,1160px);margin:auto}
 .top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 .mark,.eyebrow,.label,.meta{font:500 11px 'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
-a.mark,.top a.mark,.topbar a.mark{display:inline-block;font-family:'Geist',Arial,sans-serif;font-size:14px;font-weight:500;text-decoration:none;border-bottom:0;padding-bottom:0;color:inherit;text-transform:none;letter-spacing:-.012em;transition:color .2s ease}a.mark:hover{color:var(--accent)}a.mark:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+a.mark,.top a.mark,.topbar a.mark{display:inline-block;font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:14px;font-weight:500;text-decoration:none;border-bottom:0;padding-bottom:0;color:inherit;text-transform:none;letter-spacing:-.012em;transition:color .2s ease}a.mark:hover{color:var(--accent)}a.mark:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .back{font-size:13px;text-decoration:none;border-bottom:1px solid;padding-bottom:4px;color:inherit}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .hero{background:var(--deep);color:#eeeef6;padding:clamp(56px,9vw,110px) 0 46px}
 .hero .eyebrow{color:#a79bff}
-.hero h1{margin:18px 0 10px;font:500 clamp(44px,9vw,116px)/.86 'Geist',sans-serif;letter-spacing:-.01em;text-transform:uppercase;max-width:940px}
+.hero h1{margin:18px 0 10px;font:500 clamp(44px,9vw,116px)/.86 'Plus Jakarta Sans',sans-serif;letter-spacing:-.01em;max-width:940px}
 .hero h1 em{font-style:normal;color:var(--accent)}
 .hero .sub{margin:0 0 22px;font:500 13px 'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#a79bff}
 .hero p{max-width:680px;margin:0;font-size:clamp(16px,1.9vw,20px);line-height:1.5;color:#c9c8dd}
@@ -59,27 +59,27 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .tag{font:500 11px 'Geist Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(238,238,246,.3);color:#c9c8dd}
 .meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid rgba(238,238,246,.24)}
 .hero .meta{color:rgba(238,238,246,.66)}
-.hero .meta b{display:block;margin-top:7px;color:#fff;font:600 14px 'Geist',sans-serif;letter-spacing:-.02em;text-transform:none}
+.hero .meta b{display:block;margin-top:7px;color:#fff;font:600 14px 'Plus Jakarta Sans',sans-serif;letter-spacing:-.02em;text-transform:none}
 .section{padding:clamp(54px,7vw,88px) 0;border-bottom:1px solid var(--line)}
 .section:last-of-type{border:0}
 .label{color:var(--accent);display:block;margin-bottom:18px}
 .lede{max-width:820px;margin:0;font-size:clamp(23px,3vw,40px);line-height:1.12;letter-spacing:-.04em}
 .copy{max-width:720px;margin:22px 0 0;color:var(--muted);font-size:16px;line-height:1.72}
 .copy strong{color:var(--ink);font-weight:600}
-.question{margin:34px 0 0;padding:28px 30px;border-left:3px solid var(--accent);background:var(--panel);border-radius:0 10px 10px 0}
+.question{margin:34px 0 0;padding:28px 30px;border-left:3px solid var(--accent);background:var(--panel);border-radius:0 10px 10px 0;max-width:840px}
 .question span{display:block;font:500 11px 'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
-.question p{margin:0;font:600 clamp(18px,2.2vw,26px)/1.28 'Geist',sans-serif;letter-spacing:-.03em;max-width:780px}
+.question p{margin:0;font:600 clamp(18px,2.2vw,26px)/1.28 'Plus Jakarta Sans',sans-serif;letter-spacing:-.03em}
 .hooked{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:30px;padding:0;list-style:none;counter-reset:h}
 .hooked li{border:1px solid var(--line);border-radius:10px;padding:20px;background:var(--panel);position:relative}
 .hooked li:before{counter-increment:h;content:counter(h);display:block;font:500 11px 'Geist Mono',monospace;color:var(--accent);margin-bottom:10px}
-.hooked b{display:block;font:500 20px/1.06 'Geist',sans-serif;letter-spacing:-.03em}
+.hooked b{display:block;font:500 20px/1.06 'Plus Jakarta Sans',sans-serif;letter-spacing:-.03em}
 .hooked span{display:block;margin-top:9px;color:var(--muted);font-size:13.5px;line-height:1.5}
 .keys{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px;padding:0;list-style:none}
 .keys li{border:1px solid var(--line);border-radius:8px;padding:16px;background:var(--panel)}
 .keys b{display:block;font:500 11px 'Geist Mono',monospace;letter-spacing:.1em;color:var(--accent)}
 .keys span{display:block;margin-top:7px;font-size:14px;letter-spacing:-.02em}
 .goals{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;padding:0;list-style:none}
-.goals li{font:500 12px 'Geist',sans-serif;letter-spacing:-.01em;padding:8px 14px;border-radius:20px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.goals li{font:500 12px 'Plus Jakarta Sans',sans-serif;letter-spacing:-.01em;padding:8px 14px;border-radius:20px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
 .note{margin-top:26px;padding:16px 18px;border:1px dashed var(--line);border-radius:8px;color:var(--muted);font-size:14px;line-height:1.6;max-width:720px}
 .footer{padding:34px 0 46px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font:500 11px 'Geist Mono',monospace;letter-spacing:.09em}
 .footer a{color:inherit;text-decoration:none;border-bottom:1px solid}
@@ -161,6 +161,10 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
    the right group is where you can go. */
 .top-left{ display:flex; align-items:center; gap:18px; min-width:0; }
 .top-right{ display:flex; align-items:center; gap:16px; }
+/* The project count rides the Projects link as an exponent. line-height:0
+   keeps the raised digits from opening up the nav's line box. */
+.nav-count{ font-size:.62em; font-weight:500; line-height:0; vertical-align:super;
+  margin-left:.18em; opacity:.62; letter-spacing:.02em; }
 .top-link{
   font-size:13.5px; color:var(--ink); text-decoration:none;
   border-bottom:1px solid var(--line); padding-bottom:3px;
@@ -205,6 +209,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   }
   .section > .wrap > .lede,
   .section > .wrap > .copy,
+  .section > .wrap > .question,
   .section > .wrap > p,
   .section > .wrap > ul,
   .section > .wrap > ol{ grid-column:2; }
@@ -310,11 +315,39 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   header.top, .topbar, header.site-top{ position:relative; }
 }
 @media (min-width: 761px){
-  .nav-bar-controls .theme-toggle{ display:none; }
+  /* The wrapper is empty at this width (its toggle and hamburger are both
+     hidden), so hide the wrapper itself - left in place it stays a flex
+     child of the bar and space-between strands the nav in the middle. */
+  .nav-bar-controls{ display:none; }
 }
 @media (prefers-reduced-motion: reduce){
   .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
   .nav-toggle span::before, .nav-toggle span::after{ transition:none !important; }
+}
+
+/* ---------- surfaces: mild gradients, not flat fills ----------
+   Every large fill now moves through a faint wash of the page's own accent
+   rather than sitting as one solid colour. The steps are deliberately small,
+   4-6%, so this reads as depth rather than as colour. Text keeps a solid ink
+   colour, so contrast is untouched. Built from the theme tokens, so the dark
+   theme recomputes the same way. */
+body{
+  background-image:linear-gradient(177deg,
+    color-mix(in oklab, var(--accent) 5%, var(--paper)) 0%,
+    var(--paper) 32%,
+    var(--paper) 68%,
+    color-mix(in oklab, var(--accent) 4%, var(--paper)) 100%);
+}
+.page,.card,.figure,.question,.keys li,.hooked li,.goals li,.themes li,
+.contents li,.spec li,.products li,.phases li,.parts li,.brands li{
+  background-image:linear-gradient(158deg,
+    color-mix(in oklab, var(--accent) 6%, var(--panel)) 0%,
+    var(--panel) 54%,
+    color-mix(in oklab, var(--ink) 3%, var(--panel)) 100%);
+}
+.hero{
+  background-image:linear-gradient(162deg,
+    rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
 }
 </style>
 </head>
@@ -331,7 +364,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
     </button>
     <a class="top-link" href="journey.html">Journey</a>
-    <a class="top-link" href="projects.html">All projects</a>
+    <a class="top-link" href="projects.html">Projects<sup class="nav-count">13</sup></a>
     <a class="top-cta" href="index.html#contact">Get in touch</a>
   </nav>
 </header>
@@ -376,11 +409,23 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   <div class="wrap">
     <span class="label">Method</span>
     <h2 class="lede">A third diamond, added on purpose.</h2>
-    <p class="copy">The project uses a customised iteration of the Double Diamond, referred to here as the <strong>Triple Diamond Research Framework</strong>, synergised with a User-Centred Design framework. The combination introduces a structured process to the research phase specifically — which is where an intervention for a group this often misunderstood either earns its evidence or doesn't.</p>
+    <p class="copy">The project uses a customised iteration of the Double Diamond, referred to here as the <strong>Triple Diamond Research Framework</strong>, synergised with Human-Centric Design. The conventional Double Diamond runs Discover, Define, Develop, Deliver. The third diamond adds an initial step in front of all of it &mdash; <strong>Explore</strong> and <strong>Identify</strong> &mdash; which is where an intervention for a group this often misread either earns its evidence or doesn&rsquo;t.</p>
+    <p class="copy">That makes three diamonds, each ending in something you can hold the next one to. <strong>Problem identification</strong> goes from exploring augmented reality to identifying an opportunity, turning a research interest into an opportunity. <strong>Solution identification</strong> runs solution discovery into defining design parameters. <strong>Solution execution</strong> covers design and development, then usability testing and feedback, and ends at a potential solution rather than a finished one &mdash; which is the honest name for what a mock tool produces.</p>
+    <p class="copy">Human-Centric Design is the lens laid over the whole thing: <strong>people</strong> (the need, the relationships and the ethics), <strong>problem</strong> (aids, presence and impact) and <strong>technology</strong> (features, feasibility and presence). Only what sits in the overlap of all three counts as a design direction. The ethics sit inside the framework rather than beside it, which matters for a group that has often been designed at.</p>
     <p class="copy">Case study work sits inside a non-disclosure agreement, so pseudonyms are used with limited access. One case study is public and load-bearing: <strong>Pokémon Go</strong>, with over 100 million downloads and 28.5 million active users worldwide, and the wave it inspired in Jurassic World Alive and Ingress. What it demonstrates is that AR integration plus social incentives can hold attention at scale — the exact problem a learning tool has.</p>
   </div>
 </section>
 
+<section class="section">
+  <div class="wrap">
+    <span class="label">Scoping</span>
+    <h2 class="lede">Simplifying the problem, one question at a time.</h2>
+    <p class="copy">Before any of it could be designed, the problem was reduced to five plain questions. <strong>Who</strong> &mdash; dyslexic adults, facing a lack of therapy interventions and often developing coping mechanisms on their own. <strong>What</strong> &mdash; augmented reality, which delivers immersive experience by integrating virtual elements into reality, applied to a learning disorder that is known to benefit from multi-sensory approaches. <strong>When</strong> &mdash; at development stage, meaning ongoing research rather than a settled answer.</p>
+    <p class="copy"><strong>Why</strong> &mdash; to create immersive, engaging learning experiences, and to understand, assist and improve how dyslexic adults learn. <strong>How</strong> &mdash; expert consultations, case studies, workshops, and the development of a prototype tool, LearnARcade, built to validate AR&rsquo;s potential rather than to prove it.</p>
+    <p class="copy">The stakeholder map is what keeps that honest. Dyslexia in adults sits at the centre, ringed first by the people with direct contact &mdash; medical (psychologists, psychiatrists, general practitioners, diagnostic centres), professional (employers, HR, disability assistants, recruitment), educational (disability advisers, tutors, student unions, university policy) and personal (parents, siblings, caregivers, tutors) &mdash; and then by the institutions further out: the NHS, dyslexia associations, ministries, laws, the WHO, insurers and the inclusive workplace. An intervention aimed at the centre has to survive all of it.</p>
+    <figure class="page"><img loading="lazy" src="assets/learnarcade/page-03.jpg" alt="Simplifying the problem with who, what, when, why and how, beside a stakeholder map with dyslexia in adults at the centre"><figcaption>Simplifying the problem, and the stakeholder map</figcaption></figure>
+  </div>
+</section>
 <section class="section">
   <div class="wrap">
     <span class="label">Design parameters</span>

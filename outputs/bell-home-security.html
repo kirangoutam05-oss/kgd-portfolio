@@ -35,28 +35,28 @@
 <link rel="canonical" href="https://kirangoutamdhananjayan.com/bell-home-security.html">
 <title>Bell Home Security — Kiran Goutam Dhananjayan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--paper:#fff;--panel:#f1f7f8;--ink:#131316;--muted:#64656c;--line:rgba(19,19,22,.14);--accent:#0f9fb0;--deep:#0f3a40;--bell:#4dc4da}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:'Geist',Arial,sans-serif}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Plus Jakarta Sans',Arial,sans-serif}
 .progress{position:fixed;inset:0 0 auto;height:3px;background:var(--bell);transform:scaleX(0);transform-origin:left;z-index:10}
 .wrap{width:min(100% - 40px,1160px);margin:auto}
 .top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 .mark,.eyebrow,.label,.meta{font:500 11px 'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
-a.mark,.top a.mark,.topbar a.mark{display:inline-block;font-family:'Geist',Arial,sans-serif;font-size:14px;font-weight:500;text-decoration:none;border-bottom:0;padding-bottom:0;color:inherit;text-transform:none;letter-spacing:-.012em;transition:color .2s ease}a.mark:hover{color:var(--accent)}a.mark:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+a.mark,.top a.mark,.topbar a.mark{display:inline-block;font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:14px;font-weight:500;text-decoration:none;border-bottom:0;padding-bottom:0;color:inherit;text-transform:none;letter-spacing:-.012em;transition:color .2s ease}a.mark:hover{color:var(--accent)}a.mark:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .back{font-size:13px;text-decoration:none;border-bottom:1px solid;padding-bottom:4px;color:inherit}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .hero{background:var(--bell);color:#06282d;padding:clamp(56px,9vw,110px) 0 46px}
 .hero .eyebrow{color:rgba(6,40,45,.66)}
-.hero h1{margin:18px 0 22px;font:500 clamp(46px,9.5vw,124px)/.86 'Geist',sans-serif;letter-spacing:-.01em;text-transform:uppercase;max-width:940px}
+.hero h1{margin:18px 0 22px;font:500 clamp(46px,9.5vw,124px)/.86 'Plus Jakarta Sans',sans-serif;letter-spacing:-.01em;max-width:940px}
 .hero p{max-width:660px;margin:0;font-size:clamp(16px,1.9vw,20px);line-height:1.5;color:rgba(6,40,45,.84)}
 .hero p strong{color:#06282d;font-weight:600}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
 .tag{font:500 11px 'Geist Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid rgba(6,40,45,.34);color:rgba(6,40,45,.8)}
 .meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid rgba(6,40,45,.26)}
 .hero .meta{color:rgba(6,40,45,.62)}
-.hero .meta b{display:block;margin-top:7px;color:#06282d;font:600 14px 'Geist',sans-serif;letter-spacing:-.02em;text-transform:none}
+.hero .meta b{display:block;margin-top:7px;color:#06282d;font:600 14px 'Plus Jakarta Sans',sans-serif;letter-spacing:-.02em;text-transform:none}
 .section{padding:clamp(54px,7vw,88px) 0;border-bottom:1px solid var(--line)}
 .section:last-of-type{border:0}
 .label{color:var(--accent);display:block;margin-bottom:18px}
@@ -65,7 +65,7 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .copy strong{color:var(--ink);font-weight:600}
 .spec{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px;padding:0;list-style:none}
 .spec li{border:1px solid var(--line);border-radius:8px;padding:18px;background:var(--panel)}
-.spec b{display:block;font:500 18px/1.06 'Geist',sans-serif;letter-spacing:-.03em}
+.spec b{display:block;font:500 18px/1.06 'Plus Jakarta Sans',sans-serif;letter-spacing:-.03em}
 .spec span{display:block;margin-top:8px;color:var(--muted);font-size:13px;line-height:1.45}
 .swatches{display:flex;gap:8px;margin-top:12px}
 .sw{width:26px;height:26px;border-radius:5px;border:1px solid var(--line)}
@@ -147,6 +147,10 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
    the right group is where you can go. */
 .top-left{ display:flex; align-items:center; gap:18px; min-width:0; }
 .top-right{ display:flex; align-items:center; gap:16px; }
+/* The project count rides the Projects link as an exponent. line-height:0
+   keeps the raised digits from opening up the nav's line box. */
+.nav-count{ font-size:.62em; font-weight:500; line-height:0; vertical-align:super;
+  margin-left:.18em; opacity:.62; letter-spacing:.02em; }
 .top-link{
   font-size:13.5px; color:var(--ink); text-decoration:none;
   border-bottom:1px solid var(--line); padding-bottom:3px;
@@ -296,11 +300,39 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   header.top, .topbar, header.site-top{ position:relative; }
 }
 @media (min-width: 761px){
-  .nav-bar-controls .theme-toggle{ display:none; }
+  /* The wrapper is empty at this width (its toggle and hamburger are both
+     hidden), so hide the wrapper itself - left in place it stays a flex
+     child of the bar and space-between strands the nav in the middle. */
+  .nav-bar-controls{ display:none; }
 }
 @media (prefers-reduced-motion: reduce){
   .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
   .nav-toggle span::before, .nav-toggle span::after{ transition:none !important; }
+}
+
+/* ---------- surfaces: mild gradients, not flat fills ----------
+   Every large fill now moves through a faint wash of the page's own accent
+   rather than sitting as one solid colour. The steps are deliberately small,
+   4-6%, so this reads as depth rather than as colour. Text keeps a solid ink
+   colour, so contrast is untouched. Built from the theme tokens, so the dark
+   theme recomputes the same way. */
+body{
+  background-image:linear-gradient(177deg,
+    color-mix(in oklab, var(--accent) 5%, var(--paper)) 0%,
+    var(--paper) 32%,
+    var(--paper) 68%,
+    color-mix(in oklab, var(--accent) 4%, var(--paper)) 100%);
+}
+.page,.card,.figure,.question,.keys li,.hooked li,.goals li,.themes li,
+.contents li,.spec li,.products li,.phases li,.parts li,.brands li{
+  background-image:linear-gradient(158deg,
+    color-mix(in oklab, var(--accent) 6%, var(--panel)) 0%,
+    var(--panel) 54%,
+    color-mix(in oklab, var(--ink) 3%, var(--panel)) 100%);
+}
+.hero{
+  background-image:linear-gradient(162deg,
+    rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
 }
 </style>
 </head>
@@ -317,7 +349,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.2 8.2 0 1 0 20 14.2Z"/></svg>
     </button>
     <a class="top-link" href="journey.html">Journey</a>
-    <a class="top-link" href="projects.html">All projects</a>
+    <a class="top-link" href="projects.html">Projects<sup class="nav-count">13</sup></a>
     <a class="top-cta" href="index.html#contact">Get in touch</a>
   </nav>
 </header>
@@ -333,9 +365,9 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       <span class="tag">Mindmapping</span><span class="tag">UI Design</span><span class="tag">UX Research</span>
     </div>
     <div class="meta-row">
-      <div class="meta">Type<b>Self-directed concept</b></div>
+      <div class="meta">Type<b>Freelance project</b></div>
       <div class="meta">Output<b>Name, identity, app UI</b></div>
-      <div class="meta">Focus<b>Human-centred functionality</b></div>
+      <div class="meta">Focus<b>Community-based entry</b></div>
     </div>
   </div>
 </section>
@@ -343,18 +375,18 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 <section class="section">
   <div class="wrap">
     <span class="label">Context</span>
-    <h2 class="lede">A self-directed enquiry, framed as a question rather than a brief.</h2>
-    <p class="copy">This project was set up explicitly as an investigation: <em>to understand the use of different functionalities that can be included in mobile apps to be more human-centred</em>. The output was a name, an identity and an app interface for a home security concept.</p>
-    <p class="copy">Because it is self-directed, there is no client constraint here &mdash; which makes the reasoning the only thing holding it up.</p>
+    <h2 class="lede">Community-based entry, before there was an app for it.</h2>
+    <p class="copy">A freelance project, taken on to solve a specific problem: entry to a residential community. Who is at the gate, who let them in, and who is allowed to let them in at all.</p>
+    <p class="copy">This predates <strong>MyGate</strong> scaling up. At the time the category barely existed as software &mdash; the gate ran on a paper register, a phone call upstairs and a guard&rsquo;s judgement &mdash; so there was no established interface to borrow from and no convention to follow.</p>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap">
     <span class="label">The problem</span>
-    <h2 class="lede">Home security sells fear, and fear makes bad interfaces.</h2>
-    <p class="copy">The category&rsquo;s conventions are alarms, sirens, shields and padlocks: an identity of threat. That framing pushes every interface decision toward the same thing &mdash; arming, locking, alerting &mdash; and treats the people who live in the home as a security perimeter to be managed.</p>
-    <p class="copy">But most of what actually happens at a front door is hospitable. People let other people in: a cleaner, a relative, a delivery, a friend arriving before you get home.</p>
+    <h2 class="lede">Security products lock. Communities let people in.</h2>
+    <p class="copy">The category&rsquo;s conventions are alarms, sirens, shields and padlocks, and they push every interface decision toward the same three verbs: arm, lock, alert. That suits a building nobody is trying to enter.</p>
+    <p class="copy">A community gate is the opposite. Most of what happens there is admission &mdash; a cleaner, a relative, a delivery, a friend arriving before you get home &mdash; and it is the resident, not the guard, who knows whether any of them should be let through. The design problem is granting and revoking access, not detecting intrusion.</p>
   </div>
 </section>
 
@@ -362,8 +394,8 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   <div class="wrap">
     <span class="label">The decision</span>
     <h2 class="lede">Work out the functions first, and let the mark fall out of that.</h2>
-    <p class="copy">The process runs backwards from most identity work. Function analysis and name derivation are worked through on paper before any mark exists, and the name lands on a single domestic object everyone already associates with the front door &mdash; a bell. Something you let people ring.</p>
-    <p class="copy">The core idea follows: <strong>access you can grant and revoke, not just an alarm you can arm</strong>. The cost of that framing is that it walks away from the category&rsquo;s most reliable sales lever. Fear converts. Hospitality has to be designed well enough to be worth choosing.</p>
+    <p class="copy">The process runs backwards from most identity work. Function analysis and name derivation are worked through on paper before any mark exists, and the name lands on a single domestic object everyone already associates with a door &mdash; a bell. Something you let people ring.</p>
+    <p class="copy">The core idea follows: <strong>access you can grant and revoke, not just an alarm you can arm</strong>. Every screen in the set is built around a key that a resident issues, sees used, and takes back.</p>
   </div>
 </section>
 
@@ -389,25 +421,6 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     <p class="copy">The interface set covers the home screen, settings, users added for a key, the activity record, the side navigation, a pop-up alert style, the new-key page and key sharing — which is where the concept earns its name. A bell is something you let people ring.</p>
   </div>
 </section>
-<section class="section">
-  <div class="wrap">
-    <span class="label">Constraints</span>
-    <h2 class="lede">What shaped the work as much as the brief did.</h2>
-    <p class="copy"><strong>No users.</strong> Self-directed means the function analysis rests on reasoning and desk research, not on interviews. That is the honest limit of this project and the first thing I would fix.</p>
-    <p class="copy"><strong>No engineering counterpart.</strong> Nothing here was pressure-tested against what a real security integration would permit &mdash; revocable access is a considerably harder problem in hardware than in Figma.</p>
-    <p class="copy"><strong>Three spreads.</strong> The documentation is deliberately compact, which suits the concept but leaves the wireframe stage thinner than the interface stage.</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <span class="label">Outcome</span>
-    <h2 class="lede">A concept with a defensible argument and no evidence.</h2>
-    <p class="copy">What exists is a name derived from analysis rather than brainstorm, an identity subordinated to the interface, and a UI set built around sharing rather than locking. That is a complete piece of thinking.</p>
-    <p class="copy">What does not exist is validation. No usability testing, no participants, no metrics &mdash; and for a concept whose whole claim is that it is more human-centred, that gap is worth stating plainly rather than dressing up.</p>
-  </div>
-</section>
-
 <section class="section">
   <div class="wrap">
     <span class="label">Reflection</span>
