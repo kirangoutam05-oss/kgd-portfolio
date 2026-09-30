@@ -960,7 +960,7 @@ body{
 }
 .contact-aside{
   padding:clamp(28px,3vw,44px);
-  display:flex; flex-direction:column; gap:26px;
+  display:flex; flex-direction:column; justify-content:center; min-height:260px;
   background-image:linear-gradient(152deg,
     color-mix(in oklab, var(--accent) 24%, var(--panel)) 0%,
     color-mix(in oklab, var(--accent) 9%, var(--panel)) 44%,
@@ -968,27 +968,9 @@ body{
 }
 .contact h2{
   margin:0;
-  font:500 clamp(26px,3vw,40px)/1.06 'Plus Jakarta Sans',sans-serif;
+  font:500 clamp(30px,3.6vw,52px)/1.04 'Plus Jakarta Sans',sans-serif;
   letter-spacing:-.055em; color:var(--ink);
 }
-.contact-lede{ margin:14px 0 0; max-width:34ch; color:var(--ink-dim); font-size:15px; line-height:1.6; }
-.contact-points{ list-style:none; margin:0; padding:0; display:grid; gap:11px; }
-.contact-points li{ display:flex; gap:10px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:var(--ink-dim); }
-.contact-points svg{
-  flex:0 0 auto; width:17px; height:17px; margin-top:1px;
-  fill:none; stroke:var(--accent); stroke-width:2.1;
-  stroke-linecap:round; stroke-linejoin:round;
-}
-.contact-aside-foot{ margin-top:auto; display:grid; gap:14px; justify-items:start; }
-.contact-mail{ color:var(--ink); font-size:14.5px; text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:2px; }
-.contact-mail:hover{ border-bottom-color:var(--accent); }
-.contact-alt{
-  font:500 13px 'Plus Jakarta Sans',sans-serif; color:var(--ink);
-  text-decoration:none; padding:9px 17px;
-  border:1px solid var(--line); border-radius:99px;
-  transition:border-color .2s ease;
-}
-.contact-alt:hover{ border-color:var(--accent); }
 
 .contact-form{
   padding:clamp(28px,3vw,44px);
@@ -996,30 +978,7 @@ body{
   grid-template-columns:1fr; max-width:none; margin:0;
   background:var(--surface);
 }
-.chipset{ border:0; margin:0; padding:0; min-width:0; }
-.chipset legend{
-  padding:0; margin-bottom:11px;
-  font:500 11px 'Geist Mono',monospace; letter-spacing:.12em;
-  text-transform:uppercase; color:var(--ink-dim);
-}
-.chips{ display:flex; flex-wrap:wrap; gap:8px; }
-.chip{ position:relative; display:inline-flex; }
-.chip input{ position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:pointer; }
-.chip span{
-  display:block; padding:8px 15px; border-radius:99px;
-  border:1px solid var(--line); color:var(--ink-dim);
-  font-size:13.5px; line-height:1.2; white-space:nowrap;
-  transition:border-color .2s ease, color .2s ease;
-}
-.chip input:checked + span{
-  color:var(--ink); border-color:var(--accent);
-  background-image:linear-gradient(150deg,
-    color-mix(in oklab, var(--accent) 18%, var(--surface)) 0%,
-    color-mix(in oklab, var(--accent) 6%, var(--surface)) 100%);
-}
-.chip input:focus-visible + span{ outline:2px solid var(--accent); outline-offset:2px; }
 
-.field-row{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
 .contact-form .field{ display:flex; flex-direction:column; gap:7px; }
 .contact-form .field label{
   font:500 11px 'Geist Mono',monospace; letter-spacing:.12em;
@@ -1042,22 +1001,6 @@ body{
 .contact-form .field input:focus-visible,
 .contact-form .field textarea:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
 
-.dropzone{ position:relative; display:block; cursor:pointer; }
-.dropzone input{ position:absolute; width:1px; height:1px; opacity:0; }
-.dropzone-box{
-  display:block; padding:20px; text-align:center;
-  border:1px dashed var(--line); border-radius:12px;
-  color:var(--ink-dim);
-  /* .dropzone is itself a label inside .field, so it inherits the mono,
-     uppercase, letterspaced label styling. The zone's own text is a
-     sentence, not a label, so it is set back here. */
-  font:400 14px/1.4 'Plus Jakarta Sans',sans-serif;
-  letter-spacing:normal; text-transform:none;
-  transition:border-color .2s ease, color .2s ease;
-}
-.dropzone:hover .dropzone-box,
-.dropzone.is-over .dropzone-box,
-.dropzone input:focus-visible + .dropzone-box{ border-color:var(--accent); color:var(--ink); }
 
 .contact-form .contact-send{
   width:100%; margin-top:2px;
@@ -1068,18 +1011,12 @@ body{
   transition:opacity .2s ease;
 }
 .contact-form .contact-send:hover{ opacity:.88; }
-.contact-note{ margin:0; font-size:13.5px; color:var(--ink-dim); }
-.contact-note a{ color:inherit; }
 
 @media (max-width: 900px){
   .contact-card{ grid-template-columns:1fr; }
   .contact-aside{ gap:20px; }
 }
-@media (max-width: 560px){
-  .field-row{ grid-template-columns:1fr; }
-  .chips{ gap:7px; }
-  .chip span{ padding:7px 13px; font-size:13px; }
-}
+
 </style>
 </head>
 <body>
@@ -1265,72 +1202,30 @@ body{
   <div class="contact-card">
 
     <div class="contact-aside">
-      <div>
-        <h2 id="contact-title">Tell me what you&rsquo;re making.</h2>
-        <p class="contact-lede">Branding, packaging, campaigns or a product interface &mdash; if there is a problem worth arguing about, I would like to hear it.</p>
-      </div>
-      <ul class="contact-points">
-        <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.6 10.4l3.4 3.4 7.4-7.9"/></svg><span>Goes straight to my inbox</span></li>
-        <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.6 10.4l3.4 3.4 7.4-7.9"/></svg><span>Branding, packaging, campaigns and product interfaces</span></li>
-        <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.6 10.4l3.4 3.4 7.4-7.9"/></svg><span>Based in Bengaluru, IN</span></li>
-      </ul>
-      <div class="contact-aside-foot">
-        <a class="contact-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
-        <a class="contact-alt" href="https://www.linkedin.com/in/kiran-goutam-dhananjayan/" target="_blank" rel="noopener">Find me on LinkedIn</a>
-      </div>
+      <h2 id="contact-title">Let&rsquo;s talk.</h2>
     </div>
 
-    <form class="contact-form" id="contact-form" name="contact" method="POST" action="/thanks.html" enctype="multipart/form-data" data-netlify="true" data-netlify-honeypot="company" novalidate>
+    <form class="contact-form" id="contact-form" name="contact" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="company" novalidate>
       <input type="hidden" name="form-name" value="contact">
       <p class="hp-field" aria-hidden="true"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
 
-      <fieldset class="chipset">
-        <legend>What it is</legend>
-        <div class="chips">
-          <label class="chip"><input type="radio" name="service" value="Branding"><span>Branding</span></label>
-          <label class="chip"><input type="radio" name="service" value="Packaging"><span>Packaging</span></label>
-          <label class="chip"><input type="radio" name="service" value="Campaign"><span>Campaign</span></label>
-          <label class="chip"><input type="radio" name="service" value="Product &amp; UI"><span>Product &amp; UI</span></label>
-        </div>
-      </fieldset>
-
-      <fieldset class="chipset">
-        <legend>Budget</legend>
-        <div class="chips">
-          <label class="chip"><input type="radio" name="budget" value="Under 1L"><span>Under &#8377;1L</span></label>
-          <label class="chip"><input type="radio" name="budget" value="1L - 5L"><span>&#8377;1L &ndash; &#8377;5L</span></label>
-          <label class="chip"><input type="radio" name="budget" value="Over 5L"><span>Over &#8377;5L</span></label>
-          <label class="chip"><input type="radio" name="budget" value="Not sure yet"><span>Not sure yet</span></label>
-        </div>
-      </fieldset>
-
-      <div class="field-row">
-        <div class="field">
-          <label for="cf-name">Full name<i aria-hidden="true">*</i></label>
-          <input type="text" id="cf-name" name="name" autocomplete="name" required>
-        </div>
-        <div class="field">
-          <label for="cf-email">Email<i aria-hidden="true">*</i></label>
-          <input type="email" id="cf-email" name="email" autocomplete="email" required>
-        </div>
+      <div class="field">
+        <label for="cf-name">Full name<i aria-hidden="true">*</i></label>
+        <input type="text" id="cf-name" name="name" autocomplete="name" required>
       </div>
 
       <div class="field">
-        <label for="cf-message">Project details<i aria-hidden="true">*</i></label>
-        <textarea id="cf-message" name="message" rows="4" required></textarea>
+        <label for="cf-contact">Contact<i aria-hidden="true">*</i></label>
+        <input type="text" id="cf-contact" name="contact" autocomplete="email" inputmode="email" required>
       </div>
 
       <div class="field">
-        <label for="cf-file">Attach a file <em>(optional)</em></label>
-        <label class="dropzone" for="cf-file">
-          <input type="file" id="cf-file" name="attachment">
-          <span class="dropzone-box" data-empty="Choose a file or drag and drop here">Choose a file or drag and drop here</span>
-        </label>
+        <label for="cf-reason">Reason for connecting<i aria-hidden="true">*</i></label>
+        <textarea id="cf-reason" name="reason" rows="4" required></textarea>
       </div>
 
       <button type="submit" class="contact-send">Send message</button>
       <p class="contact-status" id="contact-status" role="status" hidden></p>
-      <p class="contact-note">Or write to <a href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a> directly.</p>
     </form>
 
   </div>
@@ -1778,17 +1673,22 @@ body{
 
   form.addEventListener('submit', function(e){
     var name    = form.querySelector('#cf-name').value.trim();
-    var email   = form.querySelector('#cf-email').value.trim();
-    var message = form.querySelector('#cf-message').value.trim();
+    var contact = form.querySelector('#cf-contact').value.trim();
+    var reason  = form.querySelector('#cf-reason').value.trim();
 
-    if (!name || !email || !message){
+    if (!name || !contact || !reason){
       e.preventDefault();
-      say('Please fill in your name, your email and a message.', true);
+      say('Please fill in your name, a contact and a reason for connecting.', true);
       return;
     }
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
+    /* Contact takes an email or a phone number, so this only rejects what
+       is neither - an address with an @ and a dot after it, or six or more
+       digits once spaces, brackets, dashes and a leading + are discounted. */
+    var looksEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(contact);
+    var looksPhone = /^[0-9]{6,}$/.test(contact.replace(/[\s()+-]/g, ''));
+    if (!looksEmail && !looksPhone){
       e.preventDefault();
-      say('That email address does not look right.', true);
+      say('Please leave an email address or a phone number I can reply on.', true);
       return;
     }
 
@@ -1803,12 +1703,11 @@ body{
     btn.disabled = true;
     say('Sending\u2026');
 
-    /* Multipart, not urlencoded: the form carries a file input and declares
-       enctype multipart/form-data, and Netlify has to receive it the same
-       way. The browser sets the boundary, so Content-Type is deliberately
-       not set by hand here - setting it would omit the boundary and the
-       body would not parse. */
-    fetch('/', { method: 'POST', body: new FormData(form) }).then(function(res){
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(form)).toString()
+    }).then(function(res){
       if (!res.ok) throw new Error('HTTP ' + res.status);
       form.reset();
       say('Thank you \u2014 that has reached my inbox. I will reply from ' + 'kirangoutamdhananjayan@gmail.com' + '.');
@@ -1826,30 +1725,6 @@ body{
       }
       say('That did not send. Please write to kirangoutamdhananjayan@gmail.com directly.', true);
     }).then(function(){ btn.disabled = false; });
-  });
-})();
-</script>
-
-<script>
-(function(){
-  /* The drop zone is a styled label wrapping a real file input, so the
-     click, the keyboard and the drop all come free. This only reports
-     back what was picked. */
-  var zone = document.querySelector('.dropzone');
-  if (!zone) return;
-  var input = zone.querySelector('input[type=file]');
-  var box = zone.querySelector('.dropzone-box');
-  if (!input || !box) return;
-
-  input.addEventListener('change', function(){
-    var f = input.files && input.files[0];
-    box.textContent = f ? f.name : box.getAttribute('data-empty');
-  });
-  ['dragenter','dragover'].forEach(function(ev){
-    zone.addEventListener(ev, function(e){ e.preventDefault(); zone.classList.add('is-over'); });
-  });
-  ['dragleave','drop'].forEach(function(ev){
-    zone.addEventListener(ev, function(){ zone.classList.remove('is-over'); });
   });
 })();
 </script>
