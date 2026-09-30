@@ -691,7 +691,154 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   transform:translateY(-50%);
   height:24px;
 }
-  /* ---------- surfaces: mild gradients, not flat fills ----------
+/* ---------- landing page, second pass ---------- */
+
+/* The rail loops, so overflow:hidden was guillotining a card and its
+   caption mid-word at each edge - "AI", "on Design". A mask fades them
+   out instead, which is what the motion was always implying. */
+.project-window{
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 72px, #000 calc(100% - 72px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 72px, #000 calc(100% - 72px), transparent 100%);
+}
+
+/* Five stacked cards ran to 4102px - 54% of the page - because each one
+   was a full-measure 16:9 panel. Two up halves the scroll and still
+   leaves each panel wider than the rail cards it sits under. */
+@media (min-width: 1000px){
+  .stack-grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:clamp(22px,2.6vw,38px) clamp(20px,2.2vw,32px);
+    align-items:start;
+  }
+  .stack-item{ margin-bottom:0; }
+  /* The newest project keeps the full measure: it is the one that should
+     be seen at size, and an odd count would otherwise leave a hole. */
+  .stack-grid > .stack-item:first-child{ grid-column:1 / -1; }
+  .stack-grid > .stack-item:first-child .stack-media{ aspect-ratio:21 / 9; }
+}
+/* ---------- mobile nav ----------
+   Below 760 the links stop sitting in the bar and move behind a button.
+   The bar keeps only the wordmark and the toggle, which is what the
+   width can actually hold. */
+.nav-toggle{
+  display:none;
+  width:38px; height:38px; flex:0 0 auto;
+  align-items:center; justify-content:center;
+  padding:0; cursor:pointer;
+  border:1px solid var(--line); border-radius:9px;
+  background:transparent; color:var(--ink);
+}
+.nav-toggle span{
+  display:block; width:16px; height:1.5px; background:currentColor;
+  position:relative; transition:transform .22s ease, opacity .18s ease;
+}
+.nav-toggle span::before, .nav-toggle span::after{
+  content:''; position:absolute; left:0; width:16px; height:1.5px;
+  background:currentColor; transition:transform .22s ease;
+}
+.nav-toggle span::before{ top:-5px; }
+.nav-toggle span::after{ top:5px; }
+.nav-toggle[aria-expanded="true"] span{ transform:rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span::before{ transform:translateY(5px) rotate(-90deg); }
+.nav-toggle[aria-expanded="true"] span::after{ opacity:0; }
+
+@media (max-width: 760px){
+  .nav-toggle{ display:inline-flex; }
+  .top-right, .topbar-right, .site-top-right, .top-nav{
+    position:absolute; top:100%; right:clamp(16px,4vw,48px);
+    z-index:60;
+    flex-direction:column; align-items:stretch; gap:2px;
+    min-width:186px; padding:8px;
+    background:var(--paper);
+    border:1px solid var(--line); border-radius:12px;
+    box-shadow:0 18px 40px rgba(0,0,0,.28);
+    opacity:0; visibility:hidden; transform:translateY(-6px);
+    transition:opacity .18s ease, transform .18s ease, visibility .18s;
+  }
+  .top-right.is-open, .topbar-right.is-open, .site-top-right.is-open, .top-nav.is-open{
+    opacity:1; visibility:visible; transform:translateY(0);
+  }
+  .top-right a, .topbar-right a, .site-top-right a, .top-nav a,
+  .top-right .top-cta, .topbar-right .top-cta, .site-top-right .top-cta{
+    display:block; width:100%;
+    padding:11px 12px; margin:0;
+    border:0; border-radius:8px;
+    text-align:left; font-size:15px; white-space:nowrap;
+  }
+  .top-right .top-cta, .topbar-right .top-cta, .site-top-right .top-cta, .top-nav .top-cta{
+    border:1px solid var(--line); margin-top:4px;
+  }
+  /* the theme control belongs in the bar, not in the drawer */
+  .top-right .theme-toggle, .topbar-right .theme-toggle,
+  .site-top-right .theme-toggle{ display:none; }
+  .nav-bar-controls{ display:inline-flex; align-items:center; gap:10px; }
+  header.top, .topbar, header.site-top{ position:relative; }
+}
+@media (min-width: 761px){
+  /* The wrapper is empty at this width (its toggle and hamburger are both
+     hidden), so hide the wrapper itself - left in place it stays a flex
+     child of the bar and space-between strands the nav in the middle. */
+  .nav-bar-controls{ display:none; }
+}
+@media (prefers-reduced-motion: reduce){
+  .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
+  .nav-toggle span::before, .nav-toggle span::after{ transition:none !important; }
+}
+  /* ---------- phone hero ----------
+     The portrait was a small inset panel with the name beneath it. On a
+     phone it is now the whole screen, with the card and the name over it
+     and a scrim keeping the type legible against the picture. */
+  @media (max-width: 760px){
+    .hero{ min-height:100svh; }
+    .portrait{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      top:0; right:0; left:0; bottom:0;
+      border-radius:0; aspect-ratio:auto; overflow:hidden;
+      z-index:1;
+    }
+    .portrait img{ width:100%; height:100%; object-fit:cover; object-position:50% 16%; }
+    .portrait::after{
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background:linear-gradient(180deg,
+        rgba(0,0,0,.58) 0%, rgba(0,0,0,.14) 28%,
+        rgba(0,0,0,.42) 58%, rgba(0,0,0,.9) 100%);
+    }
+    .card{
+      position:absolute; z-index:6;
+      left:20px; right:20px; top:auto; bottom:calc(30svh + 10px);
+      width:auto; max-width:none;
+      background:rgba(14,14,17,.6);
+      -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+      border-color:rgba(255,255,255,.16);
+    }
+    .card, .card *{ color:#f4f3ef; }
+    .nameblock{ position:absolute; z-index:6; left:0; right:0; bottom:24px; top:auto; }
+    .nameblock .line{ color:#fff; }
+    .role-tag{ position:absolute; z-index:6; color:rgba(255,255,255,.75); }
+    .topbar{ z-index:30; }
+    .topbar a.mark, .topbar .theme-toggle, .topbar .nav-toggle{ color:#fff; }
+    .topbar .theme-toggle, .topbar .nav-toggle{ border-color:rgba(255,255,255,.34); }
+  }
+  /* ---------- rail controls ---------- */
+  .rail-nav{ display:inline-flex; align-items:center; gap:8px; margin-right:18px; }
+  .rail-nav button{
+    width:34px; height:34px; display:grid; place-items:center;
+    padding:0; cursor:pointer;
+    border:1px solid var(--line); border-radius:50%;
+    background:transparent; color:var(--ink);
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .rail-nav button:hover{ border-color:var(--accent); color:var(--accent); }
+  .rail-nav button:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  .rail-nav svg{
+    width:15px; height:15px; fill:none; stroke:currentColor;
+    stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round;
+  }
+  @media (max-width: 560px){ .rail-nav{ margin-right:12px; } }
+
+/* ---------- surfaces: mild gradients, not flat fills ----------
    Every large fill now moves through a faint wash of the page's own accent
    rather than sitting as one solid colour. The steps are deliberately small,
    4-6%, so this reads as depth rather than as colour. Text keeps a solid ink
@@ -715,6 +862,7 @@ body{
   background-image:linear-gradient(162deg,
     rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
 }
+
 
 /* ---------- footer contact ----------
    The contact form is gone; the footer carries the invitation instead, so
