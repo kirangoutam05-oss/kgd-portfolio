@@ -719,6 +719,12 @@ body{
 /* ---------- footer contact ----------
    The contact form is gone; the footer carries the invitation instead, so
    it is the anchor every "Get in touch" now points at. */
+.footer-tel{
+  color:var(--ink); text-decoration:none;
+  border-bottom:1px solid var(--line); padding-bottom:4px;
+  transition:color .2s ease, border-color .2s ease;
+}
+.footer-tel:hover{ border-bottom-color:var(--accent); }
 .footer-talk{ display:grid; gap:9px; justify-items:start; }
 .footer-talk-title{
   margin:0;
@@ -911,6 +917,7 @@ body{
   <div class="footer-talk">
     <h2 class="footer-talk-title">Let&rsquo;s talk.</h2>
     <a class="footer-mail" href="mailto:kirangoutamdhananjayan@gmail.com">kirangoutamdhananjayan@gmail.com</a>
+    <a class="footer-tel" href="tel:+919972396560">+91 99723 96560</a>
   </div>
   <nav class="footer-nav" aria-label="Footer">
     <a href="#stack-title">Selected work</a>
