@@ -3,12 +3,22 @@
 <head>
 <script>
 (function(){
-  try{
-    var saved = localStorage.getItem('kgd-theme');
-    var t = saved || 'dark';
-    document.documentElement.setAttribute('data-theme', t);
-  }catch(e){
-    document.documentElement.setAttribute('data-theme','light');
+  /* A stored choice wins. Without one, follow the operating system, and
+     keep following it until the visitor picks a side. */
+  var mq = null;
+  try { mq = window.matchMedia('(prefers-color-scheme: dark)'); } catch(e){}
+  function sysTheme(){ return (mq && mq.matches) ? 'dark' : 'light'; }
+  var saved = null;
+  try { saved = localStorage.getItem('kgd-theme'); } catch(e){}
+  document.documentElement.setAttribute('data-theme', saved || sysTheme());
+  if (mq && !saved) {
+    var onChange = function(){
+      var stillUnset = null;
+      try { stillUnset = localStorage.getItem('kgd-theme'); } catch(e){}
+      if (!stillUnset) document.documentElement.setAttribute('data-theme', sysTheme());
+    };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
   }
 })();
 </script>
@@ -778,6 +788,107 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   .stack-grid > .stack-item:first-child{ grid-column:1 / -1; }
   .stack-grid > .stack-item:first-child .stack-media{ aspect-ratio:21 / 9; }
 }
+/* ---------- mobile nav ----------
+   Below 760 the links stop sitting in the bar and move behind a button.
+   The bar keeps only the wordmark and the toggle, which is what the
+   width can actually hold. */
+.nav-toggle{
+  display:none;
+  width:38px; height:38px; flex:0 0 auto;
+  align-items:center; justify-content:center;
+  padding:0; cursor:pointer;
+  border:1px solid var(--line); border-radius:9px;
+  background:transparent; color:var(--ink);
+}
+.nav-toggle span{
+  display:block; width:16px; height:1.5px; background:currentColor;
+  position:relative; transition:transform .22s ease, opacity .18s ease;
+}
+.nav-toggle span::before, .nav-toggle span::after{
+  content:''; position:absolute; left:0; width:16px; height:1.5px;
+  background:currentColor; transition:transform .22s ease;
+}
+.nav-toggle span::before{ top:-5px; }
+.nav-toggle span::after{ top:5px; }
+.nav-toggle[aria-expanded="true"] span{ transform:rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span::before{ transform:translateY(5px) rotate(-90deg); }
+.nav-toggle[aria-expanded="true"] span::after{ opacity:0; }
+
+@media (max-width: 760px){
+  .nav-toggle{ display:inline-flex; }
+  .top-right, .topbar-right, .site-top-right, .top-nav{
+    position:absolute; top:100%; right:clamp(16px,4vw,48px);
+    z-index:60;
+    flex-direction:column; align-items:stretch; gap:2px;
+    min-width:186px; padding:8px;
+    background:var(--paper);
+    border:1px solid var(--line); border-radius:12px;
+    box-shadow:0 18px 40px rgba(0,0,0,.28);
+    opacity:0; visibility:hidden; transform:translateY(-6px);
+    transition:opacity .18s ease, transform .18s ease, visibility .18s;
+  }
+  .top-right.is-open, .topbar-right.is-open, .site-top-right.is-open, .top-nav.is-open{
+    opacity:1; visibility:visible; transform:translateY(0);
+  }
+  .top-right a, .topbar-right a, .site-top-right a, .top-nav a,
+  .top-right .top-cta, .topbar-right .top-cta, .site-top-right .top-cta{
+    display:block; width:100%;
+    padding:11px 12px; margin:0;
+    border:0; border-radius:8px;
+    text-align:left; font-size:15px; white-space:nowrap;
+  }
+  .top-right .top-cta, .topbar-right .top-cta, .site-top-right .top-cta, .top-nav .top-cta{
+    border:1px solid var(--line); margin-top:4px;
+  }
+  /* the theme control belongs in the bar, not in the drawer */
+  .top-right .theme-toggle, .topbar-right .theme-toggle,
+  .site-top-right .theme-toggle{ display:none; }
+  .nav-bar-controls{ display:inline-flex; align-items:center; gap:10px; }
+  header.top, .topbar, header.site-top{ position:relative; }
+}
+@media (min-width: 761px){
+  .nav-bar-controls .theme-toggle{ display:none; }
+}
+@media (prefers-reduced-motion: reduce){
+  .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
+  .nav-toggle span::before, .nav-toggle span::after{ transition:none !important; }
+}
+  /* ---------- phone hero ----------
+     The portrait was a small inset panel with the name beneath it. On a
+     phone it is now the whole screen, with the card and the name over it
+     and a scrim keeping the type legible against the picture. */
+  @media (max-width: 760px){
+    .hero{ min-height:100svh; }
+    .portrait{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      top:0; right:0; left:0; bottom:0;
+      border-radius:0; aspect-ratio:auto; overflow:hidden;
+      z-index:1;
+    }
+    .portrait img{ width:100%; height:100%; object-fit:cover; object-position:50% 16%; }
+    .portrait::after{
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background:linear-gradient(180deg,
+        rgba(0,0,0,.58) 0%, rgba(0,0,0,.14) 28%,
+        rgba(0,0,0,.42) 58%, rgba(0,0,0,.9) 100%);
+    }
+    .card{
+      position:absolute; z-index:6;
+      left:20px; right:20px; top:auto; bottom:calc(30svh + 10px);
+      width:auto; max-width:none;
+      background:rgba(14,14,17,.6);
+      -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+      border-color:rgba(255,255,255,.16);
+    }
+    .card, .card *{ color:#f4f3ef; }
+    .nameblock{ position:absolute; z-index:6; left:0; right:0; bottom:24px; top:auto; }
+    .nameblock .line{ color:#fff; }
+    .role-tag{ position:absolute; z-index:6; color:rgba(255,255,255,.75); }
+    .topbar{ z-index:30; }
+    .topbar a.mark, .topbar .theme-toggle, .topbar .nav-toggle{ color:#fff; }
+    .topbar .theme-toggle, .topbar .nav-toggle{ border-color:rgba(255,255,255,.34); }
+  }
 </style>
 </head>
 <body>
@@ -1178,11 +1289,13 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   var projectWindow = document.querySelector('.project-window');
   var projectsSection = document.querySelector('.projects');
 
-  var BASE_SPEED = -0.32;
   var loopDistance = 0, railOffset = 0;
-  var railSpeed = BASE_SPEED, railTargetSpeed = BASE_SPEED;
-  var lastPointerX = 0, lastPointerAt = 0;
-  var railPaused = false;   // explicit pause button
+  var HOLD_MS = 2400;       // long enough to take a card in
+  var SLIDE_MS = 560;       // short enough that the move is not the point
+  var railStops = [];       // resting x offset of each card in the first run
+  var railIndex = 0;
+  var phaseStart = 0;       // when the current hold began
+  var railPaused = false;   // pointer is over the rail
   var railFocused = false;  // keyboard focus is inside the rail
 
   function railRunning(){ return !railPaused && !railFocused; }
@@ -1192,29 +1305,54 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     // the rail holds each card twice; the duplicate set starts at the halfway point
     var half = projectRail.children.length >> 1;
     loopDistance = projectRail.children[half].offsetLeft - projectRail.children[0].offsetLeft;
-    // keep the offset in range if the loop width changed under us
-    if (loopDistance > 0) railOffset = railOffset % loopDistance;
+    // One resting place per card in the first run, each centred in the
+    // window, so a card stops where it can actually be looked at.
+    railStops = [];
+    var first = projectRail.children[0].offsetLeft;
+    for (var n = 0; n < half; n++){
+      var el = projectRail.children[n];
+      var pad = Math.max(0, (projectWindow.clientWidth - el.offsetWidth) / 2);
+      railStops.push(-(el.offsetLeft - first - pad));
+    }
+    if (railIndex >= railStops.length) railIndex = 0;
+    if (railStops.length) railOffset = railStops[railIndex];
   }
 
+  function easeInOut(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; }
+
   function advanceRail(){
-    railOffset += railSpeed;
-    if (railOffset <= -loopDistance) railOffset += loopDistance;
-    if (railOffset >= 0) railOffset -= loopDistance;
+    if (!railStops.length) return;
+    var now = performance.now();
+    if (!phaseStart) phaseStart = now;
+    var elapsed = now - phaseStart;
+
+    if (elapsed < HOLD_MS){
+      railOffset = railStops[railIndex];              // at rest on a card
+    } else {
+      var t = Math.min(1, (elapsed - HOLD_MS) / SLIDE_MS);
+      var from = railStops[railIndex];
+      var nextIndex = (railIndex + 1) % railStops.length;
+      // From the last card the rail keeps moving forward into the
+      // duplicate run, whose first card sits exactly one loopDistance
+      // along. The move looks like any other and the reset is invisible.
+      var to = (nextIndex === 0) ? railStops[0] - loopDistance : railStops[nextIndex];
+      railOffset = from + (to - from) * easeInOut(t);
+      if (t >= 1){
+        railIndex = nextIndex;
+        railOffset = railStops[railIndex];            // identical card, run one
+        phaseStart = now;
+      }
+    }
     projectRail.style.transform = 'translate3d(' + railOffset.toFixed(2) + 'px,0,0)';
   }
 
   if (projectWindow && projectRail){
-    projectWindow.addEventListener('pointerenter', function(e){
-      lastPointerX = e.clientX;
-    });
+    // Hovering holds the rail where it is, so a card can be read and
+    // clicked without chasing it. The old pointer-velocity nudge is gone:
+    // it fought the stepping.
+    projectWindow.addEventListener('pointerenter', function(){ railPaused = true; });
     projectWindow.addEventListener('pointerleave', function(){
-      railTargetSpeed = BASE_SPEED;
-    });
-    projectWindow.addEventListener('pointermove', function(e){
-      var dx = e.clientX - lastPointerX;
-      lastPointerX = e.clientX;
-      lastPointerAt = performance.now();
-      if (Math.abs(dx) > 0.2) railTargetSpeed = Math.max(-3.2, Math.min(3.2, dx * 0.16));
+      railPaused = false; phaseStart = performance.now(); requestTick();
     });
 
     // a card that has keyboard focus must stop moving, or it cannot be used
@@ -1286,16 +1424,14 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       }
     }
 
-    if (projectsVisible && projectRail && loopDistance > 0){
+    if (projectsVisible && projectRail && railStops.length){
       if (railRunning()){
-        if (performance.now() - lastPointerAt > 240) railTargetSpeed = BASE_SPEED;
-        railSpeed += (railTargetSpeed - railSpeed) * 0.14;
         advanceRail();
         busy = true;
-      } else if (!settled(railSpeed, 0)){
-        railSpeed += (0 - railSpeed) * 0.12;  // ease to a stop rather than snap
-        advanceRail();
-        busy = true;
+      } else {
+        // Paused: hold the clock so it does not lurch when the pointer
+        // leaves and the hold resumes mid-phase.
+        phaseStart = performance.now();
       }
     }
 
@@ -1390,7 +1526,61 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   });
 })();
 </script>
+<script>
+(function(){
+  /* The links live in one container; on a phone that container becomes a
+     drawer and this button opens it. Everything stays in the DOM, so the
+     tab order and the markup are the same at every width. */
+  var bar = document.querySelector('header.top, .topbar, header.site-top, header');
+  if (!bar) return;
+  var group = bar.querySelector('.top-right, .topbar-right, .site-top-right, .top-nav');
+  if (!group) return;
+
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'nav-toggle';
+  btn.setAttribute('aria-label', 'Open menu');
+  btn.setAttribute('aria-expanded', 'false');
+  if (group.id) btn.setAttribute('aria-controls', group.id);
+  else { group.id = 'site-nav'; btn.setAttribute('aria-controls', 'site-nav'); }
+  btn.appendChild(document.createElement('span'));
+
+  /* The theme control sits beside the button rather than inside the
+     drawer: changing theme is not navigation. */
+  var holder = document.createElement('div');
+  holder.className = 'nav-bar-controls';
+  var toggle = group.querySelector('.theme-toggle');
+  if (toggle) holder.appendChild(toggle.cloneNode(true));
+  holder.appendChild(btn);
+  bar.appendChild(holder);
+
+  var clone = holder.querySelector('.theme-toggle');
+  if (clone) {
+    clone.id = '';
+    clone.addEventListener('click', function(){
+      var real = group.querySelector('.theme-toggle');
+      if (real) real.click();
+      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      clone.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      clone.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    });
+  }
+
+  function setOpen(open){
+    group.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  btn.addEventListener('click', function(e){ e.stopPropagation(); setOpen(!group.classList.contains('is-open')); });
+  document.addEventListener('click', function(e){
+    if (group.classList.contains('is-open') && !group.contains(e.target) && e.target !== btn) setOpen(false);
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setOpen(false); });
+  group.addEventListener('click', function(e){ if (e.target.closest('a')) setOpen(false); });
+})();
+</script>
 </body>
+
 
 
 

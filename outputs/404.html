@@ -3,12 +3,22 @@
 <head>
 <script>
 (function(){
-  try{
-    var saved = localStorage.getItem('kgd-theme');
-    var t = saved || 'dark';
-    document.documentElement.setAttribute('data-theme', t);
-  }catch(e){
-    document.documentElement.setAttribute('data-theme','light');
+  /* A stored choice wins. Without one, follow the operating system, and
+     keep following it until the visitor picks a side. */
+  var mq = null;
+  try { mq = window.matchMedia('(prefers-color-scheme: dark)'); } catch(e){}
+  function sysTheme(){ return (mq && mq.matches) ? 'dark' : 'light'; }
+  var saved = null;
+  try { saved = localStorage.getItem('kgd-theme'); } catch(e){}
+  document.documentElement.setAttribute('data-theme', saved || sysTheme());
+  if (mq && !saved) {
+    var onChange = function(){
+      var stillUnset = null;
+      try { stillUnset = localStorage.getItem('kgd-theme'); } catch(e){}
+      if (!stillUnset) document.documentElement.setAttribute('data-theme', sysTheme());
+    };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
   }
 })();
 </script>

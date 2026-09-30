@@ -3,12 +3,22 @@
 <head>
 <script>
 (function(){
-  try{
-    var saved = localStorage.getItem('kgd-theme');
-    var t = saved || 'dark';
-    document.documentElement.setAttribute('data-theme', t);
-  }catch(e){
-    document.documentElement.setAttribute('data-theme','light');
+  /* A stored choice wins. Without one, follow the operating system, and
+     keep following it until the visitor picks a side. */
+  var mq = null;
+  try { mq = window.matchMedia('(prefers-color-scheme: dark)'); } catch(e){}
+  function sysTheme(){ return (mq && mq.matches) ? 'dark' : 'light'; }
+  var saved = null;
+  try { saved = localStorage.getItem('kgd-theme'); } catch(e){}
+  document.documentElement.setAttribute('data-theme', saved || sysTheme());
+  if (mq && !saved) {
+    var onChange = function(){
+      var stillUnset = null;
+      try { stillUnset = localStorage.getItem('kgd-theme'); } catch(e){}
+      if (!stillUnset) document.documentElement.setAttribute('data-theme', sysTheme());
+    };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
   }
 })();
 </script>
@@ -191,6 +201,71 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 @media (prefers-reduced-motion: reduce){
   .project-face, .project-alt, .project-note{ transition:none !important; }
 }
+/* ---------- mobile nav ----------
+   Below 760 the links stop sitting in the bar and move behind a button.
+   The bar keeps only the wordmark and the toggle, which is what the
+   width can actually hold. */
+.nav-toggle{
+  display:none;
+  width:38px; height:38px; flex:0 0 auto;
+  align-items:center; justify-content:center;
+  padding:0; cursor:pointer;
+  border:1px solid var(--line); border-radius:9px;
+  background:transparent; color:var(--ink);
+}
+.nav-toggle span{
+  display:block; width:16px; height:1.5px; background:currentColor;
+  position:relative; transition:transform .22s ease, opacity .18s ease;
+}
+.nav-toggle span::before, .nav-toggle span::after{
+  content:''; position:absolute; left:0; width:16px; height:1.5px;
+  background:currentColor; transition:transform .22s ease;
+}
+.nav-toggle span::before{ top:-5px; }
+.nav-toggle span::after{ top:5px; }
+.nav-toggle[aria-expanded="true"] span{ transform:rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span::before{ transform:translateY(5px) rotate(-90deg); }
+.nav-toggle[aria-expanded="true"] span::after{ opacity:0; }
+
+@media (max-width: 760px){
+  .nav-toggle{ display:inline-flex; }
+  .top-right, .topbar-right, .site-top-right, .top-nav{
+    position:absolute; top:100%; right:clamp(16px,4vw,48px);
+    z-index:60;
+    flex-direction:column; align-items:stretch; gap:2px;
+    min-width:186px; padding:8px;
+    background:var(--paper);
+    border:1px solid var(--line); border-radius:12px;
+    box-shadow:0 18px 40px rgba(0,0,0,.28);
+    opacity:0; visibility:hidden; transform:translateY(-6px);
+    transition:opacity .18s ease, transform .18s ease, visibility .18s;
+  }
+  .top-right.is-open, .topbar-right.is-open, .site-top-right.is-open, .top-nav.is-open{
+    opacity:1; visibility:visible; transform:translateY(0);
+  }
+  .top-right a, .topbar-right a, .site-top-right a, .top-nav a,
+  .top-right .top-cta, .topbar-right .top-cta, .site-top-right .top-cta{
+    display:block; width:100%;
+    padding:11px 12px; margin:0;
+    border:0; border-radius:8px;
+    text-align:left; font-size:15px; white-space:nowrap;
+  }
+  .top-right .top-cta, .topbar-right .top-cta, .site-top-right .top-cta, .top-nav .top-cta{
+    border:1px solid var(--line); margin-top:4px;
+  }
+  /* the theme control belongs in the bar, not in the drawer */
+  .top-right .theme-toggle, .topbar-right .theme-toggle,
+  .site-top-right .theme-toggle{ display:none; }
+  .nav-bar-controls{ display:inline-flex; align-items:center; gap:10px; }
+  header.top, .topbar, header.site-top{ position:relative; }
+}
+@media (min-width: 761px){
+  .nav-bar-controls .theme-toggle{ display:none; }
+}
+@media (prefers-reduced-motion: reduce){
+  .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
+  .nav-toggle span::before, .nav-toggle span::after{ transition:none !important; }
+}
 </style>
 </head>
 <body><div class="progress" id="progress"></div><header class="top"><a class="mark" href="index.html" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">
@@ -226,7 +301,7 @@ const LINKS_ENABLED=false;
 // instead of out to Drive. Keyed by exact name so nothing over-promises:
 // only the pieces those pages actually show are listed here.
 const note={'Jumbofarms Basmati Rice Dubar 26Kg':'Teal. Arch, peacocks, brass bowl and roundels are identical across all nine grades.','Jumbofarms Basmati Rice Everyday 26Kg':'Aubergine. The grade name is the only word that changes above &ldquo;1121 Basmati Rice&rdquo;.','Jumbofarms Basmati Rice Mini Mogra 26Kg':'Black, the darkest in the range, and the only one where the gold frame carries the whole pack.','Jumbofarms Basmati Rice Mogra 26Kg':'Brown. Sits beside Mini Mogra on the shelf, separated by value alone.','Jumbofarms Basmati Rice Premium 26Kg':'Oxblood. One of four jewel tones used for the upper grades.','Jumbofarms Basmati Rice Royal 26Kg':'Navy. The reverse carries the nutrition table, cooking icons and the batch window, unchanged across the range.','Jumbofarms Basmati Rice Super 26Kg':'Green, the only grade that breaks from the warm and jewel families.','Jumbofarms Basmati Rice Supreme 26Kg':'Gold. Reads as the top of the ladder without a single word saying so.','Jumbofarms Basmati Rice Tibar 26Kg':'Magenta, the most saturated of the nine and the easiest to find in a stack.','Jumbofarms Sonam Rice 26Kg':'Outside the system: Kolam steamed rice, not 1121 basmati, so it drops the arch for a photographed field.'};
-const art={'Jumbofarms Basmati Rice Dubar 26Kg':['assets/cards/rice-dubar.jpg','Jumbofarms Dubar basmati, front and reverse','assets/cards/rice-dubar-spread.jpg'],'Jumbofarms Basmati Rice Everyday 26Kg':['assets/cards/rice-everyday.jpg','Jumbofarms Everyday basmati, front and reverse','assets/cards/rice-everyday-spread.jpg'],'Jumbofarms Basmati Rice Mogra 26Kg':['assets/cards/rice-mogra.jpg','Jumbofarms Mogra basmati, front and reverse','assets/cards/rice-mogra-spread.jpg'],'Jumbofarms Basmati Rice Mini Mogra 26Kg':['assets/cards/rice-mini-mogra.jpg','Jumbofarms Mini Mogra basmati, front and reverse','assets/cards/rice-mini-mogra-spread.jpg'],'Jumbofarms Basmati Rice Premium 26Kg':['assets/cards/rice-premium.jpg','Jumbofarms Premium basmati, front and reverse','assets/cards/rice-premium-spread.jpg'],'Jumbofarms Basmati Rice Royal 26Kg':['assets/cards/rice-royal.jpg','Jumbofarms Royal basmati, front and reverse','assets/cards/rice-royal-spread.jpg'],'Jumbofarms Basmati Rice Super 26Kg':['assets/cards/rice-super.jpg','Jumbofarms Super basmati, front and reverse','assets/cards/rice-super-spread.jpg'],'Jumbofarms Basmati Rice Supreme 26Kg':['assets/cards/rice-supreme.jpg','Jumbofarms Supreme basmati, front and reverse','assets/cards/rice-supreme-spread.jpg'],'Jumbofarms Basmati Rice Tibar 26Kg':['assets/cards/rice-tibar.jpg','Jumbofarms Tibar basmati sack','assets/cards/rice-tibar-spread.jpg'],'Jumbofarms Sonam Rice 26Kg':['assets/cards/rice-sonam.jpg','Jumbofarms Sonam Kolam steamed rice sack'],'Jumbofarms Coriander 1Kg':['assets/cards/coriander-1kg.jpg','Jumbofarms Dhaniya 1kg stand-up pouch'],'Jumbofarms Coriander Seeds 5K Mango':['assets/cards/coriander-5kg.jpg','Jumbofarms Dhaniya 5kg Gondal Special sack'],'Jumbofarms Jeera Seeds 5Kg Supreme':['assets/cards/jeera-supreme.jpg','Jumbofarms Jeera Supreme 5kg sack'],'Jumbofarms Jeera Seeds 5Kg premium':['assets/cards/jeera-premium.jpg','Jumbofarms Jeera Premium 5kg sack'],'Jumbofarms Soya Chunks 220gm':['assets/cards/soya-220g.jpg','Jumbofarms Soya Chunks 220g carton'],'Jumbofarms Soya Chunks ₹10':['assets/cards/soya-10.jpg','Jumbofarms Soya Chunks ₹10 packet'],'Jumbofarms Soya Chunks Mini ₹10':['assets/cards/soya-mini.jpg','Jumbofarms Mini Soya Chunks ₹10 packet'],'Jumbofarms Mustard Oil 1L':['assets/cards/oil-1l.jpg','Jumbofarms Mustard Oil 1L with the Scan and Win panel'],'Jumbofarms Mustard Oil 500ml':['assets/cards/oil-500ml.jpg','Jumbofarms Mustard Oil 500ml bottle'],'Jumbofarms Mustard Oil 200ml':['assets/cards/oil-200ml.jpg','Jumbofarms Mustard Oil 200ml bottle'],'Vedhaa Ghee 900ml':['assets/cards/vedha-900ml.jpg','Vedha Pooja Ghee 900ml bottle'],'Vedhaa Ghee 450ml':['assets/cards/vedha-450ml.jpg','Vedha Pooja Ghee 450ml bottle'],'Vedhaa Ghee 100ml':['assets/cards/vedha-100ml.jpg','Vedha Pooja Ghee 100ml bottle'],'Jumbofarms Channa Dal 26kg':['assets/cards/dal-channa.jpg','Jumbofarms Chana Dal Premium Sortex, front and reverse'],'Jumbofarms Atta 30Kg':['assets/cards/atta-30kg.jpg','Jumbofarms Chakki Fresh Atta 30kg sack'],'Jumbofarms Sooji 500gm':['assets/cards/sooji-500g.jpg','Jumbofarms Roasted Sooji 500g pouch'],'Crispy Corner Garlic Mixture ₹10':['assets/cards/crispy-garlic.jpg','Crispy Corner Garlic Mixture packet'],'Crispy Corner Corn Flakes ₹10':['assets/cards/crispy-cornflakes.jpg','Crispy Corner Corn Flakes Mixture packet'],'Trippy Goat — Around the Mediterranean':['assets/cards/trippy-goat.jpg','Trippy Goat menu for Around the Mediterranean'],'Jumbotail Gold':['assets/cards/gold.jpg','The membership pamphlet, benefits listed and the call to action repeated'],'Graduate Leaders Programme':['assets/cards/glp.jpg','The Graduate Leaders Programme sticker sheet'],'Gulf Foods Catalogue':['assets/cards/gulf-catalogue.jpg','Brochure cover: Jai Jawan, Jai Kisan, Jai Dukaan'],'Mustard Oil Campaign':['assets/cards/mustard-oil-campaign.jpg','Campaign poster: the three sizes against the mustard field'],'Social Calendar':['assets/cards/social-calendar.jpg','Ganesh Chaturthi post'],'Corporate Social':['assets/cards/corporate-social.jpg','Hiring post for designers: Ready to Design for Real India?']};
+const art={'Jumbofarms Basmati Rice Dubar 26Kg':['assets/cards/rice-dubar.jpg','Jumbofarms Dubar basmati, front and reverse','assets/cards/rice-dubar-spread.jpg'],'Jumbofarms Basmati Rice Everyday 26Kg':['assets/cards/rice-everyday.jpg','Jumbofarms Everyday basmati, front and reverse','assets/cards/rice-everyday-spread.jpg'],'Jumbofarms Basmati Rice Mogra 26Kg':['assets/cards/rice-mogra.jpg','Jumbofarms Mogra basmati, front and reverse','assets/cards/rice-mogra-spread.jpg'],'Jumbofarms Basmati Rice Mini Mogra 26Kg':['assets/cards/rice-mini-mogra.jpg','Jumbofarms Mini Mogra basmati, front and reverse','assets/cards/rice-mini-mogra-spread.jpg'],'Jumbofarms Basmati Rice Premium 26Kg':['assets/cards/rice-premium.jpg','Jumbofarms Premium basmati, front and reverse','assets/cards/rice-premium-spread.jpg'],'Jumbofarms Basmati Rice Royal 26Kg':['assets/cards/rice-royal.jpg','Jumbofarms Royal basmati, front and reverse','assets/cards/rice-royal-spread.jpg'],'Jumbofarms Basmati Rice Super 26Kg':['assets/cards/rice-super.jpg','Jumbofarms Super basmati, front and reverse','assets/cards/rice-super-spread.jpg'],'Jumbofarms Basmati Rice Supreme 26Kg':['assets/cards/rice-supreme.jpg','Jumbofarms Supreme basmati, front and reverse','assets/cards/rice-supreme-spread.jpg'],'Jumbofarms Basmati Rice Tibar 26Kg':['assets/cards/rice-tibar.jpg','Jumbofarms Tibar basmati sack','assets/cards/rice-tibar-spread.jpg'],'Jumbofarms Sonam Rice 26Kg':['assets/cards/rice-sonam.jpg','Jumbofarms Sonam Kolam steamed rice sack'],'Jumbofarms Coriander 1Kg':['assets/cards/coriander-1kg.jpg','Jumbofarms Dhaniya 1kg stand-up pouch'],'Jumbofarms Coriander Seeds 5K Mango':['assets/cards/coriander-5kg.jpg','Jumbofarms Dhaniya 5kg Gondal Special sack'],'Jumbofarms Jeera Seeds 5Kg Supreme':['assets/cards/jeera-supreme.jpg','Jumbofarms Jeera Supreme 5kg sack'],'Jumbofarms Jeera Seeds 5Kg premium':['assets/cards/jeera-premium.jpg','Jumbofarms Jeera Premium 5kg sack'],'Jumbofarms Soya Chunks 220gm':['assets/cards/soya-220g.jpg','Jumbofarms Soya Chunks 220g carton'],'Jumbofarms Soya Chunks ₹10':['assets/cards/soya-10.jpg','Jumbofarms Soya Chunks ₹10 packet'],'Jumbofarms Soya Chunks Mini ₹10':['assets/cards/soya-mini.jpg','Jumbofarms Mini Soya Chunks ₹10 packet'],'Jumbofarms Mustard Oil 1L':['assets/cards/oil-1l.jpg','Jumbofarms Mustard Oil 1L with the Scan and Win panel'],'Jumbofarms Mustard Oil 500ml':['assets/cards/oil-500ml.jpg','Jumbofarms Mustard Oil 500ml bottle'],'Jumbofarms Mustard Oil 200ml':['assets/cards/oil-200ml.jpg','Jumbofarms Mustard Oil 200ml bottle'],'Vedhaa Ghee 900ml':['assets/cards/vedha-900ml.jpg','Vedha Pooja Oil 900ml bottle'],'Vedhaa Ghee 450ml':['assets/cards/vedha-450ml.jpg','Vedha Pooja Oil 450ml bottle'],'Vedhaa Ghee 100ml':['assets/cards/vedha-100ml.jpg','Vedha Pooja Oil 100ml bottle'],'Jumbofarms Channa Dal 26kg':['assets/cards/dal-channa.jpg','Jumbofarms Chana Dal Premium Sortex, front and reverse'],'Jumbofarms Atta 30Kg':['assets/cards/atta-30kg.jpg','Jumbofarms Chakki Fresh Atta 30kg sack'],'Jumbofarms Sooji 500gm':['assets/cards/sooji-500g.jpg','Jumbofarms Roasted Sooji 500g pouch'],'Crispy Corner Garlic Mixture ₹10':['assets/cards/crispy-garlic.jpg','Crispy Corner Garlic Mixture packet'],'Crispy Corner Corn Flakes ₹10':['assets/cards/crispy-cornflakes.jpg','Crispy Corner Corn Flakes Mixture packet'],'Trippy Goat — Around the Mediterranean':['assets/cards/trippy-goat.jpg','Trippy Goat menu for Around the Mediterranean'],'Jumbotail Gold':['assets/cards/gold.jpg','The membership pamphlet, benefits listed and the call to action repeated'],'Graduate Leaders Programme':['assets/cards/glp.jpg','The Graduate Leaders Programme sticker sheet'],'Gulf Foods Catalogue':['assets/cards/gulf-catalogue.jpg','Brochure cover: Jai Jawan, Jai Kisan, Jai Dukaan'],'Mustard Oil Campaign':['assets/cards/mustard-oil-campaign.jpg','Campaign poster: the three sizes against the mustard field'],'Social Calendar':['assets/cards/social-calendar.jpg','Ganesh Chaturthi post'],'Corporate Social':['assets/cards/corporate-social.jpg','Hiring post for designers: Ready to Design for Real India?']};
 const caseStudy={'Trippy Goat — Around the Mediterranean':'trippy-goat.html','Crispy Corner Corn Flakes ₹10':'crispy-corner.html','Crispy Corner Garlic Mixture ₹10':'crispy-corner.html','Jumbofarms Atta 30Kg':'jumbofarms-atta-sooji.html','Jumbofarms Basmati Rice Dubar 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Everyday 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Mini Mogra 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Mogra 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Premium 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Royal 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Super 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Supreme 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Tibar 26Kg':'jumbofarms-rice.html','Jumbofarms CTC Danglers 20x20in':'jumbofarms.html','Jumbofarms Channa Dal 26kg':'jumbofarms-dals.html','Jumbofarms Coriander 1Kg':'jumbofarms-coriander.html','Jumbofarms Coriander Seeds 10Kg A1':'jumbofarms-coriander.html','Jumbofarms Coriander Seeds 10Kg Mango':'jumbofarms-coriander.html','Jumbofarms Coriander Seeds 5K Mango':'jumbofarms-coriander.html','Jumbofarms Coriander Seeds 5Kg A1':'jumbofarms-coriander.html','Jumbofarms Jeera Samba Rice 1Kg':'jumbofarms-rice.html','Jumbofarms Jeera Seeds 1Kg':'jumbofarms-jeera.html','Jumbofarms Jeera Seeds 5Kg Supreme':'jumbofarms-jeera.html','Jumbofarms Jeera Seeds 5Kg premium':'jumbofarms-jeera.html','Jumbofarms Mustard Oil 1L':'jumbofarms-mustard-oil.html','Jumbofarms Mustard Oil 250ml':'jumbofarms-mustard-oil.html','Jumbofarms Mustard Oil 500ml':'jumbofarms-mustard-oil.html','Jumbofarms Sonam Rice 26Kg':'jumbofarms-rice.html','Jumbofarms Sooji 500gm':'jumbofarms-atta-sooji.html','Jumbofarms Soya Chunks 220gm':'jumbofarms-soya-chunks.html','Jumbofarms Soya Chunks Mini ₹10':'jumbofarms-soya-chunks.html','Jumbofarms Soya Chunks ₹10':'jumbofarms-soya-chunks.html','Jumbofarms Vada Kolam Rice 26Kg':'jumbofarms-rice.html','Jumbotail Name Boards':'jumbofarms.html','Mustard Oil Marketing Poster A3':'jumbofarms.html','Vedhaa Ghee 100ml':'vedha-pooja-ghee.html','Vedhaa Ghee 450ml':'vedha-pooja-ghee.html','Vedhaa Ghee 900ml':'vedha-pooja-ghee.html','Jumbotail Gold':'jumbotail-gold.html','Graduate Leaders Programme':'jumbotail-glp.html','Gulf Foods Catalogue':'jumbotail-gulf-catalogue.html','Mustard Oil Campaign':'jumbofarms-mustard-oil-campaign.html','Social Calendar':'jumbotail-social-calendar.html','Corporate Social':'jumbotail-corporate-social.html'};
 function card([name,type,link]){const a=art[name];const n=note[name];
   const alt=a?a[0].replace(/\.jpg$/,'-spread.jpg'):null;
@@ -286,6 +361,60 @@ addEventListener('hashchange',applyHash);applyHash();addEventListener('scroll',(
   }
 })();
 </script>
+<script>
+(function(){
+  /* The links live in one container; on a phone that container becomes a
+     drawer and this button opens it. Everything stays in the DOM, so the
+     tab order and the markup are the same at every width. */
+  var bar = document.querySelector('header.top, .topbar, header.site-top, header');
+  if (!bar) return;
+  var group = bar.querySelector('.top-right, .topbar-right, .site-top-right, .top-nav');
+  if (!group) return;
+
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'nav-toggle';
+  btn.setAttribute('aria-label', 'Open menu');
+  btn.setAttribute('aria-expanded', 'false');
+  if (group.id) btn.setAttribute('aria-controls', group.id);
+  else { group.id = 'site-nav'; btn.setAttribute('aria-controls', 'site-nav'); }
+  btn.appendChild(document.createElement('span'));
+
+  /* The theme control sits beside the button rather than inside the
+     drawer: changing theme is not navigation. */
+  var holder = document.createElement('div');
+  holder.className = 'nav-bar-controls';
+  var toggle = group.querySelector('.theme-toggle');
+  if (toggle) holder.appendChild(toggle.cloneNode(true));
+  holder.appendChild(btn);
+  bar.appendChild(holder);
+
+  var clone = holder.querySelector('.theme-toggle');
+  if (clone) {
+    clone.id = '';
+    clone.addEventListener('click', function(){
+      var real = group.querySelector('.theme-toggle');
+      if (real) real.click();
+      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      clone.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      clone.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    });
+  }
+
+  function setOpen(open){
+    group.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  btn.addEventListener('click', function(e){ e.stopPropagation(); setOpen(!group.classList.contains('is-open')); });
+  document.addEventListener('click', function(e){
+    if (group.classList.contains('is-open') && !group.contains(e.target) && e.target !== btn) setOpen(false);
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setOpen(false); });
+  group.addEventListener('click', function(e){ if (e.target.closest('a')) setOpen(false); });
+})();
+</script>
 </body>
+
 
 </html>

@@ -3,12 +3,22 @@
 <head>
 <script>
 (function(){
-  try{
-    var saved = localStorage.getItem('kgd-theme');
-    var t = saved || 'dark';
-    document.documentElement.setAttribute('data-theme', t);
-  }catch(e){
-    document.documentElement.setAttribute('data-theme','light');
+  /* A stored choice wins. Without one, follow the operating system, and
+     keep following it until the visitor picks a side. */
+  var mq = null;
+  try { mq = window.matchMedia('(prefers-color-scheme: dark)'); } catch(e){}
+  function sysTheme(){ return (mq && mq.matches) ? 'dark' : 'light'; }
+  var saved = null;
+  try { saved = localStorage.getItem('kgd-theme'); } catch(e){}
+  document.documentElement.setAttribute('data-theme', saved || sysTheme());
+  if (mq && !saved) {
+    var onChange = function(){
+      var stillUnset = null;
+      try { stillUnset = localStorage.getItem('kgd-theme'); } catch(e){}
+      if (!stillUnset) document.documentElement.setAttribute('data-theme', sysTheme());
+    };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
   }
 })();
 </script>
@@ -275,6 +285,71 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 }
 .hero-visual video{ display:block; width:100%; height:100%; object-fit:cover; }
 @media (max-width:700px){ .hero-visual{ aspect-ratio:4/3; } }
+/* ---------- mobile nav ----------
+   Below 760 the links stop sitting in the bar and move behind a button.
+   The bar keeps only the wordmark and the toggle, which is what the
+   width can actually hold. */
+.nav-toggle{
+  display:none;
+  width:38px; height:38px; flex:0 0 auto;
+  align-items:center; justify-content:center;
+  padding:0; cursor:pointer;
+  border:1px solid var(--line); border-radius:9px;
+  background:transparent; color:var(--ink);
+}
+.nav-toggle span{
+  display:block; width:16px; height:1.5px; background:currentColor;
+  position:relative; transition:transform .22s ease, opacity .18s ease;
+}
+.nav-toggle span::before, .nav-toggle span::after{
+  content:''; position:absolute; left:0; width:16px; height:1.5px;
+  background:currentColor; transition:transform .22s ease;
+}
+.nav-toggle span::before{ top:-5px; }
+.nav-toggle span::after{ top:5px; }
+.nav-toggle[aria-expanded="true"] span{ transform:rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span::before{ transform:translateY(5px) rotate(-90deg); }
+.nav-toggle[aria-expanded="true"] span::after{ opacity:0; }
+
+@media (max-width: 760px){
+  .nav-toggle{ display:inline-flex; }
+  .top-right, .topbar-right, .site-top-right, .top-nav{
+    position:absolute; top:100%; right:clamp(16px,4vw,48px);
+    z-index:60;
+    flex-direction:column; align-items:stretch; gap:2px;
+    min-width:186px; padding:8px;
+    background:var(--paper);
+    border:1px solid var(--line); border-radius:12px;
+    box-shadow:0 18px 40px rgba(0,0,0,.28);
+    opacity:0; visibility:hidden; transform:translateY(-6px);
+    transition:opacity .18s ease, transform .18s ease, visibility .18s;
+  }
+  .top-right.is-open, .topbar-right.is-open, .site-top-right.is-open, .top-nav.is-open{
+    opacity:1; visibility:visible; transform:translateY(0);
+  }
+  .top-right a, .topbar-right a, .site-top-right a, .top-nav a,
+  .top-right .top-cta, .topbar-right .top-cta, .site-top-right .top-cta{
+    display:block; width:100%;
+    padding:11px 12px; margin:0;
+    border:0; border-radius:8px;
+    text-align:left; font-size:15px; white-space:nowrap;
+  }
+  .top-right .top-cta, .topbar-right .top-cta, .site-top-right .top-cta, .top-nav .top-cta{
+    border:1px solid var(--line); margin-top:4px;
+  }
+  /* the theme control belongs in the bar, not in the drawer */
+  .top-right .theme-toggle, .topbar-right .theme-toggle,
+  .site-top-right .theme-toggle{ display:none; }
+  .nav-bar-controls{ display:inline-flex; align-items:center; gap:10px; }
+  header.top, .topbar, header.site-top{ position:relative; }
+}
+@media (min-width: 761px){
+  .nav-bar-controls .theme-toggle{ display:none; }
+}
+@media (prefers-reduced-motion: reduce){
+  .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
+  .nav-toggle span::before, .nav-toggle span::after{ transition:none !important; }
+}
 </style></head>
 <body>
 <div class="progress" id="progress"></div>
@@ -339,7 +414,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     <h2 class="lede">Fifteen strands, each with its own page.</h2>
     <div class="strands">
       <a class="strand" href="jumbofarms-rice.html">
-        <div class="strand-media"><img loading="lazy" src="assets/packaging/rice/royal.jpg" alt="Royal - front and back of the 26 kg sack"></div>
+        <div class="strand-media"><img loading="lazy" src="assets/cards/rice-royal.jpg" alt="Royal - front and back of the 26 kg sack"></div>
         <div class="strand-body">
           <h3>Rice</h3>
           <p>Nine grades of 1121 basmati, separated by colour alone.</p>
@@ -347,7 +422,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
         </div>
       </a>
       <a class="strand" href="jumbofarms-coriander.html">
-        <div class="strand-media"><img loading="lazy" src="assets/packaging/coriander/coriander-seeds-1kg.jpg" alt="The 1 kg stand-up pouch, with a window onto the seed"></div>
+        <div class="strand-media"><img loading="lazy" src="assets/cards/coriander-1kg.jpg" alt="The 1 kg stand-up pouch, with a window onto the seed"></div>
         <div class="strand-body">
           <h3>Coriander</h3>
           <p>A retail pouch and a bulk handled sack, one identity.</p>
@@ -355,7 +430,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
         </div>
       </a>
       <a class="strand" href="jumbofarms-jeera.html">
-        <div class="strand-media"><img loading="lazy" src="assets/packaging/jeera/jf-jeera-1.jpg" alt="Supreme - teal field"></div>
+        <div class="strand-media"><img loading="lazy" src="assets/cards/jeera-supreme.jpg" alt="Supreme - teal field"></div>
         <div class="strand-body">
           <h3>Jeera</h3>
           <p>Two grades of cumin sharing a single 5 kg bag.</p>
@@ -363,7 +438,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
         </div>
       </a>
       <a class="strand" href="jumbofarms-mustard-oil.html">
-        <div class="strand-media"><img loading="lazy" src="assets/packaging/mustard-oil/front.jpg" alt="The pouch artwork, flat"></div>
+        <div class="strand-media"><img loading="lazy" src="assets/cards/oil-1l.jpg" alt="The pouch artwork, flat"></div>
         <div class="strand-body">
           <h3>Mustard Oil</h3>
           <p>One artwork across bottles, pouches and a promotion.</p>
@@ -371,7 +446,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
         </div>
       </a>
       <a class="strand" href="jumbofarms-soya-chunks.html">
-        <div class="strand-media"><img loading="lazy" src="assets/packaging/soya-chunks/jumbofarms-soya-chunks-220gm-mockup.jpg" alt="220 g carton"></div>
+        <div class="strand-media"><img loading="lazy" src="assets/cards/soya-220g.jpg" alt="220 g carton"></div>
         <div class="strand-body">
           <h3>Soya Chunks</h3>
           <p>A price-point sachet and a shelf carton, held together by colour.</p>
@@ -379,7 +454,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
         </div>
       </a>
       <a class="strand" href="jumbofarms-dals.html">
-        <div class="strand-media"><img loading="lazy" src="assets/packaging/dals/channa-dal-100.jpg" alt="Chana Dal Premium Sortex - front and reverse"></div>
+        <div class="strand-media"><img loading="lazy" src="assets/cards/dal-channa.jpg" alt="Chana Dal Premium Sortex - front and reverse"></div>
         <div class="strand-body">
           <h3>Dals</h3>
           <p>Twenty-six kilo sacks, set in more than one language.</p>
@@ -387,7 +462,7 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
         </div>
       </a>
       <a class="strand" href="jumbofarms-atta-sooji.html">
-        <div class="strand-media"><img loading="lazy" src="assets/packaging/atta-sooji/atta.jpg" alt="Atta 30 kg - front, side and reverse"></div>
+        <div class="strand-media"><img loading="lazy" src="assets/cards/atta-30kg.jpg" alt="Atta 30 kg - front, side and reverse"></div>
         <div class="strand-body">
           <h3>Atta &amp; Sooji</h3>
           <p>A 30 kg flour sack and a 500 g retail pouch.</p>
@@ -395,15 +470,15 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
         </div>
       </a>
       <a class="strand" href="vedha-pooja-ghee.html">
-        <div class="strand-media"><img loading="lazy" src="assets/packaging/vedhaa/vedhaa-ghee-450ml.jpg" alt="450 ml"></div>
+        <div class="strand-media"><img loading="lazy" src="assets/cards/vedha-450ml.jpg" alt="450 ml"></div>
         <div class="strand-body">
-          <h3>Vedha Pooja Ghee</h3>
-          <p>Lamp ghee sharing a bottle with a cooking oil.</p>
+          <h3>Vedha Pooja Oil</h3>
+          <p>Lamp oil sharing a bottle with a cooking oil.</p>
           <span class="strand-cta">View &#8599;</span>
         </div>
       </a>
       <a class="strand" href="crispy-corner.html">
-        <div class="strand-media"><img loading="lazy" src="assets/packaging/crispy-corner/plastic-sachet.jpg" alt="Both flavours"></div>
+        <div class="strand-media"><img loading="lazy" src="assets/cards/crispy-garlic.jpg" alt="Both flavours"></div>
         <div class="strand-body">
           <h3>Crispy Corner</h3>
           <p>A namkeen sachet where the product is the artwork.</p>
@@ -528,7 +603,61 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   }
 })();
 </script>
+<script>
+(function(){
+  /* The links live in one container; on a phone that container becomes a
+     drawer and this button opens it. Everything stays in the DOM, so the
+     tab order and the markup are the same at every width. */
+  var bar = document.querySelector('header.top, .topbar, header.site-top, header');
+  if (!bar) return;
+  var group = bar.querySelector('.top-right, .topbar-right, .site-top-right, .top-nav');
+  if (!group) return;
+
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'nav-toggle';
+  btn.setAttribute('aria-label', 'Open menu');
+  btn.setAttribute('aria-expanded', 'false');
+  if (group.id) btn.setAttribute('aria-controls', group.id);
+  else { group.id = 'site-nav'; btn.setAttribute('aria-controls', 'site-nav'); }
+  btn.appendChild(document.createElement('span'));
+
+  /* The theme control sits beside the button rather than inside the
+     drawer: changing theme is not navigation. */
+  var holder = document.createElement('div');
+  holder.className = 'nav-bar-controls';
+  var toggle = group.querySelector('.theme-toggle');
+  if (toggle) holder.appendChild(toggle.cloneNode(true));
+  holder.appendChild(btn);
+  bar.appendChild(holder);
+
+  var clone = holder.querySelector('.theme-toggle');
+  if (clone) {
+    clone.id = '';
+    clone.addEventListener('click', function(){
+      var real = group.querySelector('.theme-toggle');
+      if (real) real.click();
+      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      clone.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      clone.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    });
+  }
+
+  function setOpen(open){
+    group.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  btn.addEventListener('click', function(e){ e.stopPropagation(); setOpen(!group.classList.contains('is-open')); });
+  document.addEventListener('click', function(e){
+    if (group.classList.contains('is-open') && !group.contains(e.target) && e.target !== btn) setOpen(false);
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setOpen(false); });
+  group.addEventListener('click', function(e){ if (e.target.closest('a')) setOpen(false); });
+})();
+</script>
 </body>
+
 
 
 </html>
