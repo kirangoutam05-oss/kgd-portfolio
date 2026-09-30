@@ -35,17 +35,27 @@ while ($listener.IsListening) {
       $ctx.Response.StatusCode = 403; $ctx.Response.Close(); continue
     }
 
+    $isHead = $ctx.Request.HttpMethod -eq 'HEAD'
+
     if (Test-Path $resolved -PathType Leaf) {
       $bytes = [System.IO.File]::ReadAllBytes($resolved)
       $ext = [System.IO.Path]::GetExtension($resolved).ToLower()
       $ctx.Response.ContentType = $(if ($types.ContainsKey($ext)) { $types[$ext] } else { 'application/octet-stream' })
       $ctx.Response.Headers.Add('Cache-Control','no-store')   # always serve the current edit
-      $ctx.Response.ContentLength64 = $bytes.Length
-      $ctx.Response.OutputStream.Write($bytes, 0, $bytes.Length)
+      # A HEAD gets headers and no body. ContentLength64 must stay 0 for
+      # it: HttpListener throws on Close() when a declared length is never
+      # written, which came back as a 500 and made every probed file look
+      # missing. That cost me a wrong diagnosis once already.
+      if ($isHead) {
+        $ctx.Response.ContentLength64 = 0
+      } else {
+        $ctx.Response.ContentLength64 = $bytes.Length
+        $ctx.Response.OutputStream.Write($bytes, 0, $bytes.Length)
+      }
     } else {
       $notFound = Join-Path $root '404.html'
       $ctx.Response.StatusCode = 404
-      if (Test-Path $notFound) {
+      if ((Test-Path $notFound) -and -not $isHead) {
         $bytes = [System.IO.File]::ReadAllBytes($notFound)
         $ctx.Response.ContentType = 'text/html; charset=utf-8'
         $ctx.Response.ContentLength64 = $bytes.Length
