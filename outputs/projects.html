@@ -77,7 +77,7 @@
   --surface-2:#141419;
   --hairline:rgba(255,255,255,.12);
 }
-:root[data-theme="dark"] img{ opacity:.94; }
+:root[data-theme="dark"] img:not(.project-face):not(.project-alt){ opacity:.94; }
 
 .theme-toggle{
   width:34px; height:34px; flex:0 0 auto;
@@ -154,6 +154,43 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   .grid{ grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:12px; }
   .project{ min-height:0; }
 }
+/* ---------- card hover ----------
+   The thumbnail is the bag as it looks on a shelf. Hovering swaps to the
+   flat artwork, front and reverse, and reveals a line about the pack -
+   the detail you would want after the bag has caught your eye, not
+   before. Nothing moves; only opacity changes, so the grid stays still. */
+.project-media{ position:relative; }
+.project-face, .project-alt{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:contain; padding:10px; display:block;
+  transition:opacity .28s ease;
+}
+.project-alt{ opacity:0; }
+.project.has-alt:hover .project-face,
+.project.has-alt:focus-visible .project-face{ opacity:0; }
+.project.has-alt:hover .project-alt,
+.project.has-alt:focus-visible .project-alt{ opacity:1; }
+/* the scale-up belonged to a single image; with two stacked it doubles up */
+.project.has-study:hover .project-media img{ transform:none; }
+
+.project-note{
+  margin:0;
+  max-height:0; opacity:0; overflow:hidden;
+  color:var(--muted); font-size:12.5px; line-height:1.5;
+  transition:max-height .3s ease, opacity .25s ease, margin-top .3s ease;
+}
+.project.has-study:hover .project-note,
+.project.has-study:focus-visible .project-note{
+  max-height:6.5em; opacity:1; margin-top:10px;
+}
+/* Touch has no hover: show the note, and leave the shelf shot in place. */
+@media (hover: none){
+  .project-note{ max-height:none; opacity:1; margin-top:10px; }
+  .project-alt{ display:none; }
+}
+@media (prefers-reduced-motion: reduce){
+  .project-face, .project-alt, .project-note{ transition:none !important; }
+}
 </style>
 </head>
 <body><div class="progress" id="progress"></div><header class="top"><a class="mark" href="index.html" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">
@@ -188,9 +225,20 @@ const LINKS_ENABLED=false;
 // Entries whose work is written up on this site link to the case study
 // instead of out to Drive. Keyed by exact name so nothing over-promises:
 // only the pieces those pages actually show are listed here.
-const art={'Jumbofarms Basmati Rice Dubar 26Kg':['assets/cards/rice-dubar.jpg','Jumbofarms Dubar basmati, front and reverse'],'Jumbofarms Basmati Rice Everyday 26Kg':['assets/cards/rice-everyday.jpg','Jumbofarms Everyday basmati, front and reverse'],'Jumbofarms Basmati Rice Mogra 26Kg':['assets/cards/rice-mogra.jpg','Jumbofarms Mogra basmati, front and reverse'],'Jumbofarms Basmati Rice Mini Mogra 26Kg':['assets/cards/rice-mini-mogra.jpg','Jumbofarms Mini Mogra basmati, front and reverse'],'Jumbofarms Basmati Rice Premium 26Kg':['assets/cards/rice-premium.jpg','Jumbofarms Premium basmati, front and reverse'],'Jumbofarms Basmati Rice Royal 26Kg':['assets/cards/rice-royal.jpg','Jumbofarms Royal basmati, front and reverse'],'Jumbofarms Basmati Rice Super 26Kg':['assets/cards/rice-super.jpg','Jumbofarms Super basmati, front and reverse'],'Jumbofarms Basmati Rice Supreme 26Kg':['assets/cards/rice-supreme.jpg','Jumbofarms Supreme basmati, front and reverse'],'Jumbofarms Basmati Rice Tibar 26Kg':['assets/cards/rice-tibar.jpg','Jumbofarms Tibar basmati sack'],'Jumbofarms Sonam Rice 26Kg':['assets/cards/rice-sonam.jpg','Jumbofarms Sonam Kolam steamed rice sack'],'Jumbofarms Coriander 1Kg':['assets/cards/coriander-1kg.jpg','Jumbofarms Dhaniya 1kg stand-up pouch'],'Jumbofarms Coriander Seeds 5K Mango':['assets/cards/coriander-5kg.jpg','Jumbofarms Dhaniya 5kg Gondal Special sack'],'Jumbofarms Jeera Seeds 5Kg Supreme':['assets/cards/jeera-supreme.jpg','Jumbofarms Jeera Supreme 5kg sack'],'Jumbofarms Jeera Seeds 5Kg premium':['assets/cards/jeera-premium.jpg','Jumbofarms Jeera Premium 5kg sack'],'Jumbofarms Soya Chunks 220gm':['assets/cards/soya-220g.jpg','Jumbofarms Soya Chunks 220g carton'],'Jumbofarms Soya Chunks ₹10':['assets/cards/soya-10.jpg','Jumbofarms Soya Chunks ₹10 packet'],'Jumbofarms Soya Chunks Mini ₹10':['assets/cards/soya-mini.jpg','Jumbofarms Mini Soya Chunks ₹10 packet'],'Jumbofarms Mustard Oil 1L':['assets/cards/oil-1l.jpg','Jumbofarms Mustard Oil 1L with the Scan and Win panel'],'Jumbofarms Mustard Oil 500ml':['assets/cards/oil-500ml.jpg','Jumbofarms Mustard Oil 500ml bottle'],'Jumbofarms Mustard Oil 200ml':['assets/cards/oil-200ml.jpg','Jumbofarms Mustard Oil 200ml bottle'],'Vedhaa Ghee 900ml':['assets/cards/vedha-900ml.jpg','Vedha Pooja Ghee 900ml bottle'],'Vedhaa Ghee 450ml':['assets/cards/vedha-450ml.jpg','Vedha Pooja Ghee 450ml bottle'],'Vedhaa Ghee 100ml':['assets/cards/vedha-100ml.jpg','Vedha Pooja Ghee 100ml bottle'],'Jumbofarms Channa Dal 26kg':['assets/cards/dal-channa.jpg','Jumbofarms Chana Dal Premium Sortex, front and reverse'],'Jumbofarms Atta 30Kg':['assets/cards/atta-30kg.jpg','Jumbofarms Chakki Fresh Atta 30kg sack'],'Jumbofarms Sooji 500gm':['assets/cards/sooji-500g.jpg','Jumbofarms Roasted Sooji 500g pouch'],'Crispy Corner Garlic Mixture ₹10':['assets/cards/crispy-garlic.jpg','Crispy Corner Garlic Mixture packet'],'Crispy Corner Corn Flakes ₹10':['assets/cards/crispy-cornflakes.jpg','Crispy Corner Corn Flakes Mixture packet'],'Trippy Goat — Around the Mediterranean':['assets/cards/trippy-goat.jpg','Trippy Goat menu for Around the Mediterranean']};
+const note={'Jumbofarms Basmati Rice Dubar 26Kg':'Teal. Arch, peacocks, brass bowl and roundels are identical across all nine grades.','Jumbofarms Basmati Rice Everyday 26Kg':'Aubergine. The grade name is the only word that changes above &ldquo;1121 Basmati Rice&rdquo;.','Jumbofarms Basmati Rice Mini Mogra 26Kg':'Black, the darkest in the range, and the only one where the gold frame carries the whole pack.','Jumbofarms Basmati Rice Mogra 26Kg':'Brown. Sits beside Mini Mogra on the shelf, separated by value alone.','Jumbofarms Basmati Rice Premium 26Kg':'Oxblood. One of four jewel tones used for the upper grades.','Jumbofarms Basmati Rice Royal 26Kg':'Navy. The reverse carries the nutrition table, cooking icons and the batch window, unchanged across the range.','Jumbofarms Basmati Rice Super 26Kg':'Green, the only grade that breaks from the warm and jewel families.','Jumbofarms Basmati Rice Supreme 26Kg':'Gold. Reads as the top of the ladder without a single word saying so.','Jumbofarms Basmati Rice Tibar 26Kg':'Magenta, the most saturated of the nine and the easiest to find in a stack.','Jumbofarms Sonam Rice 26Kg':'Outside the system: Kolam steamed rice, not 1121 basmati, so it drops the arch for a photographed field.'};
+const art={'Jumbofarms Basmati Rice Dubar 26Kg':['assets/cards/rice-dubar.jpg','Jumbofarms Dubar basmati, front and reverse','assets/cards/rice-dubar-spread.jpg'],'Jumbofarms Basmati Rice Everyday 26Kg':['assets/cards/rice-everyday.jpg','Jumbofarms Everyday basmati, front and reverse','assets/cards/rice-everyday-spread.jpg'],'Jumbofarms Basmati Rice Mogra 26Kg':['assets/cards/rice-mogra.jpg','Jumbofarms Mogra basmati, front and reverse','assets/cards/rice-mogra-spread.jpg'],'Jumbofarms Basmati Rice Mini Mogra 26Kg':['assets/cards/rice-mini-mogra.jpg','Jumbofarms Mini Mogra basmati, front and reverse','assets/cards/rice-mini-mogra-spread.jpg'],'Jumbofarms Basmati Rice Premium 26Kg':['assets/cards/rice-premium.jpg','Jumbofarms Premium basmati, front and reverse','assets/cards/rice-premium-spread.jpg'],'Jumbofarms Basmati Rice Royal 26Kg':['assets/cards/rice-royal.jpg','Jumbofarms Royal basmati, front and reverse','assets/cards/rice-royal-spread.jpg'],'Jumbofarms Basmati Rice Super 26Kg':['assets/cards/rice-super.jpg','Jumbofarms Super basmati, front and reverse','assets/cards/rice-super-spread.jpg'],'Jumbofarms Basmati Rice Supreme 26Kg':['assets/cards/rice-supreme.jpg','Jumbofarms Supreme basmati, front and reverse','assets/cards/rice-supreme-spread.jpg'],'Jumbofarms Basmati Rice Tibar 26Kg':['assets/cards/rice-tibar.jpg','Jumbofarms Tibar basmati sack','assets/cards/rice-tibar-spread.jpg'],'Jumbofarms Sonam Rice 26Kg':['assets/cards/rice-sonam.jpg','Jumbofarms Sonam Kolam steamed rice sack'],'Jumbofarms Coriander 1Kg':['assets/cards/coriander-1kg.jpg','Jumbofarms Dhaniya 1kg stand-up pouch'],'Jumbofarms Coriander Seeds 5K Mango':['assets/cards/coriander-5kg.jpg','Jumbofarms Dhaniya 5kg Gondal Special sack'],'Jumbofarms Jeera Seeds 5Kg Supreme':['assets/cards/jeera-supreme.jpg','Jumbofarms Jeera Supreme 5kg sack'],'Jumbofarms Jeera Seeds 5Kg premium':['assets/cards/jeera-premium.jpg','Jumbofarms Jeera Premium 5kg sack'],'Jumbofarms Soya Chunks 220gm':['assets/cards/soya-220g.jpg','Jumbofarms Soya Chunks 220g carton'],'Jumbofarms Soya Chunks ₹10':['assets/cards/soya-10.jpg','Jumbofarms Soya Chunks ₹10 packet'],'Jumbofarms Soya Chunks Mini ₹10':['assets/cards/soya-mini.jpg','Jumbofarms Mini Soya Chunks ₹10 packet'],'Jumbofarms Mustard Oil 1L':['assets/cards/oil-1l.jpg','Jumbofarms Mustard Oil 1L with the Scan and Win panel'],'Jumbofarms Mustard Oil 500ml':['assets/cards/oil-500ml.jpg','Jumbofarms Mustard Oil 500ml bottle'],'Jumbofarms Mustard Oil 200ml':['assets/cards/oil-200ml.jpg','Jumbofarms Mustard Oil 200ml bottle'],'Vedhaa Ghee 900ml':['assets/cards/vedha-900ml.jpg','Vedha Pooja Ghee 900ml bottle'],'Vedhaa Ghee 450ml':['assets/cards/vedha-450ml.jpg','Vedha Pooja Ghee 450ml bottle'],'Vedhaa Ghee 100ml':['assets/cards/vedha-100ml.jpg','Vedha Pooja Ghee 100ml bottle'],'Jumbofarms Channa Dal 26kg':['assets/cards/dal-channa.jpg','Jumbofarms Chana Dal Premium Sortex, front and reverse'],'Jumbofarms Atta 30Kg':['assets/cards/atta-30kg.jpg','Jumbofarms Chakki Fresh Atta 30kg sack'],'Jumbofarms Sooji 500gm':['assets/cards/sooji-500g.jpg','Jumbofarms Roasted Sooji 500g pouch'],'Crispy Corner Garlic Mixture ₹10':['assets/cards/crispy-garlic.jpg','Crispy Corner Garlic Mixture packet'],'Crispy Corner Corn Flakes ₹10':['assets/cards/crispy-cornflakes.jpg','Crispy Corner Corn Flakes Mixture packet'],'Trippy Goat — Around the Mediterranean':['assets/cards/trippy-goat.jpg','Trippy Goat menu for Around the Mediterranean']};
 const caseStudy={'Trippy Goat — Around the Mediterranean':'trippy-goat.html','Crispy Corner Corn Flakes ₹10':'crispy-corner.html','Crispy Corner Garlic Mixture ₹10':'crispy-corner.html','Jumbofarms Atta 30Kg':'jumbofarms-atta-sooji.html','Jumbofarms Basmati Rice Dubar 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Everyday 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Mini Mogra 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Mogra 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Premium 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Royal 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Super 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Supreme 26Kg':'jumbofarms-rice.html','Jumbofarms Basmati Rice Tibar 26Kg':'jumbofarms-rice.html','Jumbofarms CTC Danglers 20x20in':'jumbofarms.html','Jumbofarms Channa Dal 26kg':'jumbofarms-dals.html','Jumbofarms Coriander 1Kg':'jumbofarms-coriander.html','Jumbofarms Coriander Seeds 10Kg A1':'jumbofarms-coriander.html','Jumbofarms Coriander Seeds 10Kg Mango':'jumbofarms-coriander.html','Jumbofarms Coriander Seeds 5K Mango':'jumbofarms-coriander.html','Jumbofarms Coriander Seeds 5Kg A1':'jumbofarms-coriander.html','Jumbofarms Jeera Samba Rice 1Kg':'jumbofarms-rice.html','Jumbofarms Jeera Seeds 1Kg':'jumbofarms-jeera.html','Jumbofarms Jeera Seeds 5Kg Supreme':'jumbofarms-jeera.html','Jumbofarms Jeera Seeds 5Kg premium':'jumbofarms-jeera.html','Jumbofarms Mustard Oil 1L':'jumbofarms-mustard-oil.html','Jumbofarms Mustard Oil 250ml':'jumbofarms-mustard-oil.html','Jumbofarms Mustard Oil 500ml':'jumbofarms-mustard-oil.html','Jumbofarms Sonam Rice 26Kg':'jumbofarms-rice.html','Jumbofarms Sooji 500gm':'jumbofarms-atta-sooji.html','Jumbofarms Soya Chunks 220gm':'jumbofarms-soya-chunks.html','Jumbofarms Soya Chunks Mini ₹10':'jumbofarms-soya-chunks.html','Jumbofarms Soya Chunks ₹10':'jumbofarms-soya-chunks.html','Jumbofarms Vada Kolam Rice 26Kg':'jumbofarms-rice.html','Jumbotail Name Boards':'jumbofarms.html','Mustard Oil Marketing Poster A3':'jumbofarms.html','Vedhaa Ghee 100ml':'vedha-pooja-ghee.html','Vedhaa Ghee 450ml':'vedha-pooja-ghee.html','Vedhaa Ghee 900ml':'vedha-pooja-ghee.html'};
-function card([name,type,link]){const a=art[name];const media=a?`<div class="project-media"><img loading="lazy" src="${a[0]}" alt="${a[1]}"></div>`:'';const body=`<div class="project-body"><h2>${name}</h2><span class="meta">${type}</span></div>`;const study=caseStudy[name];const to=study||(link.startsWith('http')?link:null);if(!to)return `<article class="project ${kind[type]}">${media}${body}</article>`;const ext=study?'':' target="_blank" rel="noopener"';return `<a class="project ${kind[type]} has-study" href="${to}"${ext}>${media}${body}</a>`;}
+function card([name,type,link]){const a=art[name];const n=note[name];
+  const alt=a?a[0].replace(/\.jpg$/,'-spread.jpg'):null;
+  const hasAlt=a&&a[2];
+  const face=hasAlt?`<img class="project-alt" loading="lazy" src="${a[2]}" alt="${a[1]}, front and reverse">`:'';
+  const media=a?`<div class="project-media"><img class="project-face" loading="lazy" src="${a[0]}" alt="${a[1]}">${face}</div>`:'';
+  const noteEl=n?`<p class="project-note">${n}</p>`:'';
+  const body=`<div class="project-body"><h2>${name}</h2><span class="meta">${type}</span>${noteEl}</div>`;
+  const study=caseStudy[name];const to=study||(link.startsWith('http')?link:null);
+  if(!to)return `<article class="project ${kind[type]}">${media}${body}</article>`;
+  const ext=study?'':' target="_blank" rel="noopener"';
+  return `<a class="project ${kind[type]} has-study${hasAlt?' has-alt':''}" href="${to}"${ext}>${media}${body}</a>`;}
 let keyword='';
 function render(filter='all'){const shown=projects.filter(p=>(filter==='all'||p[1]===filter)&&(!keyword||p[0].toLowerCase().includes(keyword)));grid.innerHTML=shown.map(card).join('');count.textContent=`${shown.length} project${shown.length===1?'':'s'} shown`;empty.style.display=shown.length?'none':'block'}document.querySelectorAll('.filter').forEach(button=>button.addEventListener('click',()=>{keyword='';if(location.hash)history.replaceState(null,'',location.pathname);syncNotice();document.querySelector('.filter.active').classList.remove('active');button.classList.add('active');render(button.dataset.filter)}));
 const notice=document.querySelector('#notice');
