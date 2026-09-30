@@ -296,7 +296,10 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   header.top, .topbar, header.site-top{ position:relative; }
 }
 @media (min-width: 761px){
-  .nav-bar-controls .theme-toggle{ display:none; }
+  /* The wrapper is empty at this width (its toggle and hamburger are both
+     hidden), so hide the wrapper itself - left in place it stays a flex
+     child of the bar and space-between strands the nav in the middle. */
+  .nav-bar-controls{ display:none; }
 }
 @media (prefers-reduced-motion: reduce){
   .top-right, .topbar-right, .site-top-right, .top-nav, .nav-toggle span,
@@ -333,9 +336,9 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
       <span class="tag">Mindmapping</span><span class="tag">UI Design</span><span class="tag">UX Research</span>
     </div>
     <div class="meta-row">
-      <div class="meta">Type<b>Self-directed concept</b></div>
+      <div class="meta">Type<b>Freelance project</b></div>
       <div class="meta">Output<b>Name, identity, app UI</b></div>
-      <div class="meta">Focus<b>Human-centred functionality</b></div>
+      <div class="meta">Focus<b>Community-based entry</b></div>
     </div>
   </div>
 </section>
@@ -343,18 +346,18 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
 <section class="section">
   <div class="wrap">
     <span class="label">Context</span>
-    <h2 class="lede">A self-directed enquiry, framed as a question rather than a brief.</h2>
-    <p class="copy">This project was set up explicitly as an investigation: <em>to understand the use of different functionalities that can be included in mobile apps to be more human-centred</em>. The output was a name, an identity and an app interface for a home security concept.</p>
-    <p class="copy">Because it is self-directed, there is no client constraint here &mdash; which makes the reasoning the only thing holding it up.</p>
+    <h2 class="lede">Community-based entry, before there was an app for it.</h2>
+    <p class="copy">A freelance project, taken on to solve a specific problem: entry to a residential community. Who is at the gate, who let them in, and who is allowed to let them in at all.</p>
+    <p class="copy">This predates <strong>MyGate</strong> scaling up. At the time the category barely existed as software &mdash; the gate ran on a paper register, a phone call upstairs and a guard&rsquo;s judgement &mdash; so there was no established interface to borrow from and no convention to follow.</p>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap">
     <span class="label">The problem</span>
-    <h2 class="lede">Home security sells fear, and fear makes bad interfaces.</h2>
-    <p class="copy">The category&rsquo;s conventions are alarms, sirens, shields and padlocks: an identity of threat. That framing pushes every interface decision toward the same thing &mdash; arming, locking, alerting &mdash; and treats the people who live in the home as a security perimeter to be managed.</p>
-    <p class="copy">But most of what actually happens at a front door is hospitable. People let other people in: a cleaner, a relative, a delivery, a friend arriving before you get home.</p>
+    <h2 class="lede">Security products lock. Communities let people in.</h2>
+    <p class="copy">The category&rsquo;s conventions are alarms, sirens, shields and padlocks, and they push every interface decision toward the same three verbs: arm, lock, alert. That suits a building nobody is trying to enter.</p>
+    <p class="copy">A community gate is the opposite. Most of what happens there is admission &mdash; a cleaner, a relative, a delivery, a friend arriving before you get home &mdash; and it is the resident, not the guard, who knows whether any of them should be let through. The design problem is granting and revoking access, not detecting intrusion.</p>
   </div>
 </section>
 
@@ -362,8 +365,8 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
   <div class="wrap">
     <span class="label">The decision</span>
     <h2 class="lede">Work out the functions first, and let the mark fall out of that.</h2>
-    <p class="copy">The process runs backwards from most identity work. Function analysis and name derivation are worked through on paper before any mark exists, and the name lands on a single domestic object everyone already associates with the front door &mdash; a bell. Something you let people ring.</p>
-    <p class="copy">The core idea follows: <strong>access you can grant and revoke, not just an alarm you can arm</strong>. The cost of that framing is that it walks away from the category&rsquo;s most reliable sales lever. Fear converts. Hospitality has to be designed well enough to be worth choosing.</p>
+    <p class="copy">The process runs backwards from most identity work. Function analysis and name derivation are worked through on paper before any mark exists, and the name lands on a single domestic object everyone already associates with a door &mdash; a bell. Something you let people ring.</p>
+    <p class="copy">The core idea follows: <strong>access you can grant and revoke, not just an alarm you can arm</strong>. Every screen in the set is built around a key that a resident issues, sees used, and takes back.</p>
   </div>
 </section>
 
@@ -389,25 +392,6 @@ a.mark::before,a.back::before,.nav-links a::before,.top-nav a::before,.top a::be
     <p class="copy">The interface set covers the home screen, settings, users added for a key, the activity record, the side navigation, a pop-up alert style, the new-key page and key sharing — which is where the concept earns its name. A bell is something you let people ring.</p>
   </div>
 </section>
-<section class="section">
-  <div class="wrap">
-    <span class="label">Constraints</span>
-    <h2 class="lede">What shaped the work as much as the brief did.</h2>
-    <p class="copy"><strong>No users.</strong> Self-directed means the function analysis rests on reasoning and desk research, not on interviews. That is the honest limit of this project and the first thing I would fix.</p>
-    <p class="copy"><strong>No engineering counterpart.</strong> Nothing here was pressure-tested against what a real security integration would permit &mdash; revocable access is a considerably harder problem in hardware than in Figma.</p>
-    <p class="copy"><strong>Three spreads.</strong> The documentation is deliberately compact, which suits the concept but leaves the wireframe stage thinner than the interface stage.</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <span class="label">Outcome</span>
-    <h2 class="lede">A concept with a defensible argument and no evidence.</h2>
-    <p class="copy">What exists is a name derived from analysis rather than brainstorm, an identity subordinated to the interface, and a UI set built around sharing rather than locking. That is a complete piece of thinking.</p>
-    <p class="copy">What does not exist is validation. No usability testing, no participants, no metrics &mdash; and for a concept whose whole claim is that it is more human-centred, that gap is worth stating plainly rather than dressing up.</p>
-  </div>
-</section>
-
 <section class="section">
   <div class="wrap">
     <span class="label">Reflection</span>
