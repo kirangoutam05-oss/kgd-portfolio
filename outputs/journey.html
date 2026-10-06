@@ -411,7 +411,70 @@ body{
   letter-spacing:-.045em; color:var(--ink);
 }
 .site-footer{ align-items:flex-end; }
+
+/* ---------- motion ----------------------------------------------------
+   Behind html.motion, which the script at the end of <head> sets before
+   the first paint and only when the browser can watch for scroll and the
+   visitor has not asked for less movement. Drop that class and none of
+   this applies, so the page reads the same with JavaScript off. */
+html.motion{ --kgd-ease:cubic-bezier(.22,.61,.36,1); --kgd-out:cubic-bezier(.16,1,.3,1); }
+
+html.motion .intro h1,
+html.motion .intro p,
+html.motion .kicker,
+html.motion .track-note{
+  opacity:0; transform:translateY(18px);
+  transition:opacity .8s var(--kgd-ease), transform .85s var(--kgd-out);
+}
+html.motion .intro h1.in,
+html.motion .intro p.in,
+html.motion .kicker.in,
+html.motion .track-note.in{ opacity:1; transform:none; }
+
+html.motion .stat{
+  opacity:0; transform:translateY(14px);
+  transition:opacity .6s ease, transform .7s var(--kgd-ease);
+  transition-delay:calc(var(--d,0) * 70ms + 120ms);
+}
+html.motion .stat.in{ opacity:1; transform:none; }
+
+/* The rule down the side draws itself when the track is reached, which
+   is the one piece of motion a timeline genuinely earns. */
+html.motion .track::before{
+  transform:scaleY(0); transform-origin:top;
+  transition:transform 1.5s var(--kgd-out);
+}
+html.motion .track.in::before{ transform:none; }
+
+/* Each post arrives on its own as it is scrolled to, so no stagger: the
+   scroll is already the stagger. */
+html.motion .entry{
+  opacity:0; transform:translateY(22px);
+  transition:opacity .8s ease, transform .9s var(--kgd-out);
+}
+html.motion .entry.in{ opacity:1; transform:none; }
+
+/* and its marker on the rule lands just after it */
+html.motion .entry::before{
+  transform:scale(0);
+  transition:transform .5s var(--kgd-out) .18s;
+}
+html.motion .entry.in::before{ transform:none; }
 </style>
+<script>
+/* Motion is opt-in per browser: it needs an observer, and it stays off
+   for anyone who has asked their system for less movement. Setting the
+   class here, before anything paints, means the opening states are in
+   force from the first frame instead of snapping in afterwards. */
+(function(){
+  try{
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var r = document.documentElement;
+    r.className += (r.className ? ' ' : '') + 'motion';
+  }catch(e){}
+})();
+</script>
 </head>
 <body>
 
@@ -726,6 +789,32 @@ body{
   });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setOpen(false); });
   group.addEventListener('click', function(e){ if (e.target.closest('a')) setOpen(false); });
+})();
+</script>
+<script>
+/* The opening states live in the stylesheet; this only decides what has
+   arrived. */
+(function(){
+  if (document.documentElement.className.indexOf('motion') < 0) return;
+
+  function mark(el){ el.className += (el.className ? ' ' : '') + 'in'; }
+
+  var stats = document.querySelectorAll('.stat');
+  for (var s = 0; s < stats.length; s++){
+    try { stats[s].style.setProperty('--d', s); } catch(e){}
+  }
+
+  var list = document.querySelectorAll(
+    '.intro h1, .intro p, .kicker, .track-note, .stat, .track, .entry, .site-footer, .footer'
+  );
+  var io = new IntersectionObserver(function(es){
+    for (var j = 0; j < es.length; j++){
+      if (!es[j].isIntersecting) continue;
+      mark(es[j].target);
+      io.unobserve(es[j].target);
+    }
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+  for (var i = 0; i < list.length; i++) io.observe(list[i]);
 })();
 </script>
 </body>
