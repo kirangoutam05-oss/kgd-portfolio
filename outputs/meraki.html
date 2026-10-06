@@ -442,6 +442,130 @@ html.motion .footer,
 html.motion .site-footer{ opacity:0; transition:opacity .8s ease; }
 html.motion .footer.in,
 html.motion .site-footer.in{ opacity:1; }
+
+/* ---------- centred case study ----------------------------------------
+   Following the Cuberto product-design page: the opening is centred - a
+   wide title over a narrow standfirst - and below it each section's label
+   and statement sit on the centre line while the prose runs in a centred
+   column but ranged left. Centring a paragraph moves its left edge on
+   every line, which makes the reader hunt for the start of the next one;
+   a heading is one or two lines and does not have that problem. */
+.hero .wrap{ text-align:center; }
+.hero h1{ margin-inline:auto; }
+.hero p{ margin-inline:auto; max-width:660px; }
+.tags{ justify-content:center; }
+.meta-row{ max-width:900px; margin-inline:auto; }
+
+.section .wrap{ text-align:center; }
+
+/* The section rail gave the label a 172px column of its own above 900px,
+   which is what held it at the left edge while the statement centred. One
+   column instead, so the label sits above the statement on the same centre
+   line - and it rises into place rather than sliding in from the left,
+   which only made sense when it lived out there. */
+@media (min-width: 900px){
+  .section > .wrap{ display:block; }
+  .section > .wrap > .label{ margin-bottom:18px; padding-top:0; }
+}
+html.motion .section .label{ transform:translateY(12px); }
+html.motion .section .label.in{ transform:none; }
+.lede{ margin-inline:auto; max-width:900px; }
+.copy{ margin-inline:auto; max-width:620px; }
+
+/* ---------- bento ----------
+   Six columns, and a six-tile rhythm of 4+2 / 3+3 / 2+4 that closes every
+   row exactly, so the block stays square-edged however many pieces a
+   project has. One row height throughout keeps it stacked rather than
+   ragged; the artwork is contained inside its tile, not cropped by it. */
+.packgrid,
+.spread{
+  display:grid;
+  grid-template-columns:repeat(6, 1fr);
+  /* One height for every row. Letting the artwork set it gave rows of
+     624, 477 and 240px down the same block, which is the opposite of
+     stacked. */
+  grid-auto-rows:clamp(260px, 25vw, 400px);
+  gap:16px;
+  margin-top:34px;
+  align-items:stretch;
+}
+.packgrid > .page:nth-child(6n+1),
+.spread   > .page:nth-child(6n+1){ grid-column:span 4; }
+.packgrid > .page:nth-child(6n+2),
+.spread   > .page:nth-child(6n+2){ grid-column:span 2; }
+.packgrid > .page:nth-child(6n+3),
+.spread   > .page:nth-child(6n+3){ grid-column:span 3; }
+.packgrid > .page:nth-child(6n+4),
+.spread   > .page:nth-child(6n+4){ grid-column:span 3; }
+.packgrid > .page:nth-child(6n+5),
+.spread   > .page:nth-child(6n+5){ grid-column:span 2; }
+.packgrid > .page:nth-child(6n+6),
+.spread   > .page:nth-child(6n+6){ grid-column:span 4; }
+
+/* A lone tile, or a last one left over, takes the full measure rather
+   than sitting as a stub at one side. */
+.packgrid > .page:only-child,
+.spread   > .page:only-child{ grid-column:1 / -1; }
+
+.packgrid > .page,
+.spread   > .page{ display:flex; flex-direction:column; height:100%; margin:0; }
+.packgrid > .page img,
+.spread   > .page img{
+  flex:1 1 auto; min-height:0;
+  width:100%; height:100%;
+  object-fit:contain; padding:16px;
+}
+.page figcaption{ text-align:center; }
+
+@media (max-width:860px){
+  .packgrid, .spread{ grid-template-columns:repeat(2, 1fr); grid-auto-rows:clamp(220px, 38vw, 300px); }
+  .packgrid > .page, .spread > .page{ grid-column:span 1 !important; }
+  .packgrid > .page:nth-child(6n+1), .spread > .page:nth-child(6n+1){ grid-column:span 2 !important; }
+}
+@media (max-width:560px){
+  .packgrid, .spread{ grid-template-columns:1fr; }
+  .packgrid > .page, .spread > .page{ grid-column:span 1 !important; }
+}
+
+/* ---------- small type, without the shouting ---------------------------
+   The kickers, section labels, tags, meta captions and figure captions
+   were all 11px mono, letterspaced a tenth of an em and forced to capitals.
+   Set in caps at that size the words stop having shapes - every one is the
+   same rectangle - so they read letter by letter, which is the slowest way
+   to read the smallest text on the page.
+
+   They are sentence case now, in the text face rather than the mono one,
+   a size larger, with the tracking taken back to near nothing. The
+   hierarchy that the capitals were carrying moves to weight and colour,
+   which is where it costs the reader nothing. The words are already
+   written in sentence case in the markup, so dropping the transform is
+   all it takes. */
+.eyebrow,
+.label,
+.meta,
+.tag,
+.page figcaption,
+.quote cite{
+  font-family:'Plus Jakarta Sans', sans-serif;
+  font-size:12.5px;
+  font-weight:500;
+  letter-spacing:0;
+  text-transform:none;
+}
+.label{ font-weight:600; }
+.meta{ color:var(--muted); }
+.tag{ font-size:12.5px; letter-spacing:0; text-transform:none; padding:7px 14px; }
+.page figcaption{ font-size:12.5px; letter-spacing:0; text-transform:none; }
+.quote cite{ letter-spacing:0; text-transform:none; }
+
+/* The one that was not small: a 19px heading in capitals for no reason. */
+.themes b{ text-transform:none; }
+
+/* The footer ran the same treatment at an even wider tenth of an em. */
+.footer{
+  font-family:'Plus Jakarta Sans', sans-serif;
+  font-size:12.5px; font-weight:500; letter-spacing:0;
+}
 </style>
 <script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
