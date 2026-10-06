@@ -446,31 +446,48 @@
     color:var(--ink);
     font:500 clamp(31px, 3.35vw, 52px)/1.08 'Plus Jakarta Sans', sans-serif;
     letter-spacing:-.065em;
-    /* The gradient is painted behind the whole heading and clipped to its
-       glyphs. A word reveals by turning its own fill transparent, which
-       lets that one gradient show through in place - so the ramp runs
-       across the sentence rather than restarting on every word. */
-    background-image:linear-gradient(96deg,
+    /* The tracking is tight by design, but letter-spacing applies to the
+       space between words as well, which closed the gaps up. word-spacing
+       gives back exactly what the tracking takes away, so the letter fit
+       is untouched and only the words separate. */
+    word-spacing:.065em;
+    /* One ramp for the whole statement. With no script the heading paints
+       it itself and clips it to its glyphs. With the script each word
+       paints its own slice instead - see .js-reveal below - because a word
+       cannot fade or blur a colour its parent is painting crisply behind
+       it; trying produced a grey ghost over sharp type, which read as a
+       drop shadow. */
+    --ramp:linear-gradient(96deg,
       #a8762a 0%, #e06a34 24%, #d63f7c 50%, #7b45e8 74%, #2f8fd8 100%);
+    background-image:var(--ramp);
     -webkit-background-clip:text;
     background-clip:text;
   }
   /* Default to the final colour so the copy is readable with no JS; the script
      adds .js-reveal to opt into the greyed-out starting state. */
   .reveal-word{
-    /* A box of its own: a filter on a bare inline box is not applied
-       consistently, and the spaces between the words are real text nodes
-       so the spacing survives. */
-    display:inline-block;
-    transition:color .5s ease, -webkit-text-fill-color .5s ease, filter .65s ease;
+    /* Stays inline. As an inline-block its glyphs leave the heading's
+       background-clip:text, and a word whose fill has gone transparent
+       then has nothing painted behind it at all - it disappears. */
+    transition:opacity .6s ease, filter .75s ease;
     transition-delay:var(--delay, 0ms);
   }
+  /* The heading stops painting the ramp and each word paints its own
+     slice of it, sized to the whole heading and offset to the word's place
+     in it by the script. The sentence still reads as one ramp, but the
+     colour now belongs to the word - so the word can carry it out of focus
+     and bring it back, with nothing of its own left behind. */
+  .services.js-reveal .services-title{ background-image:none; }
   .services.js-reveal .reveal-word{
-    color:var(--ink-dim); -webkit-text-fill-color:var(--ink-dim);
-    filter:blur(8px);
+    background-image:var(--ramp);
+    background-repeat:no-repeat;
+    -webkit-background-clip:text; background-clip:text;
+    color:transparent; -webkit-text-fill-color:transparent;
+    opacity:0;
+    filter:blur(10px);
   }
   .services.js-reveal.is-in-view .reveal-word{
-    color:transparent; -webkit-text-fill-color:transparent;
+    opacity:1;
     filter:blur(0);
   }
   /* The label leads the sentence in. */
@@ -535,6 +552,7 @@
        projects a second time. */
     .project-rail .project-item[aria-hidden="true"]{ display:none; }
     .reveal-word{ color:var(--ink) !important; -webkit-text-fill-color:var(--ink) !important;
+                  background-image:none !important; opacity:1 !important;
                   transition:none !important; filter:none !important; }
     .services-kicker{ opacity:1 !important; filter:none !important; transition:none !important; }
   }
@@ -554,6 +572,9 @@
   .stack-title{
     font-family:'Plus Jakarta Sans', sans-serif; font-weight:400;
     font-size:clamp(20px, 1.85vw, 28px); letter-spacing:-.055em; line-height:1;
+    /* Same correction as the services statement: give the spaces back
+       what the tracking takes off them. */
+    word-spacing:.055em;
   }
   .stack-all{
     font-size:14px; color:var(--ink); text-decoration:none;
@@ -1211,6 +1232,39 @@ html.motion .stack-item.in .stack-media > video{ transform:none; }
     }
     servicesSection.classList.add('js-reveal');
 
+    /* Each word gets the ramp at the size of the whole heading, shifted so
+       that the slice showing through its glyphs is the slice that would
+       have been there had the heading painted it. */
+    var servicesTitle = servicesSection.querySelector('.services-title');
+    function placeRamp(){
+      if (!servicesTitle) return;
+      var t = servicesTitle.getBoundingClientRect();
+      /* The line box is tighter than the font's own, so the top line's
+         ascenders rise above the heading's box and the bottom line's
+         descenders drop below it. Mapped exactly onto the box, those parts
+         had no ramp underneath and came out unpainted - the last line read
+         as cut off. The ramp is laid over a box grown on every side, with
+         its origin moved to match, so the colour reaches the whole glyph. */
+      var pad = 28;
+      for (var r = 0; r < words.length; r++){
+        var b = words[r].getBoundingClientRect();
+        words[r].style.backgroundSize =
+          (t.width + pad * 2).toFixed(1) + 'px ' + (t.height + pad * 2).toFixed(1) + 'px';
+        words[r].style.backgroundPosition =
+          (-(b.left - t.left) - pad).toFixed(1) + 'px ' + (-(b.top - t.top) - pad).toFixed(1) + 'px';
+      }
+    }
+    placeRamp();
+    /* The web font changes the measure when it lands, and so does a
+       resize; either one moves every word. */
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeRamp);
+    var rampQueued = false;
+    window.addEventListener('resize', function(){
+      if (rampQueued) return;
+      rampQueued = true;
+      requestAnimationFrame(function(){ rampQueued = false; placeRamp(); });
+    });
+
     if ('IntersectionObserver' in window){
       var servicesObserver = new IntersectionObserver(function(entries){
         for (var e = 0; e < entries.length; e++){
@@ -1350,9 +1404,12 @@ html.motion .stack-item.in .stack-media > video{ transform:none; }
         targetCardY = pos.y;
       }
 
-      // photo drifts slightly opposite to the cursor (subtle parallax)
-      targetPX = ((mx / heroRect.width) - 0.5) * -14;
-      targetPY = ((my / heroRect.height) - 0.5) * -10;
+      // The photo tracks the pointer rather than drifting away from it,
+      // and far enough to read as tracking. The frame crops it, so the
+      // travel has to stay inside the slack the scale below leaves:
+      // at 1.12 that is about 6% of the picture on each side.
+      targetPX = ((mx / heroRect.width) - 0.5) * 30;
+      targetPY = ((my / heroRect.height) - 0.5) * 22;
 
       for (var i = 0; i < nameState.length; i++){
         var o = nameOffsets[i];
@@ -1544,11 +1601,11 @@ html.motion .stack-item.in .stack-media > video{ transform:none; }
     if (heroVisible){
       curCardX += (targetCardX - curCardX) * 0.12;
       curCardY += (targetCardY - curCardY) * 0.12;
-      curPX += (targetPX - curPX) * 0.08;
-      curPY += (targetPY - curPY) * 0.08;
+      curPX += (targetPX - curPX) * 0.11;
+      curPY += (targetPY - curPY) * 0.11;
 
       if (card && !cardPinned()) card.style.transform = 'translate3d(' + curCardX.toFixed(2) + 'px,' + curCardY.toFixed(2) + 'px,0)';
-      if (portraitImg) portraitImg.style.transform = 'scale(1.05) translate3d(' + curPX.toFixed(2) + 'px,' + curPY.toFixed(2) + 'px,0)';
+      if (portraitImg) portraitImg.style.transform = 'scale(1.12) translate3d(' + curPX.toFixed(2) + 'px,' + curPY.toFixed(2) + 'px,0)';
 
       if (!settled(curCardX, targetCardX) || !settled(curCardY, targetCardY) ||
           !settled(curPX, targetPX) || !settled(curPY, targetPY)) busy = true;
