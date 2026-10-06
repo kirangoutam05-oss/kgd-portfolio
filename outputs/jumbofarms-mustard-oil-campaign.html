@@ -354,7 +354,131 @@ body{
   background-image:linear-gradient(162deg,
     rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
 }
-</style></head>
+
+/* ---------- motion ----------------------------------------------------
+   Every rule below hangs off html.motion, which the small script at the
+   end of <head> sets before the first paint - and only when the browser
+   can watch for scroll and the visitor has not asked for less movement.
+   Without that class none of this applies, so the page reads exactly as
+   it did with JavaScript off. Each opening state is paired with an .in
+   rule carrying one more class, so the arrived state always wins. */
+html.motion{ --kgd-ease:cubic-bezier(.22,.61,.36,1); --kgd-out:cubic-bezier(.16,1,.3,1); }
+
+/* --- the hero, which plays on load rather than on scroll --- */
+html.motion .hero{ position:relative; overflow:hidden; }
+html.motion .hero > .wrap{ position:relative; z-index:1; }
+html.motion .hero::after{
+  content:''; position:absolute; inset:-30% -15% auto; height:160%;
+  pointer-events:none; opacity:0;
+  background:radial-gradient(52% 52% at 72% 18%, rgba(255,255,255,.11), rgba(255,255,255,0) 70%);
+  transition:opacity 1.8s ease .3s;
+}
+html.motion .hero.in::after{ opacity:1; animation:kgdDrift 24s ease-in-out infinite alternate; }
+@keyframes kgdDrift{ from{ transform:translate3d(-5%,-2%,0) } to{ transform:translate3d(5%,3%,0) } }
+
+html.motion .hero .eyebrow{ opacity:0; transform:translateY(14px);
+  transition:opacity .7s var(--kgd-ease), transform .7s var(--kgd-ease); }
+html.motion .hero .eyebrow.in{ opacity:1; transform:none; }
+
+/* The title is cut into its own lines and each one slides out from
+   behind its edge. It is held back until the script has done the
+   cutting, so the unsplit version is never on screen. */
+html.motion .hero h1{ visibility:hidden; }
+html.motion .hero h1.ready{ visibility:visible; }
+html.motion .hero h1 .ln{ display:block; overflow:hidden; padding-bottom:.08em; margin-bottom:-.08em; }
+html.motion .hero h1 .ln > i{
+  display:block; font-style:inherit; transform:translateY(110%);
+  transition:transform 1s var(--kgd-out);
+  transition-delay:calc(var(--d,0) * 90ms + 80ms);
+}
+html.motion .hero h1.in .ln > i{ transform:none; }
+
+html.motion .hero p{ opacity:0; transform:translateY(18px);
+  transition:opacity .8s var(--kgd-ease) .34s, transform .8s var(--kgd-ease) .34s; }
+html.motion .hero p.in{ opacity:1; transform:none; }
+
+html.motion .hero .tag{ opacity:0; transform:translateY(10px);
+  transition:opacity .55s ease, transform .55s var(--kgd-ease);
+  transition-delay:calc(var(--d,0) * 45ms + 450ms); }
+html.motion .hero .tag.in{ opacity:1; transform:none; }
+
+html.motion .hero .meta{ opacity:0; transform:translateY(12px);
+  transition:opacity .6s ease, transform .6s var(--kgd-ease);
+  transition-delay:calc(var(--d,0) * 70ms + 560ms); }
+html.motion .hero .meta.in{ opacity:1; transform:none; }
+
+/* --- the sections, as they arrive --- */
+html.motion .section .label{ opacity:0; transform:translateX(-14px);
+  transition:opacity .6s ease, transform .7s var(--kgd-ease); }
+html.motion .section .label.in{ opacity:1; transform:none; }
+
+/* The blur is what makes a statement read as coming into focus rather
+   than simply sliding; it is the one place on the page worth it. */
+html.motion .lede{ opacity:0; transform:translateY(22px); filter:blur(7px);
+  transition:opacity .85s ease .06s, transform .9s var(--kgd-out) .06s, filter .9s ease .06s; }
+html.motion .lede.in{ opacity:1; transform:none; filter:none; }
+
+html.motion .copy{ opacity:0; transform:translateY(16px);
+  transition:opacity .75s ease, transform .8s var(--kgd-ease);
+  transition-delay:calc(var(--d,0) * 90ms + 120ms); }
+html.motion .copy.in{ opacity:1; transform:none; }
+
+/* --- artwork ---
+   The frame rises while the picture inside settles back to its own size,
+   so the work appears to come to rest rather than simply appear. */
+html.motion .page,
+html.motion .shot,
+html.motion .card,
+html.motion .strand,
+html.motion .stage,
+html.motion .icontile{
+  opacity:0; transform:translateY(30px);
+  transition:opacity .9s ease, transform 1s var(--kgd-out),
+             border-color .35s ease, box-shadow .45s ease;
+  transition-delay:calc(var(--d,0) * 80ms);
+}
+html.motion .page.in,
+html.motion .shot.in,
+html.motion .card.in,
+html.motion .strand.in,
+html.motion .stage.in,
+html.motion .icontile.in{ opacity:1; transform:none; }
+
+html.motion .page img,
+html.motion .shot img{
+  transform:scale(1.09);
+  transition:transform 1.4s var(--kgd-out);
+  transition-delay:calc(var(--d,0) * 80ms);
+}
+html.motion .page.in img,
+html.motion .shot.in img{ transform:none; }
+
+/* and once they have arrived they answer the pointer */
+html.motion .page.in:hover{
+  transform:translateY(-4px); border-color:var(--accent);
+  box-shadow:0 16px 38px rgba(0,0,0,.14);
+}
+html.motion .page.in:hover img{ transform:scale(1.035); transition-duration:.6s; transition-delay:0s; }
+
+html.motion .footer,
+html.motion .site-footer{ opacity:0; transition:opacity .8s ease; }
+html.motion .footer.in,
+html.motion .site-footer.in{ opacity:1; }
+</style><script>
+/* Motion is opt-in per browser: it needs an observer, and it stays off
+   for anyone who has asked their system for less movement. Setting the
+   class here, before anything paints, means the opening states are in
+   force from the first frame instead of snapping in afterwards. */
+(function(){
+  try{
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var r = document.documentElement;
+    r.className += (r.className ? ' ' : '') + 'motion';
+  }catch(e){}
+})();
+</script>
+</head>
 <body>
 <div class="progress" id="progress"></div>
 <header class="wrap top">
@@ -532,6 +656,81 @@ body{
   });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setOpen(false); });
   group.addEventListener('click', function(e){ if (e.target.closest('a')) setOpen(false); });
+})();
+</script>
+<script>
+/* The opening states live in the stylesheet; this only decides what has
+   arrived, and cuts the title into lines. */
+(function(){
+  var root = document.documentElement;
+  if (root.className.indexOf('motion') < 0) return;
+
+  function mark(el){ if (el) el.className += (el.className ? ' ' : '') + 'in'; }
+  function at(el, n){ try { el.style.setProperty('--d', n); } catch(e){} }
+
+  /* --- the title --- */
+  var h1 = document.querySelector('.hero h1');
+  if (h1){
+    var parts = h1.innerHTML.split(/<br\s*\/?>/i), out = '';
+    for (var i = 0; i < parts.length; i++){
+      out += '<span class="ln" style="--d:' + i + '"><i>' + parts[i] + '</i></span>';
+    }
+    h1.innerHTML = out;
+    h1.className += ' ready';
+  }
+
+  /* --- the hero, on load --- */
+  var hero = document.querySelector('.hero');
+  if (hero){
+    var chips = hero.querySelectorAll('.tag');
+    for (var c = 0; c < chips.length; c++) at(chips[c], c);
+    var metas = hero.querySelectorAll('.meta');
+    for (var m = 0; m < metas.length; m++) at(metas[m], m);
+
+    /* Two frames, so the browser has painted the opening state and the
+       transition actually runs instead of being collapsed into nothing. */
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      mark(hero);
+      var k = hero.querySelectorAll('.eyebrow, h1, p, .tag, .meta');
+      for (var i = 0; i < k.length; i++) mark(k[i]);
+    }); });
+  }
+
+  /* --- everything below, as it comes into view --- */
+  var picks = document.querySelectorAll(
+    '.section .label, .lede, .copy, figure.page, .shot, .card, .strand, .stage, .icontile, .footer, .site-footer'
+  );
+  var i, p;
+  for (i = 0; i < picks.length; i++) picks[i].kgdPick = 1;
+
+  /* An element already inside one that is being revealed would wait for
+     its parent and then move again; only the outermost one animates. */
+  var list = [];
+  for (i = 0; i < picks.length; i++){
+    var nested = false;
+    for (p = picks[i].parentNode; p && p.nodeType === 1; p = p.parentNode){
+      if (p.kgdPick) { nested = true; break; }
+    }
+    if (!nested) list.push(picks[i]);
+  }
+
+  /* Position within the row or column it shares, capped so a grid of ten
+     does not finish long after the visitor has read past it. */
+  for (i = 0; i < list.length; i++){
+    var par = list[i].parentNode;
+    par.kgdN = par.kgdN || 0;
+    at(list[i], Math.min(par.kgdN, 5));
+    par.kgdN++;
+  }
+
+  var io = new IntersectionObserver(function(es){
+    for (var j = 0; j < es.length; j++){
+      if (!es[j].isIntersecting) continue;
+      mark(es[j].target);
+      io.unobserve(es[j].target);
+    }
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+  for (i = 0; i < list.length; i++) io.observe(list[i]);
 })();
 </script>
 </body>
