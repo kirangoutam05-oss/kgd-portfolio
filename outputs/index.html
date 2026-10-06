@@ -475,6 +475,10 @@
     .txt::before{ display:none !important; }
     .project-rail{ transform:none !important; }
     .project-window{ overflow-x:auto; }
+    /* The clones exist only to make the loop seamless. With the animation
+       off the rail becomes a scroller, so they would just be the same six
+       projects a second time. */
+    .project-rail .project-item[aria-hidden="true"]{ display:none; }
     .reveal-word{ color:var(--ink) !important; -webkit-text-fill-color:var(--ink) !important; transition:none !important; }
   }
   /* ---------- stacked selected work ----------
@@ -1032,6 +1036,14 @@ body{
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>Socials</h3><p>Social Media Design</p></div>
     </a>
+    <a class="project-item" href="jodhpur-khana.html" style="--bg:#e8a13f;--art:url(assets/jodhpur-khana/render-stall.jpg)" aria-label="View the Jodhpur Khana case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Jodhpur Khana</h3><p>UX Research &amp; 3D</p></div>
+    </a>
+    <a class="project-item" href="logofolio.html" style="--bg:#2f3b33;--art:url(assets/logofolio/tile.jpg)" aria-label="View the Logofolio case study">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Logofolio</h3><p>Logo &amp; Identity</p></div>
+    </a>
     <a class="project-item" href="meraki.html" style="--bg:#eeeae4;--art:url(assets/meraki/page-01.jpg)" aria-hidden="true" tabindex="-1">
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>Meraki</h3><p>Branding &amp; Packaging</p></div>
@@ -1055,6 +1067,14 @@ body{
     <a class="project-item" href="socials.html" style="--bg:#6d3aa8;--art:url(assets/socials/page-01.jpg)" aria-hidden="true" tabindex="-1">
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>Socials</h3><p>Social Media Design</p></div>
+    </a>
+    <a class="project-item" href="jodhpur-khana.html" style="--bg:#e8a13f;--art:url(assets/jodhpur-khana/render-stall.jpg)" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Jodhpur Khana</h3><p>UX Research &amp; 3D</p></div>
+    </a>
+    <a class="project-item" href="logofolio.html" style="--bg:#2f3b33;--art:url(assets/logofolio/tile.jpg)" aria-hidden="true" tabindex="-1">
+      <div class="project-card"><div class="project-art"></div></div>
+      <div class="project-caption"><h3>Logofolio</h3><p>Logo &amp; Identity</p></div>
     </a>
     </div>
   </div>
