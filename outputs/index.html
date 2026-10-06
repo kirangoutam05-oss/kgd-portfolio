@@ -458,11 +458,27 @@
   /* Default to the final colour so the copy is readable with no JS; the script
      adds .js-reveal to opt into the greyed-out starting state. */
   .reveal-word{
-    transition:color .5s ease, -webkit-text-fill-color .5s ease;
+    /* A box of its own: a filter on a bare inline box is not applied
+       consistently, and the spaces between the words are real text nodes
+       so the spacing survives. */
+    display:inline-block;
+    transition:color .5s ease, -webkit-text-fill-color .5s ease, filter .65s ease;
     transition-delay:var(--delay, 0ms);
   }
-  .services.js-reveal .reveal-word{ color:var(--ink-dim); -webkit-text-fill-color:var(--ink-dim); }
-  .services.js-reveal.is-in-view .reveal-word{ color:transparent; -webkit-text-fill-color:transparent; }
+  .services.js-reveal .reveal-word{
+    color:var(--ink-dim); -webkit-text-fill-color:var(--ink-dim);
+    filter:blur(8px);
+  }
+  .services.js-reveal.is-in-view .reveal-word{
+    color:transparent; -webkit-text-fill-color:transparent;
+    filter:blur(0);
+  }
+  /* The label leads the sentence in. */
+  .services.js-reveal .services-kicker{
+    opacity:0; filter:blur(10px);
+    transition:opacity .7s ease, filter .7s ease;
+  }
+  .services.js-reveal.is-in-view .services-kicker{ opacity:1; filter:blur(0); }
   /* The hero is a fixed 100svh with the photo anchored to the top and the
      name to the bottom, so a short viewport squeezes them into each other.
      At 1440x800 the name was crossing the photo by 289px. Both shrink as
@@ -518,7 +534,9 @@
        off the rail becomes a scroller, so they would just be the same six
        projects a second time. */
     .project-rail .project-item[aria-hidden="true"]{ display:none; }
-    .reveal-word{ color:var(--ink) !important; -webkit-text-fill-color:var(--ink) !important; transition:none !important; }
+    .reveal-word{ color:var(--ink) !important; -webkit-text-fill-color:var(--ink) !important;
+                  transition:none !important; filter:none !important; }
+    .services-kicker{ opacity:1 !important; filter:none !important; transition:none !important; }
   }
   /* ---------- stacked selected work ----------
      Each project is a tinted panel with the artwork inset, then a row
