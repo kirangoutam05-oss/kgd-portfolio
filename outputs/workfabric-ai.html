@@ -341,6 +341,12 @@ body{
   background-image:linear-gradient(162deg,
     rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
 }
+.live-link{
+  color:var(--ink); text-decoration:none;
+  border-bottom:1px solid var(--accent); padding-bottom:1px;
+  transition:color .2s ease;
+}
+.live-link:hover{ color:var(--accent); }
 </style></head>
 <body>
 <div class="progress" id="progress"></div>
@@ -497,7 +503,8 @@ body{
     <span class="label">Outcome</span>
     <h2 class="lede">Live, and the place the rest of the company points at.</h2>
     <p class="copy">The site is published and is where the company&rsquo;s press lands &mdash; the Cognizant partnership, the Harvard Business Review pieces, the keynote &mdash; all of it arriving on a page that has to explain the product from zero in a single visit.</p>
-    <p class="copy">What I will not claim is performance. Traffic, conversion and demo bookings sit with the company and are not mine to publish, so the honest report is what shipped and why it is shaped the way it is.</p>
+    <p class="copy">The clearest result is that it exists and is in use: <a class="live-link" href="https://workfabricai.figma.site/" target="_blank" rel="noopener">workfabricai.figma.site &nearr;</a> &mdash; the shipped site, the one the company points at, and the whole of the argument described above as it actually runs.</p>
+    <p class="copy">What I will not claim is performance. Traffic, conversion and demo bookings sit with the company and are not mine to publish, so the honest report is what shipped, where it lives, and why it is shaped the way it is.</p>
     <div class="spread"><figure class="page"><img loading="lazy" src="assets/workfabric-ai/news.jpg" alt="The Latest News section with press coverage and Harvard Business Review articles"><figcaption>Where the press lands</figcaption></figure><figure class="page"><img loading="lazy" src="assets/workfabric-ai/cta-footer.jpg" alt="The closing call to action and the site footer"><figcaption>The one thing the whole page is asking for</figcaption></figure></div>
   </div>
 </section>
