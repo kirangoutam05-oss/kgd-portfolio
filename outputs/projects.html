@@ -313,6 +313,30 @@ body{
   letter-spacing:0;
   text-transform:none;
 }
+
+/* ---------- grounds and split, here too -------------------------------
+   Dark at the opening, light through the selected work, dark again under
+   the archive - where eighty light cards on a dark ground read the way
+   the fifteen strands do on the Jumbotail page. */
+.intro{ background:var(--invert-bg); color:var(--invert-fg); text-align:center; }
+.intro h1{ color:var(--invert-fg); margin-inline:auto; max-width:none; text-wrap:balance; }
+.intro p{ color:rgba(255,255,255,.72); margin-inline:auto; max-width:780px; text-wrap:pretty; }
+.intro .kicker,
+.intro .label{ color:#cfc6bb; }
+
+.projects{ background:var(--invert-bg); color:var(--invert-fg); }
+.projects h2{ color:var(--invert-fg); }
+.projects .filter{
+  color:rgba(255,255,255,.72);
+  border-color:rgba(255,255,255,.22);
+  background:transparent;
+}
+.projects .filter[aria-pressed="true"]{ background:#fff; color:var(--invert-bg); border-color:#fff; }
+/* The cards are a.project, not .project-card - the class I first wrote
+   matched nothing on this page. */
+.projects .project{ border-color:rgba(255,255,255,.18); }
+.projects .project .meta{ color:rgba(255,255,255,.62); }
+.projects .project h2{ color:var(--invert-fg); }
 </style>
 </head>
 <body><div class="progress" id="progress"></div><header class="top"><a class="mark" href="index.html" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">

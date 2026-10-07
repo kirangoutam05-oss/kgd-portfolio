@@ -55,6 +55,10 @@
     --line: rgba(19,19,22,0.12);
     --surface:#ffffff;
     --soft:#f7f6f2;
+    /* This page never had the invert pair the others carry, so a dark
+       band asked for a colour that did not exist and stayed white. */
+    --invert-bg:#131316;
+    --invert-fg:#ffffff;
   }
   :root[data-theme="dark"]{
     color-scheme:dark;
@@ -65,6 +69,8 @@
     --muted:#9d9da7;
     --ink-dim:#9d9da7;
     --line:rgba(255,255,255,.15);
+    --invert-bg:#1b1b22;
+    --invert-fg:#f3f2ef;
     --surface:#0e0e11;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
@@ -480,6 +486,50 @@ html.motion .entry.in::before{ transform:none; }
   font-weight:500;
   letter-spacing:0;
   text-transform:none;
+}
+
+/* ---------- grounds and split, here too -------------------------------
+   The project pages got bands and a two-column split; this page was left
+   flat white from top to bottom. It takes the same language, fitted to
+   what it is made of.
+
+   Dark at the opening and dark at the close, light for the long middle -
+   which is how the reference does it, and the right way round for a page
+   whose middle is four thousand pixels of reading. */
+.intro{ background:var(--invert-bg); color:var(--invert-fg); }
+.intro h1{ color:var(--invert-fg); }
+.intro p{ color:rgba(255,255,255,.72); }
+.intro .kicker{ color:#cfc6bb; }
+.stat b{ color:var(--invert-fg); }
+.stat span{ color:rgba(255,255,255,.62); }
+.download{ background:var(--invert-bg); color:var(--invert-fg); }
+.download a{ color:#fff; }
+
+/* The opening centres, the way every project page opens. */
+.intro .wrap, .intro{ text-align:center; }
+.intro h1{ margin-inline:auto; max-width:none; text-wrap:balance; }
+.intro p{ margin-inline:auto; max-width:760px; text-wrap:pretty; }
+.stats{ justify-content:center; }
+
+/* Each post splits: the dates hold the left column, the role and what it
+   involved take the right. Same shape as a project section's label and
+   body, and it gives every post one left edge to come back to. */
+@media (min-width: 900px){
+  /* The section carries both classes - <section class="timeline wrap"> -
+     so a child combinator through .wrap matches nothing. */
+  .timeline > .kicker,
+  .timeline > .track-note{ text-align:center; }
+  .entry{
+    display:grid;
+    grid-template-columns: minmax(140px, 1fr) minmax(0, 3.2fr);
+    column-gap: clamp(28px, 3.5vw, 56px);
+    align-items:start;
+  }
+  .entry-date{ grid-column:1; grid-row:1; }
+  .entry-head{ grid-column:2; grid-row:1; }
+  .entry > ul,
+  .entry > .entry-note,
+  .entry > p{ grid-column:2; }
 }
 </style>
 <script>

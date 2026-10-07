@@ -1003,6 +1003,25 @@ html.motion .stack-item.in .stack-media > video{ transform:none; }
   letter-spacing:0;
   text-transform:none;
 }
+
+/* ---------- grounds and split, here too -------------------------------
+   Four sections, all of them white. The statement and the archive link
+   take the dark ground and the hero and the work stay light, so the page
+   alternates on the way down without ever putting two dark blocks
+   together. The hero keeps its own loading sequence and its dot field. */
+.services{ background:var(--invert-bg); }
+.services .services-kicker{ color:rgba(255,255,255,.66); }
+/* No fill override here: each word paints its own slice of the ramp, and
+   setting a colour on it covers that slice up. The opening state is
+   already opacity:0, which needs no help from the ground it sits on. */
+
+.projects{ background:var(--invert-bg); color:var(--invert-fg); }
+.projects h2{ color:var(--invert-fg); }
+.projects .projects-link{ color:#fff; }
+.projects .rail-nav button{ border-color:rgba(255,255,255,.3); color:#fff; }
+.projects .rail-nav button:hover{ border-color:#fff; color:#fff; }
+.projects .project-item figcaption,
+.projects .project-name{ color:var(--invert-fg); }
 </style>
 <script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
