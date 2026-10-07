@@ -475,8 +475,13 @@ html.motion .site-footer.in{ opacity:1; }
    next one starts; a heading is one or two lines and never has that
    problem. Centred furniture, ranged-left prose. */
 .hero .wrap{ text-align:center; }
-.hero h1{ margin-inline:auto; }
-.hero p{ margin-inline:auto; max-width:660px; }
+/* The title was capped at 940px and broken by hand on top of that, so
+   "Jumbofarms Rice" came apart across two lines when it measures 976px
+   set on one - inside the 1160px measure with room to spare. The cap
+   comes off and the hand break with it; it still wraps on its own when
+   the window is genuinely too narrow. */
+.hero h1{ margin-inline:auto; max-width:none; text-wrap:balance; }
+.hero p{ margin-inline:auto; max-width:820px; text-wrap:pretty; }
 .tags{ justify-content:center; }
 .meta-row{ max-width:900px; margin-inline:auto; }
 
@@ -652,7 +657,7 @@ html.motion .section .label.in{ transform:none; }
   .section > .wrap > ul,
   .section > .wrap > ol{ grid-column:2; margin-inline:0; }
   .section > .wrap > .lede{ max-width:none; }
-  .section > .wrap > .copy{ max-width:640px; }
+  .section > .wrap > .copy{ max-width:760px; }
 
   /* The artwork ignores the split and runs the whole measure under it. */
   .section > .wrap > .packgrid,
@@ -702,7 +707,7 @@ html.motion .section .label.in{ transform:none; }
 <section class="hero">
   <div class="wrap">
     <span class="eyebrow">Packaging / Jumbofarms</span>
-    <h1>Jumbofarms<br>Rice</h1>
+    <h1>Jumbofarms Rice</h1>
     <p>Nine grades of 1121 basmati that are, to look at, the same rice. The pack had to make the grade legible from a shelf, so the layout was fixed and colour was left to do all the work.</p>
     <div class="tags"><span class="tag">Packaging Design</span><span class="tag">Design Systems</span><span class="tag">Range Architecture</span><span class="tag">Export</span></div>
     <div class="meta-row"><div class="meta">Brand<b>Jumbofarms</b></div><div class="meta">Range<b>9 basmati grades + Sonam Kolam</b></div><div class="meta">Format<b>26 kg woven sacks</b></div></div>
