@@ -705,6 +705,45 @@ html.motion .section .label.in{ transform:none; }
   .packgrid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
   .packgrid > .page{ flex:none; height:clamp(220px, 46vw, 300px); }
 }
+
+/* ---------- dark grounds, and bigger artwork --------------------------
+   The reference does not alternate mechanically - it drops two -inverse
+   sections among the light ones, and the dark one is the longest block on
+   the page. These pages are not shaped like that: every section is the
+   same kind of thing, so a regular rhythm is what there is to work with.
+
+   The hero is the first <section> in <main>, so nth-of-type(odd) lands on
+   the second content section, then the fourth: dark hero, light, dark,
+   light. Never two dark blocks against each other. */
+.section:nth-of-type(odd){
+  background:var(--invert-bg);
+  color:var(--invert-fg);
+  border-bottom-color:rgba(255,255,255,.12);
+}
+.section:nth-of-type(odd) .lede{ color:var(--invert-fg); }
+.section:nth-of-type(odd) .copy{ color:rgba(255,255,255,.70); }
+.section:nth-of-type(odd) .copy strong,
+.section:nth-of-type(odd) .lede strong{ color:#fff; }
+/* The accent is a deep navy that disappears on this ground. */
+.section:nth-of-type(odd) .label{ color:#cfc6bb; }
+.section:nth-of-type(odd) a{ color:#fff; }
+.section:nth-of-type(odd) .themes li{
+  background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.14);
+}
+.section:nth-of-type(odd) .themes span{ color:rgba(255,255,255,.66); }
+/* The tiles stay light on the dark ground, which is what makes the work
+   sit forward rather than sink into it. */
+.section:nth-of-type(odd) .page{ border-color:rgba(255,255,255,.16); }
+
+/* ---------- bigger ----------
+   Three packshots to a row rather than four: the tile goes from 278 wide
+   to 376, and the product with it. A last row that does not fill still
+   sits at the left, with everything else. */
+@media (min-width: 1001px){
+  .packgrid{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+  .packgrid > .page{ height:clamp(360px, 36vw, 520px); }
+  .spread{ grid-auto-rows:clamp(320px, 32vw, 520px); }
+}
 </style>
 <script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
