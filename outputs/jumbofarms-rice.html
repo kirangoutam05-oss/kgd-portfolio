@@ -622,6 +622,49 @@ html.motion .section .label.in{ transform:none; }
   font-family:'Plus Jakarta Sans', sans-serif;
   font-size:12.5px; font-weight:500; letter-spacing:0;
 }
+
+/* ---------- the section splits in two --------------------------------
+   The label takes the left column; the statement and the prose take the
+   right. This is how the reference sets its process sections - the kicker
+   out at the left margin, everything it introduces ranged left beside it -
+   and it is the thing a centred section could not do: a centred heading
+   over a narrower centred paragraph leaves the paragraph's own left edge
+   floating at neither margin.
+
+   Both columns range left. The hero above stays centred, which is also
+   what the reference does: the opening is the only centred thing on it. */
+@media (min-width: 900px){
+  .section > .wrap{
+    display:grid;
+    grid-template-columns: minmax(130px, 1fr) minmax(0, 3.4fr);
+    column-gap: clamp(32px, 4.5vw, 72px);
+    align-items:start;
+    text-align:left;
+  }
+  .section > .wrap > .label{
+    grid-column:1; grid-row:1;
+    margin-bottom:0;
+    padding-top:.5em;        /* optical: sits with the statement's first line */
+  }
+  .section > .wrap > .lede,
+  .section > .wrap > .copy,
+  .section > .wrap > p,
+  .section > .wrap > ul,
+  .section > .wrap > ol{ grid-column:2; margin-inline:0; }
+  .section > .wrap > .lede{ max-width:none; }
+  .section > .wrap > .copy{ max-width:640px; }
+
+  /* The artwork ignores the split and runs the whole measure under it. */
+  .section > .wrap > .packgrid,
+  .section > .wrap > .spread,
+  .section > .wrap > .page,
+  .section > .wrap > .shots,
+  .section > .wrap > .strands{ grid-column:1 / -1; }
+
+  /* It comes in from the left again, because that is where it lives. */
+  html.motion .section .label{ transform:translateX(-14px); }
+  html.motion .section .label.in{ transform:none; }
+}
 </style><script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
    for anyone who has asked their system for less movement. Setting the
