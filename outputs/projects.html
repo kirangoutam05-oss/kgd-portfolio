@@ -295,6 +295,24 @@ body{
     rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 42%, rgba(0,0,0,.12) 100%);
 }
 
+
+/* ---------- small type here too --------------------------------------
+   The project pages dropped their capitals; these three kept theirs,
+   which left the site running two type systems at once. Same treatment:
+   sentence case, the text face rather than the mono one, tracking back to
+   nothing, and the hierarchy carried by weight and colour.
+
+   The wordmark is left alone - it already sets itself in sentence case. */
+.meta,
+.filter,
+.disc li,
+.project-body .meta {
+  font-family:'Plus Jakarta Sans', sans-serif;
+  font-size:12.5px;
+  font-weight:500;
+  letter-spacing:0;
+  text-transform:none;
+}
 </style>
 </head>
 <body><div class="progress" id="progress"></div><header class="top"><a class="mark" href="index.html" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">

@@ -461,6 +461,26 @@ html.motion .entry::before{
 }
 html.motion .entry.in::before{ transform:none; }
 
+
+/* ---------- small type here too --------------------------------------
+   The project pages dropped their capitals; these three kept theirs,
+   which left the site running two type systems at once. Same treatment:
+   sentence case, the text face rather than the mono one, tracking back to
+   nothing, and the hierarchy carried by weight and colour.
+
+   The wordmark is left alone - it already sets itself in sentence case. */
+.kicker,
+.stat span,
+.entry-date,
+.entry-tag,
+.dl-meta,
+.track-note {
+  font-family:'Plus Jakarta Sans', sans-serif;
+  font-size:12.5px;
+  font-weight:500;
+  letter-spacing:0;
+  text-transform:none;
+}
 </style>
 <script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
