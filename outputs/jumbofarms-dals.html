@@ -475,8 +475,12 @@ html.motion .site-footer.in{ opacity:1; }
    next one starts; a heading is one or two lines and never has that
    problem. Centred furniture, ranged-left prose. */
 .hero .wrap{ text-align:center; }
-.hero h1{ margin-inline:auto; }
-.hero p{ margin-inline:auto; max-width:660px; }
+/* The title was capped at 940px and broken by hand on top of that, so
+   a two-word name came apart over two lines when it sets on one inside
+   the measure. The cap comes off and the hand break with it; it still
+   wraps on its own when the window is genuinely too narrow. */
+.hero h1{ margin-inline:auto; max-width:none; text-wrap:balance; }
+.hero p{ margin-inline:auto; max-width:820px; text-wrap:pretty; }
 .tags{ justify-content:center; }
 .meta-row{ max-width:900px; margin-inline:auto; }
 
@@ -622,6 +626,80 @@ html.motion .section .label.in{ transform:none; }
   font-family:'Plus Jakarta Sans', sans-serif;
   font-size:12.5px; font-weight:500; letter-spacing:0;
 }
+
+/* ---------- the section splits in two --------------------------------
+   The label takes the left column; the statement and the prose take the
+   right. This is how the reference sets its process sections - the kicker
+   out at the left margin, everything it introduces ranged left beside it -
+   and it is the thing a centred section could not do: a centred heading
+   over a narrower centred paragraph leaves the paragraph's own left edge
+   floating at neither margin.
+
+   Both columns range left. The hero above stays centred, which is also
+   what the reference does: the opening is the only centred thing on it. */
+@media (min-width: 900px){
+  .section > .wrap{
+    display:grid;
+    grid-template-columns: minmax(130px, 1fr) minmax(0, 3.4fr);
+    column-gap: clamp(32px, 4.5vw, 72px);
+    align-items:start;
+    text-align:left;
+  }
+  .section > .wrap > .label{
+    grid-column:1; grid-row:1;
+    margin-bottom:0;
+    padding-top:.5em;        /* optical: sits with the statement's first line */
+  }
+  .section > .wrap > .lede,
+  .section > .wrap > .copy,
+  .section > .wrap > p,
+  .section > .wrap > ul,
+  .section > .wrap > ol{ grid-column:2; margin-inline:0; }
+  .section > .wrap > .lede{ max-width:none; }
+  .section > .wrap > .copy{ max-width:760px; }
+
+  /* The artwork ignores the split and runs the whole measure under it. */
+  .section > .wrap > .packgrid,
+  .section > .wrap > .spread,
+  .section > .wrap > .page,
+  .section > .wrap > .shots,
+  .section > .wrap > .strands{ grid-column:1 / -1; }
+
+  /* It comes in from the left again, because that is where it lives. */
+  html.motion .section .label{ transform:translateX(-14px); }
+  html.motion .section .label.in{ transform:none; }
+}
+
+/* ---------- title, rule, and artwork at full measure ------------------
+   The title comes down in size - at 124px it was carrying the whole hero
+   on its own - and the rule that was already below it, over the meta row,
+   takes the full measure. It was stopping at 900px while everything
+   around it ran to 1160.
+
+   The packshots fill that same measure: four to a row at a quarter of it
+   each, so the tiles reach both edges instead of leaving 56px of air at
+   either side. A last row that does not fill sits at the left, which is
+   where everything else on the page now starts. */
+.hero h1{ font-size:clamp(38px, 6.4vw, 86px); }
+.meta-row{ max-width:none; }
+
+.packgrid{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  justify-content:stretch;
+  gap:16px;
+}
+.packgrid > .page{
+  flex:none;
+  height:clamp(280px, 29vw, 400px);
+}
+@media (max-width:1000px){
+  .packgrid{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width:700px){
+  .packgrid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .packgrid > .page{ flex:none; height:clamp(220px, 46vw, 300px); }
+}
 </style><script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
    for anyone who has asked their system for less movement. Setting the
@@ -659,7 +737,7 @@ html.motion .section .label.in{ transform:none; }
 <section class="hero">
   <div class="wrap">
     <span class="eyebrow">Packaging / Jumbofarms</span>
-    <h1>Jumbofarms<br>Dals</h1>
+    <h1>Jumbofarms Dals</h1>
     <p>Twenty-six kilo wholesale sacks, where the pack is a document as much as an identity &mdash; and where the same artwork had to be set in more than one language.</p>
     <div class="tags"><span class="tag">Packaging Design</span><span class="tag">Bulk</span><span class="tag">Multilingual</span><span class="tag">Compliance</span></div>
     <div class="meta-row"><div class="meta">Brand<b>Jumbofarms</b></div><div class="meta">Range<b>Fatka Toor Dal, Chana Dal</b></div><div class="meta">Format<b>26 kg sacks</b></div></div>
