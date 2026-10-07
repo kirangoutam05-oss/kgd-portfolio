@@ -1020,8 +1020,12 @@ html.motion .stack-item.in .stack-media > video{ transform:none; }
 .projects .projects-link{ color:#fff; }
 .projects .rail-nav button{ border-color:rgba(255,255,255,.3); color:#fff; }
 .projects .rail-nav button:hover{ border-color:#fff; color:#fff; }
-.projects .project-item figcaption,
-.projects .project-name{ color:var(--invert-fg); }
+/* The rail captions are h3 + p inside .project-caption - not figcaption
+   or .project-name, which is what I first wrote and which matched
+   nothing. The names kept their own near-black and disappeared against
+   the dark ground this section now has. */
+.projects .project-caption h3{ color:var(--invert-fg); }
+.projects .project-caption p{ color:rgba(255,255,255,.62); }
 </style>
 <script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
