@@ -742,6 +742,20 @@ html.motion .section .label.in{ transform:none; }
   .packgrid > .page{ height:clamp(360px, 36vw, 520px); }
   .spread{ grid-auto-rows:clamp(320px, 32vw, 520px); }
 }
+
+/* The back-panel spreads are the sack opened out - 1600x1030, landscape -
+   so they take two to a row in a tile of their own proportion rather than
+   the three portrait ones the front packshots use. */
+.packgrid.wide{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+.packgrid.wide > .page{ height:clamp(260px, 27vw, 420px); }
+@media (min-width: 1001px){
+  .packgrid.wide{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .packgrid.wide > .page{ height:clamp(300px, 29vw, 460px); }
+}
+@media (max-width: 700px){
+  .packgrid.wide{ grid-template-columns:1fr; }
+  .packgrid.wide > .page{ height:clamp(200px, 56vw, 300px); }
+}
 </style><script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
    for anyone who has asked their system for less movement. Setting the
@@ -793,31 +807,6 @@ html.motion .section .label.in{ transform:none; }
     <p class="copy"><strong>Dubar, Everyday, Mini Mogra, Mogra, Premium, Royal, Super, Supreme and Tibar.</strong> Nine grades of the same 1121 basmati, separated by grain length and breakage &mdash; differences a buyer cannot see through a sack.</p>
     <p class="copy">So nothing about the layout moves. The arched frame, the paired peacocks, the gold cartouche holding the Jumbofarms oval, the grade name above &ldquo;1121 Basmati Rice&rdquo;, the brass bowl of cooked grain, the quality roundels, the script running along the top and bottom edges &mdash; all of it is fixed. Only the colour changes, and it changes completely: teal, aubergine, black, brown, oxblood, navy, green, gold, magenta.</p>
     <p class="copy">That is what makes the range work as a set. A wholesaler stacking nine grades finds the one they want by colour alone, at a distance, without reading a word.</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <span class="label">The back</span>
-    <h2 class="lede">The half of the pack nobody art-directs.</h2>
-    <p class="copy">Every grade carries the same reverse: nutrition table, cooking method icons, the green vegetarian mark, the manufacturer block, and a printed white window for batch, packing date and best-before.</p>
-    <p class="copy">Standardising it is the point. Nine separate back panels would be nine chances for a compliance detail to drift; one panel with the grade name swapped is one artwork to check.</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <span class="label">The exception</span>
-    <h2 class="lede">Sonam sits outside the ladder, deliberately.</h2>
-    <p class="copy"><strong>Sonam Kolam steamed rice</strong> is not 1121 basmati, and it does not use the system. Orange rather than jewelled, a photographed paddy field rather than the arched frame, the variety name set plainly.</p>
-    <p class="copy">Putting it in the ladder would have implied it was a grade of basmati. Breaking the system is how the pack says it is a different thing.</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <span class="label">The work</span>
-    <h2 class="lede">10 pieces of artwork.</h2>
     <div class="packgrid">
       <figure class="page"><img decoding="async" fetchpriority="high" src="assets/packaging/rice/royal.jpg" alt="Royal &mdash; front and back of the 26 kg sack"><figcaption>Royal</figcaption></figure>
       <figure class="page"><img loading="lazy" src="assets/packaging/rice/premium.jpg" alt="Premium, in oxblood"><figcaption>Premium</figcaption></figure>
@@ -832,6 +821,28 @@ html.motion .section .label.in{ transform:none; }
     </div>
   </div>
 </section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="label">The back</span>
+    <h2 class="lede">The half of the pack nobody art-directs.</h2>
+    <p class="copy">Every grade carries the same reverse: nutrition table, cooking method icons, the green vegetarian mark, the manufacturer block, and a printed white window for batch, packing date and best-before.</p>
+    <p class="copy">Standardising it is the point. Nine separate back panels would be nine chances for a compliance detail to drift; one panel with the grade name swapped is one artwork to check.</p>
+    <div class="packgrid wide">
+      <figure class="page"><img loading="lazy" src="assets/packaging/rice/royal-spread.jpg" alt="Royal — the sack opened out, front and back"><figcaption>Royal</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/packaging/rice/premium-spread.jpg" alt="Premium — the sack opened out, front and back"><figcaption>Premium</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/packaging/rice/supreme-spread.jpg" alt="Supreme — the sack opened out, front and back"><figcaption>Supreme</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/packaging/rice/super-spread.jpg" alt="Super — the sack opened out, front and back"><figcaption>Super</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/packaging/rice/mogra-spread.jpg" alt="Mogra — the sack opened out, front and back"><figcaption>Mogra</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/packaging/rice/mini-mogra-spread.jpg" alt="Mini Mogra — the sack opened out, front and back"><figcaption>Mini Mogra</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/packaging/rice/dubar-spread.jpg" alt="Dubar — the sack opened out, front and back"><figcaption>Dubar</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/packaging/rice/everyday-spread.jpg" alt="Everyday — the sack opened out, front and back"><figcaption>Everyday</figcaption></figure>
+      <figure class="page"><img loading="lazy" src="assets/packaging/rice/tibar-spread.jpg" alt="Tibar — the sack opened out, front and back"><figcaption>Tibar</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+
 
 </main>
 
