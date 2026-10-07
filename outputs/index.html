@@ -1125,12 +1125,12 @@ html.motion .stack-item.in .stack-media > video{ transform:none; }
       <span class="stack-cta"><span class="stack-arrow" aria-hidden="true">&#8599;</span>View Project</span>
     </div>
   </a>
-  <a class="stack-item" href="bell-home-security.html" style="--tint:#e2f2f5;--tint-dark:#10242a">
-    <div class="stack-media"><img loading="lazy" src="assets/bell-home-security/tile.jpg" alt="The Bell home security interface and wordmark"></div>
+  <a class="stack-item" href="forum-by-rego.html" style="--tint:#efece8;--tint-dark:#1d1d1f">
+    <div class="stack-media"><img loading="lazy" src="assets/forum-by-rego/page-01.jpg" alt="The Forum by ReGo strategy document, opening page"></div>
     <div class="stack-row">
       <div class="stack-names">
-        <h3>Bell Home Security</h3>
-        <p class="stack-kind">Product Design &amp; UX Research</p>
+        <h3>Forum by ReGo</h3>
+        <p class="stack-kind">Branding &amp; Motion</p>
       </div>
       <span class="stack-cta"><span class="stack-arrow" aria-hidden="true">&#8599;</span>View Project</span>
     </div>
@@ -1191,9 +1191,9 @@ html.motion .stack-item.in .stack-media > video{ transform:none; }
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>Logofolio</h3><p>Logo &amp; Identity</p></div>
     </a>
-    <a class="project-item" href="forum-by-rego.html" style="--bg:#1d1d1f;--art:url(assets/forum-by-rego/page-01.jpg)" aria-label="View the Forum by ReGo case study">
+    <a class="project-item" href="bell-home-security.html" style="--bg:#e2f2f5;--art:url(assets/bell-home-security/tile.jpg)" aria-label="View the Bell Home Security case study">
       <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>Forum by ReGo</h3><p>Branding &amp; Motion</p></div>
+      <div class="project-caption"><h3>Bell Home Security</h3><p>Product Design &amp; UX Research</p></div>
     </a>
     <a class="project-item" href="meraki.html" style="--bg:#eeeae4;--art:url(assets/meraki/page-01.jpg)" aria-hidden="true" tabindex="-1">
       <div class="project-card"><div class="project-art"></div></div>
@@ -1223,9 +1223,9 @@ html.motion .stack-item.in .stack-media > video{ transform:none; }
       <div class="project-card"><div class="project-art"></div></div>
       <div class="project-caption"><h3>Logofolio</h3><p>Logo &amp; Identity</p></div>
     </a>
-    <a class="project-item" href="forum-by-rego.html" style="--bg:#1d1d1f;--art:url(assets/forum-by-rego/page-01.jpg)" aria-hidden="true" tabindex="-1">
+    <a class="project-item" href="bell-home-security.html" style="--bg:#e2f2f5;--art:url(assets/bell-home-security/tile.jpg)" aria-hidden="true" tabindex="-1">
       <div class="project-card"><div class="project-art"></div></div>
-      <div class="project-caption"><h3>Forum by ReGo</h3><p>Branding &amp; Motion</p></div>
+      <div class="project-caption"><h3>Bell Home Security</h3><p>Product Design &amp; UX Research</p></div>
     </a>
     </div>
   </div>
@@ -1795,6 +1795,36 @@ html.motion .stack-item.in .stack-media > video{ transform:none; }
     }
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
   for (var i = 0; i < list.length; i++) io.observe(list[i]);
+
+  /* A safety net: everything above is one API call away from a page that
+     never shows its content. If the observer does not deliver - a tab
+     hidden when it loaded, a restored scroll position, a browser that
+     suspends callbacks - this sweeps whatever is already within reach of
+     the viewport and marks it directly. list is a NodeList here, so it is
+     walked rather than spliced. */
+  var sweepQueued = false;
+  function sweep(){
+    for (var k = 0; k < list.length; k++){
+      var el = list[k];
+      if (/(^|s)in(s|$)/.test(el.className)) continue;
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight){   /* at or above the fold */ mark(el); io.unobserve(el); }
+    }
+  }
+  function queueSweep(){
+    if (sweepQueued) return;
+    sweepQueued = true;
+    requestAnimationFrame(function(){ sweepQueued = false; sweep(); });
+  }
+  /* Lazy images land after the first sweep and push everything down, so
+     it runs again on load and once more after that. */
+  setTimeout(sweep, 1200);
+  setTimeout(sweep, 3000);
+  window.addEventListener('load', sweep);
+  window.addEventListener('scroll', queueSweep, { passive: true });
+  window.addEventListener('resize', queueSweep, { passive: true });
+  window.addEventListener('pageshow', sweep);
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) sweep(); });
 })();
 </script>
 </body>

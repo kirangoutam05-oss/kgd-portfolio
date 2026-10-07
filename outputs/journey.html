@@ -886,6 +886,36 @@ html.motion .entry.in::before{ transform:none; }
     }
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
   for (var i = 0; i < list.length; i++) io.observe(list[i]);
+
+  /* A safety net: everything above is one API call away from a page that
+     never shows its content. If the observer does not deliver - a tab
+     hidden when it loaded, a restored scroll position, a browser that
+     suspends callbacks - this sweeps whatever is already within reach of
+     the viewport and marks it directly. list is a NodeList here, so it is
+     walked rather than spliced. */
+  var sweepQueued = false;
+  function sweep(){
+    for (var k = 0; k < list.length; k++){
+      var el = list[k];
+      if (/(^|s)in(s|$)/.test(el.className)) continue;
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight){   /* at or above the fold */ mark(el); io.unobserve(el); }
+    }
+  }
+  function queueSweep(){
+    if (sweepQueued) return;
+    sweepQueued = true;
+    requestAnimationFrame(function(){ sweepQueued = false; sweep(); });
+  }
+  /* Lazy images land after the first sweep and push everything down, so
+     it runs again on load and once more after that. */
+  setTimeout(sweep, 1200);
+  setTimeout(sweep, 3000);
+  window.addEventListener('load', sweep);
+  window.addEventListener('scroll', queueSweep, { passive: true });
+  window.addEventListener('resize', queueSweep, { passive: true });
+  window.addEventListener('pageshow', sweep);
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) sweep(); });
 })();
 </script>
 </body>
