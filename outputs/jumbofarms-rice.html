@@ -670,6 +670,39 @@ html.motion .section .label.in{ transform:none; }
   html.motion .section .label{ transform:translateX(-14px); }
   html.motion .section .label.in{ transform:none; }
 }
+
+/* ---------- title, rule, and artwork at full measure ------------------
+   The title comes down in size - at 124px it was carrying the whole hero
+   on its own - and a hairline runs the full measure under it, which is
+   what holds the width now that the words no longer do.
+
+   The packshots fill that same measure: four to a row at a quarter of it
+   each, so the tiles reach both edges instead of leaving 56px of air at
+   either side. A last row that does not fill sits at the left, which is
+   where everything else on the page now starts. */
+.hero h1{ font-size:clamp(38px, 6.4vw, 86px); }
+/* No rule of its own under the title - but the one that was already
+   below, over the meta row, takes the full measure the way that one did.
+   It was stopping at 900px while everything around it ran to 1160. */
+.meta-row{ max-width:none; }
+
+.packgrid{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  justify-content:stretch;
+  gap:16px;
+}
+.packgrid > .page{
+  flex:none;
+  height:clamp(280px, 29vw, 400px);
+}
+@media (max-width:1000px){
+  .packgrid{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width:700px){
+  .packgrid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .packgrid > .page{ flex:none; height:clamp(220px, 46vw, 300px); }
+}
 </style><script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
    for anyone who has asked their system for less movement. Setting the
