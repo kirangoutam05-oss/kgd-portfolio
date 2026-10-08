@@ -1810,7 +1810,7 @@ html.motion .stack-item.in .stack-media > video{ transform:none; }
   function sweep(){
     for (var k = 0; k < list.length; k++){
       var el = list[k];
-      if (/(^|s)in(s|$)/.test(el.className)) continue;
+      if (/(^|\s)in(\s|$)/.test(el.className)) continue;
       var r = el.getBoundingClientRect();
       if (r.top < window.innerHeight){   /* at or above the fold */ mark(el); io.unobserve(el); }
     }
