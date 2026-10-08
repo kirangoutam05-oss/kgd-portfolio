@@ -511,19 +511,27 @@ html.motion .section .label.in{ transform:none; }
    exactly, so the block stays square-edged whatever number of pieces a
    project has. One row height throughout - letting the artwork set it
    gave rows of 624, 477 and 240px down the same block. */
+/* These blocks hold sequences - page-01..18, doc-01..09, case-01..14 -
+   the same kind of thing over and over, like a packshot range. A bento
+   gave them three tile widths, so one document page painted 562px wide
+   and the next 343px, filling anywhere between 45% and 76% of its tile.
+   Two to a row at one size instead: every page the same, and large
+   enough to read. */
 .spread{
   display:grid;
-  grid-template-columns:repeat(6, 1fr);
-  grid-auto-rows:clamp(260px, 25vw, 400px);
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  /* No fixed row height. These pages are not one shape - on the Forum
+     strategy document the aspects run from 1.27 to 2.59 - so any height
+     chosen for the tile letterboxes most of them; the worst filled 44% of
+     its box. Each page now takes the full width of its column and its own
+     natural height, so nothing is boxed and nothing is cropped. */
+  grid-auto-rows:auto;
+  align-items:start;
   gap:16px;
   margin-top:34px;
 }
-.spread > .page:nth-child(6n+1){ grid-column:span 4; }
-.spread > .page:nth-child(6n+2){ grid-column:span 2; }
-.spread > .page:nth-child(6n+3){ grid-column:span 3; }
-.spread > .page:nth-child(6n+4){ grid-column:span 3; }
-.spread > .page:nth-child(6n+5){ grid-column:span 2; }
-.spread > .page:nth-child(6n+6){ grid-column:span 4; }
+.spread > .page{ height:auto; }
+.spread > .page img{ height:auto; object-fit:contain; padding:0; }
 .spread > .page:only-child{ grid-column:1 / -1; }
 
 /* Shared tile behaviour: the artwork is contained by its tile, never
@@ -543,9 +551,8 @@ html.motion .section .label.in{ transform:none; }
 .page figcaption{ text-align:center; }
 
 @media (max-width:860px){
-  .spread{ grid-template-columns:repeat(2, 1fr); grid-auto-rows:clamp(220px, 38vw, 300px); }
-  .spread > .page{ grid-column:span 1 !important; }
-  .spread > .page:nth-child(6n+1){ grid-column:span 2 !important; }
+  .spread{ grid-template-columns:repeat(2, 1fr); }
+  /* no spans left to undo - the block is two even columns now */
 }
 @media (max-width:560px){
   /* .packgrid is a flex wrap now, so a grid-template rule would not
@@ -553,7 +560,6 @@ html.motion .section .label.in{ transform:none; }
      column rather than leaving 150px of air beside a 190px bag. */
   .packgrid > .page{ flex:0 0 calc(50% - 8px); height:clamp(210px, 54vw, 260px); }
   .spread{ grid-template-columns:1fr; }
-  .spread > .page{ grid-column:span 1 !important; }
   /* The phone column is already the measure. Centring short ragged lines
      in it only makes them harder to read. */
   .section .wrap, .hero .wrap{ text-align:left; }
