@@ -750,6 +750,39 @@ html.kgd-motion .section .label.in{ transform:none; }
   .packgrid > .page{ height:clamp(360px, 36vw, 520px); }
   .spread{ grid-auto-rows:clamp(320px, 32vw, 520px); }
 }
+
+/* ---------- a section that runs beside its film --------------------
+   The video is portrait, 720x1280. Set full width between two paragraphs
+   it took the whole measure for a tall narrow thing and pushed the second
+   half of the argument off the screen. It holds the left column instead,
+   with the label, the statement and both paragraphs to its right.
+
+   The label leaves its rail here: that rail is what the rest of the page
+   uses to hold the kicker, and there is no room for it beside a film. */
+@media (min-width: 900px){
+  .beside > .wrap{
+    display:grid;
+    grid-template-columns:minmax(0, 0.85fr) minmax(0, 1.5fr);
+    column-gap:clamp(32px, 4vw, 68px);
+    align-items:start;
+  }
+  .beside > .wrap > .page{
+    grid-column:1;
+    grid-row:1 / span 20;
+    margin:0;
+    align-self:start;
+  }
+  .beside > .wrap > .label,
+  .beside > .wrap > .lede,
+  .beside > .wrap > .copy{ grid-column:2; margin-inline:0; }
+  .beside > .wrap > .label{ padding-top:0; margin-bottom:18px; }
+  .beside > .wrap > .lede,
+  .beside > .wrap > .copy{ max-width:none; }
+  /* The film fills its column rather than sitting in a letterboxed tile. */
+  .beside > .wrap > .page video{
+    display:block; width:100%; height:auto;
+  }
+}
 </style>
 <script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
@@ -870,11 +903,10 @@ html.kgd-motion .section .label.in{ transform:none; }
   </div>
 </section>
 
-<section class="section">
+<section class="section beside">
   <div class="wrap">
     <span class="label">Ramp Up, tested</span>
     <h2 class="lede">Take It To The Streets.</h2>
-    <p class="copy">Of the promotional routes considered, one was taken out and tried on a sample audience rather than argued on paper. The reasoning in the document is plain about why: by starting a conversation with the general public you induce a thought process, awaken curiosity, and give someone a reason to turn up &mdash; which is a claim you can only test by going outside and doing it.</p>
     <figure class="page is-portrait">
       <video
         src="assets/forum-by-rego/take-it-to-the-streets.mp4"
@@ -884,6 +916,7 @@ html.kgd-motion .section .label.in{ transform:none; }
       </video>
       <figcaption>Take It To The Streets &mdash; the campaign, tested</figcaption>
     </figure>
+    <p class="copy">Of the promotional routes considered, one was taken out and tried on a sample audience rather than argued on paper. The reasoning in the document is plain about why: by starting a conversation with the general public you induce a thought process, awaken curiosity, and give someone a reason to turn up &mdash; which is a claim you can only test by going outside and doing it.</p>
     <p class="copy">Social media marketing was chosen over the other eleven routes Asana lists for three stated reasons &mdash; cost, sustainability, and the fact that its reach and impact can actually be measured. This is the piece of the Rising Formula that was put in front of real people.</p>
   </div>
 </section>
