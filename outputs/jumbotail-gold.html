@@ -1031,6 +1031,24 @@ html.motion .section .label.in{ transform:none; }
     sweepQueued = true;
     requestAnimationFrame(function(){ sweepQueued = false; sweep(); });
   }
+
+  /* requestAnimationFrame does not run in a hidden or backgrounded
+     document, and scroll events do not arrive either, so everything above
+     can stall and leave the page blank. A plain interval still runs -
+     throttled, but running - and it stops itself once there is nothing
+     left to reveal, so it costs a few rect reads over a shrinking set.
+
+     It counts what is left rather than reading list.length, because list
+     is an array on most pages and a NodeList on two, where it never
+     shrinks and the timer would otherwise run for the life of the page. */
+  var beat = setInterval(function(){
+    sweep();
+    var left = 0;
+    for (var q = 0; q < list.length; q++){
+      if (!/(^|\s)in(\s|$)/.test(list[q].className)) left++;
+    }
+    if (!left) clearInterval(beat);
+  }, 400);
   /* Lazy images land after the first sweep and push everything down, so
      it runs again on load and once more after that. */
   setTimeout(sweep, 1200);
