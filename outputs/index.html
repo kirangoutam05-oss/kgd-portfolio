@@ -964,29 +964,29 @@ body{
 
 /* ---------- motion below the hero -------------------------------------
    The hero runs its own loading sequence; this is everything under it.
-   Same gate as the rest of the site: html.motion, set before first paint
+   Same gate as the rest of the site: html.kgd-motion, set before first paint
    and only where the movement is wanted. */
-html.motion{ --kgd-ease:cubic-bezier(.22,.61,.36,1); --kgd-out:cubic-bezier(.16,1,.3,1); }
+html.kgd-motion{ --kgd-ease:cubic-bezier(.22,.61,.36,1); --kgd-out:cubic-bezier(.16,1,.3,1); }
 
-html.motion .stack-head,
-html.motion .stack-item{
+html.kgd-motion .stack-head,
+html.kgd-motion .stack-item{
   opacity:0; transform:translateY(28px);
   transition:opacity .9s ease, transform 1s var(--kgd-out);
   transition-delay:calc(var(--d,0) * 90ms);
 }
-html.motion .stack-head.in,
-html.motion .stack-item.in{ opacity:1; transform:none; }
+html.kgd-motion .stack-head.in,
+html.kgd-motion .stack-item.in{ opacity:1; transform:none; }
 
 /* The artwork settles back to its own size inside the frame, so the work
    comes to rest rather than appears - as it does on the project pages. */
-html.motion .stack-item .stack-media > img,
-html.motion .stack-item .stack-media > video{
+html.kgd-motion .stack-item .stack-media > img,
+html.kgd-motion .stack-item .stack-media > video{
   transform:scale(1.06);
   transition:transform 1.4s var(--kgd-out);
   transition-delay:calc(var(--d,0) * 90ms);
 }
-html.motion .stack-item.in .stack-media > img,
-html.motion .stack-item.in .stack-media > video{ transform:none; }
+html.kgd-motion .stack-item.in .stack-media > img,
+html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
 
 
 /* ---------- small type here too --------------------------------------
@@ -1037,7 +1037,7 @@ html.motion .stack-item.in .stack-media > video{ transform:none; }
     if (!('IntersectionObserver' in window)) return;
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var r = document.documentElement;
-    r.className += (r.className ? ' ' : '') + 'motion';
+    r.className += (r.className ? ' ' : '') + 'kgd-motion';
   }catch(e){}
 })();
 </script>
@@ -1781,7 +1781,7 @@ html.motion .stack-item.in .stack-media > video{ transform:none; }
 <script>
 /* Below the hero only: the hero has its own loading sequence. */
 (function(){
-  if (document.documentElement.className.indexOf('motion') < 0) return;
+  if (document.documentElement.className.indexOf('kgd-motion') < 0) return;
 
   function mark(el){ el.className += (el.className ? ' ' : '') + 'in'; }
 
