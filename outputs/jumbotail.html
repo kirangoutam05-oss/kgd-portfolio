@@ -802,7 +802,7 @@ html.kgd-motion .section .label.in{ transform:none; }
 
 .bigcards{
   display:grid; grid-template-columns:repeat(3, 1fr);
-  gap:14px; margin:4px 0 44px;
+  gap:14px; margin:clamp(26px, 3.4vw, 46px) 0 44px;
 }
 @media (max-width: 900px){ .bigcards{ grid-template-columns:1fr; } }
 .bigcard{
