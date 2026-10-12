@@ -757,6 +757,17 @@ html.kgd-motion .section .label.in{ transform:none; }
 /* The accent is a deep navy that disappears on this ground. */
 .section:nth-of-type(odd) .label{ color:#cfc6bb; }
 .section:nth-of-type(odd) a{ color:#fff; }
+/* ---------- the strand titles on this ground ----------
+   The rule above paints links white so they can be read against the dark
+   section. A strand is a link, but the card it opens is not on that
+   ground - it carries its own pale panel - so the white was inherited
+   straight onto the panel and the title vanished. Its description names
+   --muted and its call to action names --accent, which is why those two
+   stayed readable and only the title went. The card sets its colour back,
+   and the title names one of its own so it never depends on the ground
+   it is placed on again. */
+.section:nth-of-type(odd) .strand{ color:var(--ink); }
+.strand-body h3{ color:var(--ink); }
 .section:nth-of-type(odd) .themes li{
   background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.14);
 }
