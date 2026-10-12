@@ -785,6 +785,75 @@ html.kgd-motion .section .label.in{ transform:none; }
   .packgrid > .page{ height:clamp(360px, 36vw, 520px); }
   .spread{ grid-auto-rows:clamp(320px, 32vw, 520px); }
 }
+
+/* ---------- three doors into the work ----------
+   Seventeen cards in one grid asks a reader to sort them. These three say
+   what the sorting is - the own-brand shelf, the membership, and the
+   marketplace speaking as itself - and each one drops to its own group.
+   Everything here names its own colour: these sit on the dark ground, and
+   a child that inherits from it is exactly how the strand titles went
+   white on a pale card. */
+/* .section > .wrap is a two-column grid - the label out at the left, the
+   content ranged beside it - so a child that should run the full width has
+   to say so. .strands already claimed it at two breakpoints; these are new
+   children of the same grid and were landing in the narrow label column. */
+.section > .wrap > .bigcards,
+.section > .wrap > .strandgroup{ grid-column:1 / -1; }
+
+.bigcards{
+  display:grid; grid-template-columns:repeat(3, 1fr);
+  gap:14px; margin:4px 0 44px;
+}
+@media (max-width: 900px){ .bigcards{ grid-template-columns:1fr; } }
+.bigcard{
+  display:flex; flex-direction:column;
+  padding:24px 22px 20px; text-decoration:none;
+  border:1px solid rgba(255,255,255,.17); border-radius:14px;
+  background:rgba(255,255,255,.045); color:var(--invert-fg);
+  transition:border-color .2s ease, background .2s ease, transform .3s ease;
+}
+.bigcard:hover{
+  border-color:rgba(255,255,255,.42); background:rgba(255,255,255,.08);
+  transform:translateY(-2px);
+}
+.bigcard h3{
+  margin:0; color:#fff;
+  font:500 23px/1.08 'Plus Jakarta Sans',sans-serif; letter-spacing:-.035em;
+}
+.bigcard p{
+  margin:10px 0 0; font-size:13.5px; line-height:1.55;
+  color:rgba(255,255,255,.66);
+}
+.bigcard-tags{
+  list-style:none; display:flex; flex-wrap:wrap; gap:6px;
+  margin:17px 0 0; padding:0;
+}
+.bigcard-tags li{
+  font:500 10px 'Geist Mono',monospace; letter-spacing:.08em;
+  text-transform:uppercase; color:rgba(255,255,255,.74);
+  border:1px solid rgba(255,255,255,.22); border-radius:99px;
+  padding:4px 9px;
+}
+.bigcard-cta{
+  margin-top:auto; padding-top:22px;
+  display:inline-flex; align-items:center; gap:8px; color:#fff;
+  font:500 11.5px 'Geist Mono',monospace; letter-spacing:.08em; text-transform:uppercase;
+}
+.bigcard-cta i{ font-style:normal; transition:transform .3s ease; }
+.bigcard:hover .bigcard-cta i{ transform:translate(2px,-2px); }
+
+/* ---------- the groups the cards open ---------- */
+.strandgroup{ scroll-margin-top:92px; }
+.strandgroup + .strandgroup{ margin-top:40px; }
+.groupname{
+  display:flex; align-items:center; gap:13px; margin:0 0 16px;
+  font:500 12px 'Geist Mono',monospace; letter-spacing:.12em;
+  text-transform:uppercase; color:rgba(255,255,255,.64);
+}
+.groupname b{ font-weight:500; color:rgba(255,255,255,.38); }
+.groupname::after{
+  content:''; flex:1; height:1px; background:rgba(255,255,255,.14);
+}
 </style><script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
    for anyone who has asked their system for less movement. Setting the
@@ -851,8 +920,46 @@ html.kgd-motion .section .label.in{ transform:none; }
 <section class="section">
   <div class="wrap">
     <span class="label">The work</span>
-    <h2 class="lede">Seventeen strands, each with somewhere to go.</h2>
-    <div class="strands">
+    <h2 class="lede">Three brands, seventeen strands.</h2>
+    <div class="bigcards">
+      <a class="bigcard" href="#jumbofarms">
+        <h3>Jumbofarms</h3>
+        <p>The own-brand shelf &mdash; Jumbofarms, with Vedha and Crispy Corner beside it. One layout system across rice, dals, flour, spices and oil.</p>
+        <ul class="bigcard-tags">
+          <li>Packaging</li>
+          <li>Brand system</li>
+          <li>Range architecture</li>
+          <li>Food labelling</li>
+        </ul>
+        <span class="bigcard-cta">11 projects <i>&#8599;</i></span>
+      </a>
+      <a class="bigcard" href="#gold">
+        <h3>Superclub Gold</h3>
+        <p>A paid membership for kirana owners, argued twice: on a counter in print, and inside the app without disturbing the order flow.</p>
+        <ul class="bigcard-tags">
+          <li>Membership</li>
+          <li>Product design</li>
+          <li>Launch creative</li>
+          <li>Print &amp; in-app</li>
+        </ul>
+        <span class="bigcard-cta">2 projects <i>&#8599;</i></span>
+      </a>
+      <a class="bigcard" href="#marketplace">
+        <h3>Jumbotail</h3>
+        <p>The marketplace speaking as itself &mdash; to graduates it wants to hire, to a trade fair in the Gulf, and to its own customers every week.</p>
+        <ul class="bigcard-tags">
+          <li>Employer brand</li>
+          <li>Trade marketing</li>
+          <li>Social</li>
+          <li>Catalogue</li>
+        </ul>
+        <span class="bigcard-cta">4 projects <i>&#8599;</i></span>
+      </a>
+    </div>
+
+    <div class="strandgroup" id="jumbofarms">
+      <h3 class="groupname">Jumbofarms <b>11</b></h3>
+      <div class="strands">
       <a class="strand" href="jumbofarms-rice.html">
         <div class="strand-media"><img width="900" height="675" loading="lazy" src="assets/cards/rice-royal.jpg" alt="Royal - front and back of the 26 kg sack"></div>
         <div class="strand-body">
@@ -926,59 +1033,11 @@ html.kgd-motion .section .label.in{ transform:none; }
         </div>
       </a>
       
-      <a class="strand" href="jumbotail-gold.html">
-        <div class="strand-media"><img width="900" height="675" loading="lazy" src="assets/cards/gold.jpg" alt="Jumbotail Gold"></div>
-        <div class="strand-body">
-          <h3>Jumbotail Gold</h3>
-          <p>A membership programme that had to sell itself twice.</p>
-          <span class="strand-cta">View &#8599;</span>
-        </div>
-      </a>
-      <a class="strand" href="superclub-gold.html">
-        <div class="strand-media"><img width="600" height="450" loading="lazy" src="assets/cards/superclub-gold.jpg" alt="The Gold page: a crown over the claim that a member saves at least four thousand rupees a month"></div>
-        <div class="strand-body">
-          <h3>Superclub Gold</h3>
-          <p>The same membership on the product side &mdash; nine interventions, and one new screen.</p>
-          <span class="strand-cta">Read the case study &#8599;</span>
-        </div>
-      </a>
-      <a class="strand" href="jumbotail-glp.html">
-        <div class="strand-media"><img width="900" height="675" loading="lazy" src="assets/cards/glp.jpg" alt="Graduate Leaders Programme"></div>
-        <div class="strand-body">
-          <h3>Graduate Leaders Programme</h3>
-          <p>An employer brand for people who have not joined yet.</p>
-          <span class="strand-cta">View &#8599;</span>
-        </div>
-      </a>
-      <a class="strand" href="jumbotail-gulf-catalogue.html">
-        <div class="strand-media"><img width="900" height="675" loading="lazy" src="assets/cards/gulf-catalogue.jpg" alt="Gulf Foods Catalogue"></div>
-        <div class="strand-body">
-          <h3>Gulf Foods Catalogue</h3>
-          <p>India&rsquo;s kirana story, told to a trade fair in the Gulf.</p>
-          <span class="strand-cta">View &#8599;</span>
-        </div>
-      </a>
       <a class="strand" href="jumbofarms-mustard-oil-campaign.html">
         <div class="strand-media"><img width="900" height="675" loading="lazy" src="assets/cards/mustard-oil-campaign.jpg" alt="Mustard Oil Campaign"></div>
         <div class="strand-body">
           <h3>Mustard Oil Campaign</h3>
           <p>A contest run on a missed call and a QR code.</p>
-          <span class="strand-cta">View &#8599;</span>
-        </div>
-      </a>
-      <a class="strand" href="jumbotail-social-calendar.html">
-        <div class="strand-media"><img width="900" height="675" loading="lazy" src="assets/cards/social-calendar.jpg" alt="Social Calendar"></div>
-        <div class="strand-body">
-          <h3>Social Calendar</h3>
-          <p>A year of occasions, posted by a wholesale marketplace.</p>
-          <span class="strand-cta">View &#8599;</span>
-        </div>
-      </a>
-      <a class="strand" href="jumbotail-corporate-social.html">
-        <div class="strand-media"><img width="900" height="675" loading="lazy" src="assets/cards/corporate-social.jpg" alt="Corporate Social"></div>
-        <div class="strand-body">
-          <h3>Corporate Social</h3>
-          <p>Hiring posts, and the days a company speaks for itself.</p>
           <span class="strand-cta">View &#8599;</span>
         </div>
       </a>
@@ -999,8 +1058,69 @@ html.kgd-motion .section .label.in{ transform:none; }
            dashboard built with Decision Science that guided the banner
            redesign." Show the dashboard with the figures blurred. When it
            lands, the count in the heading above becomes nineteen. -->
-
+      </div>
     </div>
+
+    <div class="strandgroup" id="gold">
+      <h3 class="groupname">Superclub Gold <b>2</b></h3>
+      <div class="strands">
+      <a class="strand" href="jumbotail-gold.html">
+        <div class="strand-media"><img width="900" height="675" loading="lazy" src="assets/cards/gold.jpg" alt="Jumbotail Gold"></div>
+        <div class="strand-body">
+          <h3>Jumbotail Gold</h3>
+          <p>A membership programme that had to sell itself twice.</p>
+          <span class="strand-cta">View &#8599;</span>
+        </div>
+      </a>
+      <a class="strand" href="superclub-gold.html">
+        <div class="strand-media"><img width="600" height="450" loading="lazy" src="assets/cards/superclub-gold.jpg" alt="The Gold page: a crown over the claim that a member saves at least four thousand rupees a month"></div>
+        <div class="strand-body">
+          <h3>Superclub Gold</h3>
+          <p>The same membership on the product side &mdash; nine interventions, and one new screen.</p>
+          <span class="strand-cta">Read the case study &#8599;</span>
+        </div>
+      </a>
+      </div>
+    </div>
+
+    <div class="strandgroup" id="marketplace">
+      <h3 class="groupname">Jumbotail <b>4</b></h3>
+      <div class="strands">
+      <a class="strand" href="jumbotail-glp.html">
+        <div class="strand-media"><img width="900" height="675" loading="lazy" src="assets/cards/glp.jpg" alt="Graduate Leaders Programme"></div>
+        <div class="strand-body">
+          <h3>Graduate Leaders Programme</h3>
+          <p>An employer brand for people who have not joined yet.</p>
+          <span class="strand-cta">View &#8599;</span>
+        </div>
+      </a>
+      <a class="strand" href="jumbotail-gulf-catalogue.html">
+        <div class="strand-media"><img width="900" height="675" loading="lazy" src="assets/cards/gulf-catalogue.jpg" alt="Gulf Foods Catalogue"></div>
+        <div class="strand-body">
+          <h3>Gulf Foods Catalogue</h3>
+          <p>India&rsquo;s kirana story, told to a trade fair in the Gulf.</p>
+          <span class="strand-cta">View &#8599;</span>
+        </div>
+      </a>
+      <a class="strand" href="jumbotail-social-calendar.html">
+        <div class="strand-media"><img width="900" height="675" loading="lazy" src="assets/cards/social-calendar.jpg" alt="Social Calendar"></div>
+        <div class="strand-body">
+          <h3>Social Calendar</h3>
+          <p>A year of occasions, posted by a wholesale marketplace.</p>
+          <span class="strand-cta">View &#8599;</span>
+        </div>
+      </a>
+      <a class="strand" href="jumbotail-corporate-social.html">
+        <div class="strand-media"><img width="900" height="675" loading="lazy" src="assets/cards/corporate-social.jpg" alt="Corporate Social"></div>
+        <div class="strand-body">
+          <h3>Corporate Social</h3>
+          <p>Hiring posts, and the days a company speaks for itself.</p>
+          <span class="strand-cta">View &#8599;</span>
+        </div>
+      </a>
+      </div>
+    </div>
+  
   </div>
 </section>
 <section class="section">
