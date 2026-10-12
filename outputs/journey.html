@@ -564,6 +564,20 @@ html.kgd-motion .entry.in::before{ transform:none; }
   background:rgba(255,255,255,.10);
   border-color:#ffffff;
 }
+
+/* ---------- the dark sections run the full width ----------
+   Both of these carry .wrap, and .wrap is what sets the 1160 column. With
+   a background on the section, that column is the only part that gets
+   painted, so the page colour showed down either side of the dark block.
+   They run the full width now and hold the column with padding instead,
+   which keeps the text where it was and takes the background to the edge. */
+.intro,
+.download{
+  width:100%;
+  max-width:none;
+  margin-inline:0;
+  padding-inline:max(20px, calc((100% - 1160px) / 2));
+}
 </style>
 <script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
@@ -610,9 +624,7 @@ html.kgd-motion .entry.in::before{ transform:none; }
 </section>
 
 
-<section class="timeline wrap" aria-labelledby="track-title">
-  <h2 id="track-title" class="kicker">The track</h2>
-  <p class="track-note">In order, most recent first.</p>
+<section class="timeline wrap" aria-label="The track">
   <ol class="track">
 
     <li class="entry is-now">
@@ -694,7 +706,7 @@ html.kgd-motion .entry.in::before{ transform:none; }
     <li class="entry">
       <span class="entry-date">Jul 2020 &mdash; Nov 2020</span>
       <div class="entry-head">
-        <h2>Visual Communication Designer</h2>
+        <h2>Visual Designer</h2>
         <span class="entry-org">Upapp Factory &middot; Bangalore</span>
       </div>
       <ul>
