@@ -578,6 +578,13 @@ html.kgd-motion .entry.in::before{ transform:none; }
   margin-inline:0;
   padding-inline:max(20px, calc((100% - 1160px) / 2));
 }
+
+/* The track used to open with a heading and a line of note, and they
+   were what held it off the hero. With those gone the first role sat
+   against the dark block with nothing between them, so the section
+   carries the space itself - on the same rhythm as the two sections
+   above and below it. */
+.timeline{ padding-top:clamp(56px, 7vw, 96px); }
 </style>
 <script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
