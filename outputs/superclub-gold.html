@@ -812,8 +812,6 @@ html.kgd-motion .site-footer.in{ opacity:1; }
   .flowstrip .s.hit{ border-color:var(--accent); color:var(--accent); background:var(--accent-soft); font-weight:500; }
   .flowstrip .a{ color:var(--line-strong); font-size:12px; }
 
-  .shot{ margin-top:26px; max-width:300px; }
-  .shot img{ display:block; width:100%; border-radius:12px; border:1px solid var(--line-strong); }
   /* A screen shown in an intervention's mockup column, where every
      neighbour is a rebuilt fragment rather than a whole page. */
   /* Plus Jakarta Sans italic has a tight right sidebearing, so an italic
@@ -825,7 +823,7 @@ html.kgd-motion .site-footer.in{ opacity:1; }
 
   .mockshot{
     display:block; width:100%; border-radius:12px;
-    max-height:520px; object-fit:cover; object-position:top center;
+    height:auto; max-height:520px; object-fit:cover; object-position:top center;
     border:1px solid var(--line-strong);
     box-shadow:0 12px 28px -18px rgba(0,0,0,.3);
   }
@@ -844,7 +842,7 @@ html.kgd-motion .site-footer.in{ opacity:1; }
     border:1px solid var(--line-strong); max-height:760px;
     box-shadow:0 12px 28px -18px rgba(0,0,0,.3);
   }
-  .tallshot img{ display:block; width:100%; border:0; border-radius:0; }
+  .tallshot img{ display:block; width:100%; height:auto; border:0; border-radius:0; }
   .tallshot::after{
     content:''; position:absolute; left:0; right:0; bottom:0; height:132px;
     background:linear-gradient(to bottom, transparent, var(--paper));
@@ -859,7 +857,6 @@ html.kgd-motion .site-footer.in{ opacity:1; }
   .moves > li::marker{ font-family:'Geist Mono',monospace; font-size:12px; color:var(--accent); }
   .moves > li b{ color:var(--ink); font-weight:700; }
   .moves .jt{ max-width:320px; }
-  .figrow{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:22px; margin-top:26px; align-items:start; }
 </style>
 
 <header class="site-top">
