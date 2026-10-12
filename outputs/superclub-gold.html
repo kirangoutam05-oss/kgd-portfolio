@@ -816,6 +816,13 @@ html.kgd-motion .site-footer.in{ opacity:1; }
   .shot img{ display:block; width:100%; border-radius:12px; border:1px solid var(--line-strong); }
   /* A screen shown in an intervention's mockup column, where every
      neighbour is a rebuilt fragment rather than a whole page. */
+  /* Plus Jakarta Sans italic has a tight right sidebearing, so an italic
+     word followed by a roman one reads as though the word space had been
+     deleted. A sliver of padding puts it back. Two italic runs end on
+     punctuation instead, where .06em is under a pixel and invisible. */
+  .wrap em{ padding-right:.06em; }
+  .jt em{ padding-right:0; }
+
   .mockshot{
     display:block; width:100%; border-radius:12px;
     max-height:520px; object-fit:cover; object-position:top center;
@@ -859,10 +866,11 @@ html.kgd-motion .site-footer.in{ opacity:1; }
 
   <section id="problem">
     <div class="eyebrow">Problem statement</div>
-    <h2>A membership sold inside a tool, to someone using the tool</h2>
-    <p class="problem-lede">Superclub Gold is a paid membership for kirana owners, sold inside the app they already use to restock the shop. That is the whole difficulty. A shop owner opens Jumbotail with a list and a number in their head, and every second between opening it and placing the order is overhead on a job they will do again next week. A membership is, by definition, a detour.</p>
-    <p>That makes the usual playbook unusable. An interstitial costs orders. A tour costs orders. A tab that explains itself costs orders. Anything that stands between a shopkeeper and the thing they came to reorder gets dismissed, and dismissal is learned &mdash; once someone has swiped a Gold screen away, they will swipe away the next one faster.</p>
-    <p>So the question stopped being <em>how do we pitch Gold</em> and became <em>where in a flow that already works can a benefit appear without being in the way</em>. Three constraints set the shape of every answer.</p>
+    <h2>A premium membership for select customers, to increase customer retention</h2>
+    <p class="problem-lede">That is the problem statement, and all three parts of it are load-bearing. The goal is <strong>retention</strong>, not subscription revenue. It is for <strong>select</strong> customers, so it was never meant to be advertised at everyone. And a <strong>membership</strong> is the instrument chosen to do it.</p>
+    <p>A kirana owner always has somewhere else to buy &mdash; a distributor&rsquo;s van, a cash-and-carry, a rival app, the wholesaler they have used for fifteen years. Nothing about ordering on Jumbotail is irreversible, which is what makes retention the number that matters and churn the thing you notice only once it has happened.</p>
+    <p>A membership answers that by changing the arithmetic of leaving. Once a shopkeeper has paid for a month of free delivery and lifted order minimums, every order placed somewhere else is an order that wastes something already bought. The fee is close to beside the point: the retention comes from the benefits being <em>spent</em>, which means the design&rsquo;s real job is to keep them visible and in use rather than to close a sale.</p>
+    <p>That is also what <em>select</em> implies. The economics only work for shopkeepers already ordering often enough to use what they are paying for, so the membership had to find those people inside ordinary use rather than interrupt everybody to look for them. Three constraints then set the shape of every answer.</p>
     <div class="problem-grid">
       <div class="problem-card">
         <div class="idx mono">01 &middot; Attention</div>
@@ -919,6 +927,7 @@ html.kgd-motion .site-footer.in{ opacity:1; }
     <div class="eyebrow">The work</div>
     <h2>Nine interventions, each in a slot that already existed</h2>
     <p>Each one below is described the way it was argued at the time: where it sits, what it displaces, and why a shopkeeper is better off for it being there.</p>
+    <p>Their weighting is the part that answers the problem statement. Three of the nine exist to sign someone up. Two make the case at the moment of purchase. The remaining four do nothing at all until the membership has been bought &mdash; they exist to keep it visible and being spent. For a programme measured on retention rather than signups, that is the right way round.</p>
 
     <div class="gi">
       <div>
