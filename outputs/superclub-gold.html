@@ -814,6 +814,20 @@ html.kgd-motion .site-footer.in{ opacity:1; }
 
   .shot{ margin-top:26px; max-width:300px; }
   .shot img{ display:block; width:100%; border-radius:12px; border:1px solid var(--line-strong); }
+  /* A screen shown in an intervention's mockup column, where every
+     neighbour is a rebuilt fragment rather than a whole page. */
+  .mockshot{
+    display:block; width:100%; border-radius:12px;
+    max-height:520px; object-fit:cover; object-position:top center;
+    border:1px solid var(--line-strong);
+    box-shadow:0 12px 28px -18px rgba(0,0,0,.3);
+  }
+  /* The Gold page is a single tall screen, so it leads the row and the
+     detail beside it stays at the top rather than stretching to match. */
+  .figrow-shot{ grid-template-columns:300px 1fr; align-items:start; }
+  .figrow-shot > div:first-child{ order:2; }
+  .figrow-shot > .shot{ order:1; }
+  @media (max-width:760px){ .figrow-shot{ grid-template-columns:1fr; } }
   .figrow{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:22px; margin-top:26px; align-items:start; }
 </style>
 
@@ -834,16 +848,7 @@ html.kgd-motion .site-footer.in{ opacity:1; }
 
   <header class="masthead">
     <div class="kicker"><span class="dot"></span>Design Case Study</div>
-    <h1>Selling a membership inside a working tool, without adding a step to it</h1>
-    <p class="dek">
-      Jumbotail is how a kirana owner restocks the shop. Gold is a paid
-      membership that had to be sold inside that app &mdash; to someone who
-      opened it to buy rice, not to join anything. The brief was a restraint:
-      find the interventions you can push to a customer without disrupting the
-      flow that already works, and justify why each one needs to exist. The
-      answer was that almost every one of them had to take over a slot the app
-      already had.
-    </p>
+    <h1>Superclub Gold</h1>
     <div class="byline">
       <span><b>Role</b> Product design, first iteration</span>
       <span><b>Surface</b> Jumbotail buyer app, Android</span>
@@ -854,8 +859,8 @@ html.kgd-motion .site-footer.in{ opacity:1; }
 
   <section id="problem">
     <div class="eyebrow">Problem statement</div>
-    <h2>The app is not a shop. It is a shopkeeper&rsquo;s Tuesday morning.</h2>
-    <p class="problem-lede">A kirana owner opens Jumbotail with a list and a number in their head. Every second between opening the app and placing the order is overhead on a job they do again next week. A membership is, by definition, a detour.</p>
+    <h2>A membership sold inside a tool, to someone using the tool</h2>
+    <p class="problem-lede">Superclub Gold is a paid membership for kirana owners, sold inside the app they already use to restock the shop. That is the whole difficulty. A shop owner opens Jumbotail with a list and a number in their head, and every second between opening it and placing the order is overhead on a job they will do again next week. A membership is, by definition, a detour.</p>
     <p>That makes the usual playbook unusable. An interstitial costs orders. A tour costs orders. A tab that explains itself costs orders. Anything that stands between a shopkeeper and the thing they came to reorder gets dismissed, and dismissal is learned &mdash; once someone has swiped a Gold screen away, they will swipe away the next one faster.</p>
     <p>So the question stopped being <em>how do we pitch Gold</em> and became <em>where in a flow that already works can a benefit appear without being in the way</em>. Three constraints set the shape of every answer.</p>
     <div class="problem-grid">
@@ -1120,16 +1125,7 @@ html.kgd-motion .site-footer.in{ opacity:1; }
         <span class="slot"><b>Slot:</b> app bar, and the Specials rail<br><b>Displaces:</b> the rail&rsquo;s generic promos, for members<br><b>Why it matters:</b> status has to be renewed on sight</span>
       </div>
       <div class="mock">
-        <div class="jt">
-          <div class="jt-bar"><span class="burger"><i></i><i></i><i></i></span>Jumbotail<span class="tick">&#10003;</span><span class="sp">search</span></div>
-          <div class="jt-band">
-            <div class="hd"><span>&#128081;</span>Your Gold Benefits</div>
-            <div class="jt-rail">
-              <div class="jt-tile" style="background:#fff"><div class="art gold"></div><div class="cap">Exclusive Products</div></div>
-              <div class="jt-tile" style="background:#fff"><div class="art" style="background:linear-gradient(135deg,#4B2A7A,#7A3FA8)"></div><div class="cap">21 Day Returns</div></div>
-            </div>
-          </div>
-        </div>
+        <img class="mockshot" width="786" height="1704" loading="lazy" src="assets/superclub-gold/member-home.jpg" alt="The member home screen: a gold tick beside the Jumbotail wordmark, the Gold promo slide, and a Your Gold Benefits band above Order Again">
         <div class="mcap">A tick, and one possessive pronoun</div>
       </div>
     </div>
@@ -1137,10 +1133,10 @@ html.kgd-motion .site-footer.in{ opacity:1; }
 
   <section id="newscreen">
     <div class="eyebrow">The exception</div>
-    <h2>One new screen, and it had to carry the whole sale</h2>
+    <h2>The one screen that is new</h2>
     <p>Nine interventions take slots that already exist. Exactly one thing in the design is new: the Gold page itself, which the scratch card opens. It is the only place where selling is the point, which is why every other surface was allowed to stay quiet.</p>
     <p>It leads with a figure rather than a feature &mdash; a minimum monthly saving on delivery and interest &mdash; then the three benefits as objects rather than bullets, then the plans, then a phone number. The call button matters more than it looks: a kirana owner closes a deal by talking to someone, and a membership sold entirely through a button is a membership sold to the wrong half of the market.</p>
-    <div class="figrow">
+    <div class="figrow figrow-shot">
       <div>
         <div class="jt">
           <div class="jt-body">
@@ -1172,11 +1168,11 @@ html.kgd-motion .site-footer.in{ opacity:1; }
             </div>
           </div>
         </div>
-        <div class="mcap" style="margin-top:9px">Two tiers, on the only screen built for selling</div>
+        <div class="mcap" style="margin-top:9px">The plans, enlarged from the page alongside</div>
       </div>
       <div class="shot">
-        <img width="786" height="1704" loading="lazy" src="assets/superclub-gold/member-home.jpg" alt="The member home screen: a gold tick beside the Jumbotail wordmark, the Gold promo slide, and a Your Gold Benefits band above Order Again">
-        <div class="mcap" style="margin-top:9px">The member home, as designed</div>
+        <img width="600" height="1841" loading="lazy" src="assets/superclub-gold/gold-page.jpg" alt="The Gold page: a crown over the saving claim, three benefits as objects, the Silver and Gold plans side by side, a call button, and an FAQ">
+        <div class="mcap" style="margin-top:9px">The Gold page, end to end</div>
       </div>
     </div>
   </section>
