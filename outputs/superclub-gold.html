@@ -829,12 +829,36 @@ html.kgd-motion .site-footer.in{ opacity:1; }
     border:1px solid var(--line-strong);
     box-shadow:0 12px 28px -18px rgba(0,0,0,.3);
   }
-  /* The Gold page is a single tall screen, so it leads the row and the
-     detail beside it stays at the top rather than stretching to match. */
-  .figrow-shot{ grid-template-columns:300px 1fr; align-items:start; }
-  .figrow-shot > div:first-child{ order:2; }
-  .figrow-shot > .shot{ order:1; }
+  /* The Gold page is one screen roughly three times its own width, so at
+     any readable width it is about 900px tall and leaves the column beside
+     it empty. It is capped and faded off instead - the page continues, and
+     saying so is more honest than pretending it ends - while the column
+     beside it carries the four moves the screen makes. */
+  .figrow-shot{
+    display:grid; grid-template-columns:320px 1fr;
+    gap:clamp(24px, 3.5vw, 44px); align-items:start; margin-top:28px;
+  }
   @media (max-width:760px){ .figrow-shot{ grid-template-columns:1fr; } }
+  .tallshot{
+    position:relative; overflow:hidden; border-radius:12px;
+    border:1px solid var(--line-strong); max-height:760px;
+    box-shadow:0 12px 28px -18px rgba(0,0,0,.3);
+  }
+  .tallshot img{ display:block; width:100%; border:0; border-radius:0; }
+  .tallshot::after{
+    content:''; position:absolute; left:0; right:0; bottom:0; height:132px;
+    background:linear-gradient(to bottom, transparent, var(--paper));
+    pointer-events:none;
+  }
+  .moves{ margin:0; padding-left:21px; }
+  .moves > li{
+    font-size:14.5px; line-height:1.62; color:var(--ink-soft);
+    margin-bottom:22px; padding-left:3px;
+  }
+  .moves > li:last-child{ margin-bottom:0; }
+  .moves > li::marker{ font-family:'Geist Mono',monospace; font-size:12px; color:var(--accent); }
+  .moves > li b{ color:var(--ink); font-weight:700; }
+  .moves .jt{ max-width:320px; }
   .figrow{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:22px; margin-top:26px; align-items:start; }
 </style>
 
@@ -1144,45 +1168,66 @@ html.kgd-motion .site-footer.in{ opacity:1; }
     <div class="eyebrow">The exception</div>
     <h2>The one screen that is new</h2>
     <p>Nine interventions take slots that already exist. Exactly one thing in the design is new: the Gold page itself, which the scratch card opens. It is the only place where selling is the point, which is why every other surface was allowed to stay quiet.</p>
-    <p>It leads with a figure rather than a feature &mdash; a minimum monthly saving on delivery and interest &mdash; then the three benefits as objects rather than bullets, then the plans, then a phone number. The call button matters more than it looks: a kirana owner closes a deal by talking to someone, and a membership sold entirely through a button is a membership sold to the wrong half of the market.</p>
-    <div class="figrow figrow-shot">
+    <p>It is the one screen in the design allowed to sell, and it makes four moves in order.</p>
+    <div class="figrow-shot">
       <div>
-        <div class="jt">
-          <div class="jt-body">
-            <div class="jt-plans">
-              <div class="jt-plan">
-                <div class="nm">Silver</div>
-                <div class="pr">&#8377;99<small>/month</small></div>
-                <ul>
-                  <li><i>&#10003;</i>No minimum order value</li>
-                  <li><i>&#10003;</i>Priority support</li>
-                  <li class="no"><i>&times;</i>No minimum shipping</li>
-                  <li class="no"><i>&times;</i>Extended returns</li>
-                  <li class="no"><i>&times;</i>Free delivery</li>
-                  <li class="no"><i>&times;</i>2&times; cashback</li>
-                </ul>
-              </div>
-              <div class="jt-plan gold">
-                <div class="nm">Gold</div>
-                <div class="pr">&#8377;159<small>/month</small></div>
-                <ul>
-                  <li><i>&#10003;</i>No minimum order value</li>
-                  <li><i>&#10003;</i>Priority support</li>
-                  <li><i>&#10003;</i>No minimum shipping</li>
-                  <li><i>&#10003;</i>Extended returns</li>
-                  <li><i>&#10003;</i>2&times; cashback</li>
-                  <li class="no"><i>&times;</i>Free delivery</li>
-                </ul>
+        <div class="tallshot">
+          <img width="600" height="1841" loading="lazy" src="assets/superclub-gold/gold-page.jpg" alt="The Gold page: a crown over the saving claim, three benefits as objects, the Silver and Gold plans side by side, a call button, and an FAQ">
+        </div>
+        <div class="mcap" style="margin-top:9px">The Gold page, from the top &mdash; it carries on past the fade</div>
+      </div>
+      <ol class="moves">
+        <li>
+          <b>A figure, not a feature.</b> It opens on a minimum monthly saving
+          rather than on what the membership contains &mdash; a number to weigh
+          against &#8377;159, before any benefit has been named.
+        </li>
+        <li>
+          <b>Benefits as objects.</b> Free delivery, no minimum shipping charge,
+          no minimum order value: three things drawn rather than bulleted, for a
+          reader who was never going to read a list.
+        </li>
+        <li>
+          <b>The plans, side by side.</b> Ticks and crosses against the same six
+          rows, so the comparison is done for you.
+          <div class="jt" style="margin-top:12px">
+            <div class="jt-body">
+              <div class="jt-plans">
+                <div class="jt-plan">
+                  <div class="nm">Silver</div>
+                  <div class="pr">&#8377;99<small>/month</small></div>
+                  <ul>
+                    <li><i>&#10003;</i>No minimum order value</li>
+                    <li><i>&#10003;</i>Priority support</li>
+                    <li class="no"><i>&times;</i>No minimum shipping</li>
+                    <li class="no"><i>&times;</i>Extended returns</li>
+                    <li class="no"><i>&times;</i>Free delivery</li>
+                    <li class="no"><i>&times;</i>2&times; cashback</li>
+                  </ul>
+                </div>
+                <div class="jt-plan gold">
+                  <div class="nm">Gold</div>
+                  <div class="pr">&#8377;159<small>/month</small></div>
+                  <ul>
+                    <li><i>&#10003;</i>No minimum order value</li>
+                    <li><i>&#10003;</i>Priority support</li>
+                    <li><i>&#10003;</i>No minimum shipping</li>
+                    <li><i>&#10003;</i>Extended returns</li>
+                    <li><i>&#10003;</i>2&times; cashback</li>
+                    <li class="no"><i>&times;</i>Free delivery</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="mcap" style="margin-top:9px">The plans, enlarged from the page alongside</div>
-      </div>
-      <div class="shot">
-        <img width="600" height="1841" loading="lazy" src="assets/superclub-gold/gold-page.jpg" alt="The Gold page: a crown over the saving claim, three benefits as objects, the Silver and Gold plans side by side, a call button, and an FAQ">
-        <div class="mcap" style="margin-top:9px">The Gold page, end to end</div>
-      </div>
+          <div class="mcap" style="margin-top:9px">Enlarged from the page alongside</div>
+        </li>
+        <li>
+          <b>A phone number.</b> The call button matters more than it looks: a
+          kirana owner closes a deal by talking to someone, and a membership
+          sold entirely through a button is sold to the wrong half of the market.
+        </li>
+      </ol>
     </div>
   </section>
 
