@@ -549,6 +549,21 @@ html.kgd-motion .entry.in::before{ transform:none; }
   border-color:rgba(255,255,255,.88);
 }
 .download .dl-meta{ color:rgba(255,255,255,.62); }
+
+/* The second CV is the same offer for a different reader, so it is the
+   same button outlined rather than filled - present, but not competing
+   with the first for the eye. */
+.download .dl-btn-quiet{
+  background:transparent;
+  color:#ffffff;
+  border-color:rgba(255,255,255,.42);
+}
+.download .dl-btn-quiet svg{ stroke:#ffffff; }
+.download .dl-btn-quiet:hover,
+.download .dl-btn-quiet:focus-visible{
+  background:rgba(255,255,255,.10);
+  border-color:#ffffff;
+}
 </style>
 <script>
 /* Motion is opt-in per browser: it needs an observer, and it stays off
@@ -782,13 +797,17 @@ html.kgd-motion .entry.in::before{ transform:none; }
 
 <section class="download wrap" id="cv" aria-labelledby="cv-title">
   <h2 id="cv-title">Take the whole thing with you.</h2>
-  <p>The same history as a document, with the skills and tools listed &mdash; three pages, ready to forward.</p>
+  <p>The same history as a document, with the skills and tools listed &mdash; two pages, ready to forward. There are two, written for the two kinds of role.</p>
   <div class="dl-row">
-    <a class="dl-btn" href="assets/cv/Kiran-Goutam-Dhananjayan-CV.pdf" download="Kiran Goutam Dhananjayan - CV.pdf">
+    <a class="dl-btn" href="assets/cv/Kiran-Goutam-Dhananjayan-Senior-Graphic-Designer.pdf" download="Kiran Goutam Dhananjayan - Senior Graphic Designer.pdf">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg>
-      Download CV
+      Design CV
     </a>
-    <span class="dl-meta">PDF &middot; 3 pages &middot; 621 KB</span>
+    <a class="dl-btn dl-btn-quiet" href="assets/cv/Kiran-Goutam-Dhananjayan-Product-Designer.pdf" download="Kiran Goutam Dhananjayan - Product Designer.pdf">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg>
+      Product CV
+    </a>
+    <span class="dl-meta">PDF &middot; 2 pages &middot; 421 KB</span>
   </div>
 </section>
 
