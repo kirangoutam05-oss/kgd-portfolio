@@ -398,6 +398,11 @@ body{
    the title; with the line gone the imbalance shows. Even top and bottom
    now, and the band is shorter for it. */
 .intro{ padding-top:clamp(54px,7.5vw,96px); padding-bottom:clamp(54px,7.5vw,96px); }
+/* "View Project" is the last thing in a card and carries no bottom margin,
+   so the grid's 16px row gap was all that stood between one project's CTA
+   and the next project's artwork - the two ran together. The rows get room;
+   the columns keep the gap they had, since side by side they read fine. */
+.selected-grid{ row-gap:clamp(48px,5.5vw,84px); }
 </style>
 </head>
 <body><div class="progress" id="progress"></div><header class="top"><a class="mark" href="index.html" aria-label="Kiran Goutam D &mdash; home">Kiran Goutam D</a><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">
