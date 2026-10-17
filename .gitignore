@@ -8,3 +8,17 @@ Desktop.ini
 .DS_Store
 *.swp
 *~
+
+# The After Effects project, its log and stills are rebuilt by
+# tools/ae/build-web-motion.ps1.
+work/ae/
+
+# There is no package.json at this level, so the empty node_modules/ and
+# yarn.lock here are strays from a command run in the wrong directory.
+node_modules/
+/yarn.lock
+
+# after-effects-mcp/ is a clone of github.com/Dakkshin/after-effects-mcp,
+# carrying its own .git and a local patch to getAETempDir() that points the
+# bridge at the OneDrive-redirected Documents folder the AE panel actually uses.
+after-effects-mcp/
