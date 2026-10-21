@@ -131,11 +131,13 @@
     position:absolute; left:0; top:0;
     z-index:4; pointer-events:none;
     opacity:0;
-    /* Only a few pixels of this is ever visible - the card covers the
-       rest - so it is the name's own gradient swept across the whole
-       shape rather than soft lobes, which at this width would read as
-       mud. The radius is the card's 4px plus the bleed, so the rim keeps
-       an even thickness around the corners. */
+    /* The card's own shape. An ellipse was tried, to make sure there was
+       no outline left to read, and it was worse - the glow stopped
+       belonging to the card and became a blob beside it. What actually
+       hides the shape is the blur below: at this radius the edge is
+       spread wider than the strip that ever clears the card, so the only
+       thing on show is the falloff. The colour is the name's own
+       gradient, swept across it. */
     border-radius:8px;
     background:linear-gradient(96deg,
       #a8762a 0%, #e06a34 26%, #d63f7c 54%, #7b45e8 78%, #2f8fd8 100%);
@@ -146,7 +148,7 @@
        that edge outwards instead of erasing it. The element's own pixels
        never change, so the blurred result is rasterised once and the
        per-frame transform only composites it. */
-    filter: blur(6px);
+    filter: blur(14px);
     will-change: transform, opacity;
   }
   @media (prefers-reduced-motion: reduce){
@@ -2060,10 +2062,10 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
      Both numbers scale with the feather: soft edges travel further, so
      the cover has to be deeper than the blur reaches or the other three
      sides start glowing too and it is a ring again. */
-  var INSET = 18;
+  var INSET = 40;
   /* Far enough that the trailing edge clears its own cover with room to
      spare. What clears it is the width of the band that shows. */
-  var TRAIL = 38;
+  var TRAIL = 74;
   var velX = 0, velY = 0, trailX = 0, trailY = 0;
 
   function frame(){
