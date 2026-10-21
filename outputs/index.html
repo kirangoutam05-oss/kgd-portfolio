@@ -114,6 +114,33 @@
     animation: dotsIn 1.5s ease .05s forwards;
   }
   .hero.has-dotcanvas::before{ display:none; }
+
+  /* ---------- the light the card drags behind it ----------
+     Four soft lobes in the name's own colours, behind the card and in
+     front of the dot field. It is only lit while the card is travelling,
+     so it reads as something the movement produces rather than as a
+     permanent halo: the script eases its opacity from how far the card
+     moved in the last frame, and offsets it against the heading of
+     travel so it lags on the side the card is leaving rather than
+     sitting squarely underneath. z-index 4 keeps it above the dots and
+     below the portrait, the name and the card, so it bleeds around the
+     card's edges and tints its glass without ever washing over the type.
+     Colour stops end on a transparent version of their own hue rather
+     than on `transparent`, which some engines interpolate through grey. */
+  .cardglow{
+    position:absolute; left:0; top:0;
+    z-index:4; pointer-events:none;
+    opacity:0;
+    background:
+      radial-gradient(40% 40% at 34% 32%, rgba(214,63,124,.24), rgba(214,63,124,0) 70%),
+      radial-gradient(44% 44% at 66% 64%, rgba(123,69,232,.22), rgba(123,69,232,0) 72%),
+      radial-gradient(38% 38% at 62% 26%, rgba(224,106,52,.19), rgba(224,106,52,0) 70%),
+      radial-gradient(42% 42% at 30% 70%, rgba(47,143,216,.16), rgba(47,143,216,0) 72%);
+    will-change: transform, opacity;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .cardglow{ display:none !important; }
+  }
   @media (prefers-reduced-motion: reduce){
     .dotcanvas{ animation:none !important; opacity:1 !important; }
   }
@@ -1897,6 +1924,23 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
   hero.insertBefore(cv, hero.firstChild);
   hero.classList.add('has-dotcanvas');
 
+  /* A sibling of the card, never a child: inside the card a negative
+     z-index still paints above the card's own background, so the glow
+     would sit on top of the glass instead of behind it. */
+  var glow = null;
+  var gw = 0, gh = 0, glowOp = 0;
+  if (card && !reduceEarly()){
+    glow = document.createElement('div');
+    glow.className = 'cardglow';
+    glow.setAttribute('aria-hidden', 'true');
+    hero.insertBefore(glow, cv.nextSibling);
+  }
+
+  function reduceEarly(){
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+    catch(e){ return false; }
+  }
+
   var PITCH = 24;      /* background-size:24px 24px */
   var DOT   = 1.1;     /* the radial-gradient's 1.1px stop */
   var HALF  = PITCH / 2;  /* a tiled gradient centres its dot in the tile */
@@ -1910,8 +1954,7 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
   var colour = 'rgba(19,19,22,0.17)';
   var cardL = 0, cardT = 0, cardW = 0, cardH = 0;
 
-  var reduce = false;
-  try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){}
+  var reduce = reduceEarly();
 
   function readColour(){
     try {
@@ -1933,6 +1976,14 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
     if (card){
       cardL = card.offsetLeft; cardT = card.offsetTop;
       cardW = card.offsetWidth; cardH = card.offsetHeight;
+    }
+    if (glow){
+      /* Wider than the card on every side, so what shows is the spill
+         rather than a rectangle tracking it. */
+      gw = Math.round(cardW + 320);
+      gh = Math.round(cardH + 320);
+      glow.style.width  = gw + 'px';
+      glow.style.height = gh + 'px';
     }
     readColour();
   }
@@ -1992,18 +2043,60 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
     else   { draw(null, null); }
   }
 
+  var GLOW_FULL = 9;   /* px moved in one frame for the glow to be full */
+  var TRAIL = 130;     /* how far behind the card the light is left */
+  var velX = 0, velY = 0, trailX = 0, trailY = 0;
+
   function frame(){
     raf = 0;
     var c = centre();
     if (!c){ return; }
-    if (Math.abs(c.x - lastX) > 0.25 || Math.abs(c.y - lastY) > 0.25){
+
+    var dx = c.x - lastX, dy = c.y - lastY;
+    /* lastX starts as NaN, and NaN fails its own equality test. */
+    var speed = (dx === dx && dy === dy) ? Math.sqrt(dx * dx + dy * dy) : 0;
+
+    if (speed > 0.25){
       draw(c.x, c.y); lastX = c.x; lastY = c.y; idle = 0;
     } else {
       idle++;
     }
+
+    if (glow){
+      var target = speed / GLOW_FULL;
+      if (target > 1) target = 1;
+      /* Quick to light, slow to go out - the reverse reads as a flicker
+         every time the pointer pauses. */
+      glowOp += (target - glowOp) * (target > glowOp ? 0.30 : 0.055);
+      if (glowOp < 0.002) glowOp = 0;
+
+      /* Where the light sits. The frame-to-frame movement is smoothed
+         into a heading, and the glow is pushed the other way along it,
+         so it is left on the side the card has just come from. Smoothed
+         twice on purpose: the raw heading flips about on slow movement,
+         and the offset itself eases so the light swings round rather
+         than snapping when the card changes direction. */
+      velX += (dx - velX) * 0.22;
+      velY += (dy - velY) * 0.22;
+      var vm = Math.sqrt(velX * velX + velY * velY);
+      var wantX = 0, wantY = 0;
+      if (vm > 0.02){
+        var reach = Math.min(vm / GLOW_FULL, 1) * TRAIL;
+        wantX = -(velX / vm) * reach;
+        wantY = -(velY / vm) * reach;
+      }
+      trailX += (wantX - trailX) * 0.18;
+      trailY += (wantY - trailY) * 0.18;
+
+      glow.style.transform = 'translate3d(' + (c.x - gw / 2 + trailX).toFixed(1) + 'px,' +
+                                              (c.y - gh / 2 + trailY).toFixed(1) + 'px,0)';
+      glow.style.opacity = glowOp.toFixed(3);
+    }
+
     /* The card eases back to rest after the pointer leaves, so the loop
-       runs a little past the last movement rather than stopping on it. */
-    if (visible && idle < 30) raf = requestAnimationFrame(frame);
+       runs a little past the last movement rather than stopping on it -
+       and keeps running while the glow still has any fade left in it. */
+    if (visible && (idle < 30 || glowOp > 0)) raf = requestAnimationFrame(frame);
   }
 
   function wake(){
