@@ -131,11 +131,22 @@
     position:absolute; left:0; top:0;
     z-index:4; pointer-events:none;
     opacity:0;
-    background:
-      radial-gradient(40% 40% at 34% 32%, rgba(214,63,124,.24), rgba(214,63,124,0) 70%),
-      radial-gradient(44% 44% at 66% 64%, rgba(123,69,232,.22), rgba(123,69,232,0) 72%),
-      radial-gradient(38% 38% at 62% 26%, rgba(224,106,52,.19), rgba(224,106,52,0) 70%),
-      radial-gradient(42% 42% at 30% 70%, rgba(47,143,216,.16), rgba(47,143,216,0) 72%);
+    /* Only a few pixels of this is ever visible - the card covers the
+       rest - so it is the name's own gradient swept across the whole
+       shape rather than soft lobes, which at this width would read as
+       mud. The radius is the card's 4px plus the bleed, so the rim keeps
+       an even thickness around the corners. */
+    border-radius:8px;
+    background:linear-gradient(96deg,
+      #a8762a 0%, #e06a34 26%, #d63f7c 54%, #7b45e8 78%, #2f8fd8 100%);
+    /* The feather is all blur. A mask fading the slab towards its own
+       edges was tried and removed: the strip that clears the card is the
+       slab's outermost edge, which is exactly the part such a mask has
+       already faded away, so the glow all but disappeared. Blur spreads
+       that edge outwards instead of erasing it. The element's own pixels
+       never change, so the blurred result is rasterised once and the
+       per-frame transform only composites it. */
+    filter: blur(6px);
     will-change: transform, opacity;
   }
   @media (prefers-reduced-motion: reduce){
@@ -1978,10 +1989,9 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
       cardW = card.offsetWidth; cardH = card.offsetHeight;
     }
     if (glow){
-      /* Wider than the card on every side, so what shows is the spill
-         rather than a rectangle tracking it. */
-      gw = Math.round(cardW + 320);
-      gh = Math.round(cardH + 320);
+      /* Smaller than the card, so at rest it is entirely hidden by it. */
+      gw = Math.max(1, Math.round(cardW - INSET * 2));
+      gh = Math.max(1, Math.round(cardH - INSET * 2));
       glow.style.width  = gw + 'px';
       glow.style.height = gh + 'px';
     }
@@ -2044,7 +2054,16 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
   }
 
   var GLOW_FULL = 9;   /* px moved in one frame for the glow to be full */
-  var TRAIL = 130;     /* how far behind the card the light is left */
+  /* The glow is smaller than the card and hides behind it. Nothing shows
+     until the card moves, and then it is pushed out from under one edge
+     - so the light only ever appears on the side the card came from.
+     Both numbers scale with the feather: soft edges travel further, so
+     the cover has to be deeper than the blur reaches or the other three
+     sides start glowing too and it is a ring again. */
+  var INSET = 18;
+  /* Far enough that the trailing edge clears its own cover with room to
+     spare. What clears it is the width of the band that shows. */
+  var TRAIL = 38;
   var velX = 0, velY = 0, trailX = 0, trailY = 0;
 
   function frame(){
@@ -2081,7 +2100,10 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
       var vm = Math.sqrt(velX * velX + velY * velY);
       var wantX = 0, wantY = 0;
       if (vm > 0.02){
-        var reach = Math.min(vm / GLOW_FULL, 1) * TRAIL;
+        /* Square-rooted so the light commits to a side as soon as the
+           card moves at all, instead of drifting out of the ring only
+           at speed. */
+        var reach = Math.sqrt(Math.min(vm / GLOW_FULL, 1)) * TRAIL;
         wantX = -(velX / vm) * reach;
         wantY = -(velY / vm) * reach;
       }
