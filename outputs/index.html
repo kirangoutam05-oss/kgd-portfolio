@@ -98,6 +98,26 @@
     animation: dotsIn 1.5s ease .05s forwards;
   }
 
+  /* ---------- the same field, drawn instead of tiled ----------
+     A background-image cannot be displaced dot by dot, so when the script
+     runs it puts a canvas in the same place and paints the identical grid
+     - 24px pitch, 1.1px dots, the same --dot colour and the same edge
+     mask - with the dots pushed aside wherever the card is. The tiled
+     version stays as the fallback: without script, nothing changes. */
+  .dotcanvas{
+    position:absolute; inset:0; z-index:0;
+    width:100%; height:100%;
+    pointer-events:none;
+    -webkit-mask-image:radial-gradient(115% 85% at 50% 42%, #000 30%, transparent 76%);
+    mask-image:radial-gradient(115% 85% at 50% 42%, #000 30%, transparent 76%);
+    opacity:0;
+    animation: dotsIn 1.5s ease .05s forwards;
+  }
+  .hero.has-dotcanvas::before{ display:none; }
+  @media (prefers-reduced-motion: reduce){
+    .dotcanvas{ animation:none !important; opacity:1 !important; }
+  }
+
   /* ---------- top bar ---------- */
   .topbar{
     position:absolute;
@@ -292,6 +312,13 @@
     /* The gradient is painted through the glyphs, then the whole layer is
        masked to a soft circle that follows the cursor — so the colour only
        exists where the pointer is. */
+    /* background-clip:text paints the gradient only within this box, and
+       line-height .86 makes the box shorter than the type: at 168px the
+       glyphs overhang it by about 33px. The descenders of j and y fell
+       outside, found no gradient, and vanished - the fill is transparent.
+       Padding on the bottom grows the painted area without moving the
+       text or the box's top-left, which the cursor mask is measured from. */
+    padding-bottom:0.26em;
     background-image:linear-gradient(96deg,
       #a8762a 0%, #e06a34 26%, #d63f7c 54%, #7b45e8 78%, #2f8fd8 100%);
     -webkit-background-clip:text;
@@ -1849,7 +1876,175 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
   document.addEventListener('visibilitychange', function(){ if (!document.hidden) sweep(); });
 })();
 </script>
+<script>
+/* ------------------------------------------------------------------
+   The hero's dot field, drawn rather than tiled, so the floating card
+   can bend it as it moves. Everything about the grid matches what
+   .hero::before was painting; the only addition is that dots near the
+   card are pushed out of its way and swell slightly, which reads as the
+   field being refracted by whatever is passing over it.
+   ------------------------------------------------------------------ */
+(function(){
+  var hero = document.getElementById('hero');
+  var card = document.getElementById('card');
+  if (!hero) return;
+
+  var cv = document.createElement('canvas');
+  var ctx = cv.getContext && cv.getContext('2d');
+  if (!ctx) return;                      /* no canvas: the tiled field stays */
+  cv.className = 'dotcanvas';
+  cv.setAttribute('aria-hidden', 'true');
+  hero.insertBefore(cv, hero.firstChild);
+  hero.classList.add('has-dotcanvas');
+
+  var PITCH = 24;      /* background-size:24px 24px */
+  var DOT   = 1.1;     /* the radial-gradient's 1.1px stop */
+  var HALF  = PITCH / 2;  /* a tiled gradient centres its dot in the tile */
+  var REACH = 430;     /* how far the card disturbs the field - wider than
+                          the card itself, or the only part that shows is a
+                          thin band around something already covering it */
+  var PUSH  = 34;      /* how far a dot moves directly under it */
+  var TAU   = Math.PI * 2;
+
+  var W = 0, H = 0, dpr = 1;
+  var colour = 'rgba(19,19,22,0.17)';
+  var cardL = 0, cardT = 0, cardW = 0, cardH = 0;
+
+  var reduce = false;
+  try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){}
+
+  function readColour(){
+    try {
+      var c = getComputedStyle(hero).getPropertyValue('--dot');
+      if (c && c.trim()) colour = c.trim();
+    } catch(e){}
+  }
+
+  function measure(){
+    var r = hero.getBoundingClientRect();
+    W = Math.max(1, Math.round(r.width));
+    H = Math.max(1, Math.round(r.height));
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width  = Math.round(W * dpr);
+    cv.height = Math.round(H * dpr);
+    cv.style.width  = W + 'px';
+    cv.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (card){
+      cardL = card.offsetLeft; cardT = card.offsetTop;
+      cardW = card.offsetWidth; cardH = card.offsetHeight;
+    }
+    readColour();
+  }
+
+  /* The card's resting place comes from the stylesheet and the follow is
+     a transform the hero loop writes. Reading that string costs nothing,
+     where asking for a rect every frame would force a layout. */
+  function centre(){
+    if (!card || reduce) return null;
+    var tx = 0, ty = 0, t = card.style.transform;
+    if (t){
+      var m = /translate3d\(\s*(-?[\d.]+)px\s*,\s*(-?[\d.]+)px/.exec(t);
+      if (m){ tx = parseFloat(m[1]); ty = parseFloat(m[2]); }
+    }
+    return { x: cardL + tx + cardW / 2, y: cardT + ty + cardH / 2 };
+  }
+
+  function draw(cx, cy){
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = colour;
+    /* One path for every dot and a single fill: a fill per dot is what
+       makes a field this size expensive. */
+    ctx.beginPath();
+    var pad = PUSH + PITCH;
+    var lens = (cx !== null && cy !== null);
+    var R2 = REACH * REACH;
+    for (var gy = -pad; gy <= H + pad; gy += PITCH){
+      for (var gx = -pad; gx <= W + pad; gx += PITCH){
+        var x = gx + HALF, y = gy + HALF, r = DOT;
+        if (lens){
+          var dx = x - cx, dy = y - cy;
+          var d2 = dx * dx + dy * dy;
+          if (d2 < R2){
+            var f = 1 - d2 / R2;      /* 1 under the card, 0 at the reach */
+            f = f * f;                /* eased, so the edge has no seam */
+            var d = Math.sqrt(d2);
+            if (d > 0.01){
+              var a = PUSH * f / d;   /* the unit vector, times the push */
+              x += dx * a;
+              y += dy * a;
+            }
+            r = DOT * (1 + 0.85 * f);
+          }
+        }
+        ctx.moveTo(x + r, y);
+        ctx.arc(x, y, r, 0, TAU);
+      }
+    }
+    ctx.fill();
+  }
+
+  var lastX = NaN, lastY = NaN, raf = 0, idle = 0, visible = true;
+
+  function redraw(){
+    var c = centre();
+    if (c){ draw(c.x, c.y); lastX = c.x; lastY = c.y; }
+    else   { draw(null, null); }
+  }
+
+  function frame(){
+    raf = 0;
+    var c = centre();
+    if (!c){ return; }
+    if (Math.abs(c.x - lastX) > 0.25 || Math.abs(c.y - lastY) > 0.25){
+      draw(c.x, c.y); lastX = c.x; lastY = c.y; idle = 0;
+    } else {
+      idle++;
+    }
+    /* The card eases back to rest after the pointer leaves, so the loop
+       runs a little past the last movement rather than stopping on it. */
+    if (visible && idle < 30) raf = requestAnimationFrame(frame);
+  }
+
+  function wake(){
+    if (reduce || !visible) return;
+    idle = 0;
+    if (!raf) raf = requestAnimationFrame(frame);
+  }
+
+  measure();
+  redraw();
+
+  if (!reduce){
+    hero.addEventListener('pointermove',  wake, { passive: true });
+    hero.addEventListener('pointerenter', wake, { passive: true });
+    hero.addEventListener('pointerleave', wake, { passive: true });
+    wake();
+  }
+
+  var resizeTimer = 0;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function(){ measure(); redraw(); wake(); }, 120);
+  }, { passive: true });
+
+  /* --dot is a different colour in each theme, and the toggle only flips
+     an attribute, so the canvas has to be told to pick the new one up. */
+  if ('MutationObserver' in window){
+    new MutationObserver(function(){ readColour(); redraw(); })
+      .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  }
+
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      visible = entries[0].isIntersecting;
+      if (visible) wake();
+    }, { threshold: 0 }).observe(hero);
+  }
+})();
+</script>
 </body>
+
 
 
 
