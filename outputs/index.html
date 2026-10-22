@@ -91,7 +91,7 @@
     z-index:0;
     pointer-events:none;
     background-image:radial-gradient(var(--dot) 1.1px, transparent 1.1px);
-    background-size:24px 24px;
+    background-size:16px 16px;
     -webkit-mask-image:radial-gradient(115% 85% at 50% 42%, #000 30%, transparent 76%);
     mask-image:radial-gradient(115% 85% at 50% 42%, #000 30%, transparent 76%);
     opacity:0;
@@ -114,46 +114,6 @@
     animation: dotsIn 1.5s ease .05s forwards;
   }
   .hero.has-dotcanvas::before{ display:none; }
-
-  /* ---------- the light the card drags behind it ----------
-     Four soft lobes in the name's own colours, behind the card and in
-     front of the dot field. It is only lit while the card is travelling,
-     so it reads as something the movement produces rather than as a
-     permanent halo: the script eases its opacity from how far the card
-     moved in the last frame, and offsets it against the heading of
-     travel so it lags on the side the card is leaving rather than
-     sitting squarely underneath. z-index 4 keeps it above the dots and
-     below the portrait, the name and the card, so it bleeds around the
-     card's edges and tints its glass without ever washing over the type.
-     Colour stops end on a transparent version of their own hue rather
-     than on `transparent`, which some engines interpolate through grey. */
-  .cardglow{
-    position:absolute; left:0; top:0;
-    z-index:4; pointer-events:none;
-    opacity:0;
-    /* The card's own shape. An ellipse was tried, to make sure there was
-       no outline left to read, and it was worse - the glow stopped
-       belonging to the card and became a blob beside it. What actually
-       hides the shape is the blur below: at this radius the edge is
-       spread wider than the strip that ever clears the card, so the only
-       thing on show is the falloff. The colour is the name's own
-       gradient, swept across it. */
-    border-radius:8px;
-    background:linear-gradient(96deg,
-      #a8762a 0%, #e06a34 26%, #d63f7c 54%, #7b45e8 78%, #2f8fd8 100%);
-    /* The feather is all blur. A mask fading the slab towards its own
-       edges was tried and removed: the strip that clears the card is the
-       slab's outermost edge, which is exactly the part such a mask has
-       already faded away, so the glow all but disappeared. Blur spreads
-       that edge outwards instead of erasing it. The element's own pixels
-       never change, so the blurred result is rasterised once and the
-       per-frame transform only composites it. */
-    filter: blur(14px);
-    will-change: transform, opacity;
-  }
-  @media (prefers-reduced-motion: reduce){
-    .cardglow{ display:none !important; }
-  }
   @media (prefers-reduced-motion: reduce){
     .dotcanvas{ animation:none !important; opacity:1 !important; }
   }
@@ -1937,30 +1897,18 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
   hero.insertBefore(cv, hero.firstChild);
   hero.classList.add('has-dotcanvas');
 
-  /* A sibling of the card, never a child: inside the card a negative
-     z-index still paints above the card's own background, so the glow
-     would sit on top of the glass instead of behind it. */
-  var glow = null;
-  var gw = 0, gh = 0, glowOp = 0;
-  if (card && !reduceEarly()){
-    glow = document.createElement('div');
-    glow.className = 'cardglow';
-    glow.setAttribute('aria-hidden', 'true');
-    hero.insertBefore(glow, cv.nextSibling);
-  }
-
   function reduceEarly(){
     try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
     catch(e){ return false; }
   }
 
-  var PITCH = 24;      /* background-size:24px 24px */
+  var PITCH = 16;      /* matches background-size on .hero::before */
   var DOT   = 1.1;     /* the radial-gradient's 1.1px stop */
   var HALF  = PITCH / 2;  /* a tiled gradient centres its dot in the tile */
-  var REACH = 430;     /* how far the card disturbs the field - wider than
+  var REACH = 480;     /* how far the card disturbs the field - wider than
                           the card itself, or the only part that shows is a
                           thin band around something already covering it */
-  var PUSH  = 34;      /* how far a dot moves directly under it */
+  var PUSH  = 60;      /* how far a dot moves directly under it */
   var TAU   = Math.PI * 2;
 
   var W = 0, H = 0, dpr = 1;
@@ -1989,13 +1937,6 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
     if (card){
       cardL = card.offsetLeft; cardT = card.offsetTop;
       cardW = card.offsetWidth; cardH = card.offsetHeight;
-    }
-    if (glow){
-      /* Smaller than the card, so at rest it is entirely hidden by it. */
-      gw = Math.max(1, Math.round(cardW - INSET * 2));
-      gh = Math.max(1, Math.round(cardH - INSET * 2));
-      glow.style.width  = gw + 'px';
-      glow.style.height = gh + 'px';
     }
     readColour();
   }
@@ -2055,19 +1996,6 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
     else   { draw(null, null); }
   }
 
-  var GLOW_FULL = 9;   /* px moved in one frame for the glow to be full */
-  /* The glow is smaller than the card and hides behind it. Nothing shows
-     until the card moves, and then it is pushed out from under one edge
-     - so the light only ever appears on the side the card came from.
-     Both numbers scale with the feather: soft edges travel further, so
-     the cover has to be deeper than the blur reaches or the other three
-     sides start glowing too and it is a ring again. */
-  var INSET = 40;
-  /* Far enough that the trailing edge clears its own cover with room to
-     spare. What clears it is the width of the band that shows. */
-  var TRAIL = 74;
-  var velX = 0, velY = 0, trailX = 0, trailY = 0;
-
   function frame(){
     raf = 0;
     var c = centre();
@@ -2083,44 +2011,9 @@ html.kgd-motion .stack-item.in .stack-media > video{ transform:none; }
       idle++;
     }
 
-    if (glow){
-      var target = speed / GLOW_FULL;
-      if (target > 1) target = 1;
-      /* Quick to light, slow to go out - the reverse reads as a flicker
-         every time the pointer pauses. */
-      glowOp += (target - glowOp) * (target > glowOp ? 0.30 : 0.055);
-      if (glowOp < 0.002) glowOp = 0;
-
-      /* Where the light sits. The frame-to-frame movement is smoothed
-         into a heading, and the glow is pushed the other way along it,
-         so it is left on the side the card has just come from. Smoothed
-         twice on purpose: the raw heading flips about on slow movement,
-         and the offset itself eases so the light swings round rather
-         than snapping when the card changes direction. */
-      velX += (dx - velX) * 0.22;
-      velY += (dy - velY) * 0.22;
-      var vm = Math.sqrt(velX * velX + velY * velY);
-      var wantX = 0, wantY = 0;
-      if (vm > 0.02){
-        /* Square-rooted so the light commits to a side as soon as the
-           card moves at all, instead of drifting out of the ring only
-           at speed. */
-        var reach = Math.sqrt(Math.min(vm / GLOW_FULL, 1)) * TRAIL;
-        wantX = -(velX / vm) * reach;
-        wantY = -(velY / vm) * reach;
-      }
-      trailX += (wantX - trailX) * 0.18;
-      trailY += (wantY - trailY) * 0.18;
-
-      glow.style.transform = 'translate3d(' + (c.x - gw / 2 + trailX).toFixed(1) + 'px,' +
-                                              (c.y - gh / 2 + trailY).toFixed(1) + 'px,0)';
-      glow.style.opacity = glowOp.toFixed(3);
-    }
-
     /* The card eases back to rest after the pointer leaves, so the loop
-       runs a little past the last movement rather than stopping on it -
-       and keeps running while the glow still has any fade left in it. */
-    if (visible && (idle < 30 || glowOp > 0)) raf = requestAnimationFrame(frame);
+       runs a little past the last movement rather than stopping on it. */
+    if (visible && idle < 30) raf = requestAnimationFrame(frame);
   }
 
   function wake(){
